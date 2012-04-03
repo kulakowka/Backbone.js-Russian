@@ -623,7 +623,7 @@ proxy.on("all", function(eventName) {
 object.off("change", onChange);
 
 // Removes all "change" callbacks.
-object.off("change");         
+object.off("change");
 
 // Removes the `onChange` callback for all events.
 object.off(null, onChange);
@@ -1455,32 +1455,32 @@ var book = Library.get(110);
       is sorted, and if your collection isn't sorted, <b>at</b> will still
       retrieve models in insertion order.
     </p>
-    
+
     <p id="Collection-push">
       <b class="header">push</b><code>collection.push(model, [options])</code>
       <br />
-      Add a model at the end of a collection. Takes the same options as 
+      Add a model at the end of a collection. Takes the same options as
       <a href="#Collection-add">add</a>.
     </p>
-    
+
     <p id="Collection-pop">
       <b class="header">pop</b><code>collection.pop([options])</code>
       <br />
-      Remove and return the last model from a collection. Takes the same options as 
+      Remove and return the last model from a collection. Takes the same options as
       <a href="#Collection-remove">remove</a>.
     </p>
-    
+
     <p id="Collection-unshift">
       <b class="header">unshift</b><code>collection.unshift(model, [options])</code>
       <br />
-      Add a model at the beginning of a collection. Takes the same options as 
+      Add a model at the beginning of a collection. Takes the same options as
       <a href="#Collection-add">add</a>.
     </p>
-    
+
     <p id="Collection-shift">
       <b class="header">shift</b><code>collection.shift([options])</code>
       <br />
-      Remove and return the first model from a collection. Takes the same options as 
+      Remove and return the first model from a collection. Takes the same options as
       <a href="#Collection-remove">remove</a>.
     </p>
 
@@ -2638,8 +2638,6 @@ var model = localBackbone.Model.extend(...);
       </a>
     </div>
 
-    <h2 id="examples-airbnb">Airbnb Mobile</h2>
-
     <p>
       <a href="http://airbnb.com">Airbnb</a> used Backbone.js and
       <a href="http://coffeescript.org">CoffeeScript</a> to quickly build
@@ -2907,6 +2905,8 @@ var model = localBackbone.Model.extend(...);
 
     <h2 id="examples-chaincal">ChainCal</h2>
 
+    <h2 id="examples-chaincal">ChainCal</h2>
+
     <p>
       <a href="http://chaincalapp.com/">ChainCal</a>
       is an iPhone app that helps you to track your daily goals in a
@@ -2958,18 +2958,18 @@ var model = localBackbone.Model.extend(...);
         <img src="docs/images/decide.png" alt="Decide" class="example_image" />
       </a>
     </div>
-    
+
     <h2 id="examples-editd">EDITD</h2>
 
     <p>
-      <a href="http://editd.com">EDITD</a> aims to disrupt the fashion 
+      <a href="http://editd.com">EDITD</a> aims to disrupt the fashion
       industry with big data. The next generation of their web application
-      is based on a custom JavaScript framework that builds on top of 
-      Backbone. The back end is 
-      <a href="https://www.djangoproject.com/">Django</a> + 
-      <a href="http://www.elasticsearch.org/">Elastic Search</a>, 
-      <a href="http://handlebarsjs.com/">Handlebars.js</a> is used for templating, 
-      <a href="http://code.google.com/p/js-test-driver/">jsTestDriver</a> for testing, and 
+      is based on a custom JavaScript framework that builds on top of
+      Backbone. The back end is
+      <a href="https://www.djangoproject.com/">Django</a> +
+      <a href="http://www.elasticsearch.org/">Elastic Search</a>,
+      <a href="http://handlebarsjs.com/">Handlebars.js</a> is used for templating,
+      <a href="http://code.google.com/p/js-test-driver/">jsTestDriver</a> for testing, and
       <a href="http://jashkenas.github.com/docco/">Docco</a> for quick documentation.
     </p>
 
@@ -3354,7 +3354,7 @@ ActiveRecord::Base.include_root_in_json = false
     </p>
 
     <h2 id="changelog">Change Log</h2>
-    
+
     <b class="header">0.9.2</b> &mdash; <small><i>March 21, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/backbone/compare/0.9.1...0.9.2">Diff</a><br />
     <ul style="margin-top: 5px;">
       <li>
@@ -3362,10 +3362,10 @@ ActiveRecord::Base.include_root_in_json = false
         Backbone will now silently skip them instead.
       </li>
       <li>
-        Added <a href="#Collection-push">push</a>, 
-        <a href="#Collection-pop">pop</a>, 
-        <a href="#Collection-unshift">unshift</a>, and 
-        <a href="#Collection-shift">shift</a> to collections. 
+        Added <a href="#Collection-push">push</a>,
+        <a href="#Collection-pop">pop</a>,
+        <a href="#Collection-unshift">unshift</a>, and
+        <a href="#Collection-shift">shift</a> to collections.
       </li>
       <li>
         A model's <a href="#Model-changed">changed</a> hash is now exposed for
@@ -3373,15 +3373,15 @@ ActiveRecord::Base.include_root_in_json = false
         <tt>"change"</tt> event.
       </li>
       <li>
-        Added <a href="#Collection-where">where</a> to collections for simple 
+        Added <a href="#Collection-where">where</a> to collections for simple
         filtering.
       </li>
       <li>
-        You can now use a single <a href="#Events-off">off</a> call 
+        You can now use a single <a href="#Events-off">off</a> call
         to remove all callbacks bound to a specific object.
       </li>
       <li>
-        Bug fixes for nested individual change events, some of which may be 
+        Bug fixes for nested individual change events, some of which may be
         "silent".
       </li>
       <li>
@@ -3392,7 +3392,7 @@ ActiveRecord::Base.include_root_in_json = false
         with <tt>{wait: true}</tt>.
       </li>
       <li>
-        Updated / refreshed the example 
+        Updated / refreshed the example
         <a href="examples/todos/index.html">Todo List</a> app.
       </li>
     </ul>
