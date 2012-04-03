@@ -327,7 +327,7 @@
       <li>– <a href="#View-$el">$el</a></li>
       <li>– <a href="#View-setElement">setElement</a></li>
       <li>– <a href="#View-attributes">attributes</a></li>
-      <li>– <a href="#View-dollar">$ (jQuery or Zepto)</a></li>
+      <li>– <a href="#View-dollar">$ (jQuery или Zepto)</a></li>
       <li>– <a href="#View-render">render</a></li>
       <li>– <a href="#View-remove">remove</a></li>
       <li>– <a href="#View-make">make</a></li>
@@ -417,7 +417,7 @@
       <b>моделей</b> с биндингами по ключу и кастомными событиями,
       <b>коллекций</b> с богатым набором методов с перечислимыми сущностями,
       <b>представлений</b> с декларативной обработкой событий; и соединяет это все 
-      с вашим существующим REST API.
+      с вашим существующим REST-овым JSON API.
     </p>
 
     <p>
@@ -645,25 +645,24 @@ object.off();
     <h2 id="Model">Backbone.Model</h2>
 
     <p>
-      <b>Models</b> are the heart of any JavaScript application, containing
-      the interactive data as well as a large part of the logic surrounding it:
-      conversions, validations, computed properties, and access control. You
-      extend <b>Backbone.Model</b> with your domain-specific methods, and
-      <b>Model</b> provides a basic set of functionality for managing changes.
+      <b>Модели</b> — это самое сердце любого JavaScript-приложения.
+      Они содержат как интерактивные данные, так и большую часть соответствующей логики:
+	    конвертации, валидации, вычисленные свойства, и контроль доступа. Вы расширяете
+  	  <b>Backbone.Model</b> своими доменно-специфичными методами, а <b>Model</b>
+	    предоставляет базовый набор функциональности по управлению изменениями.
     </p>
 
     <p>
-      The following is a contrived example, but it demonstrates defining a model
-      with a custom method, setting an attribute, and firing an event keyed
-      to changes in that specific attribute.
-      After running this code once, <tt>sidebar</tt> will be
-      available in your browser's console, so you can play around with it.
+      Нижеприведенный пример спорен, но он демонстрирует определение модели с кастомным 
+	    методом, установку атрибута, и запуск события, привязанного к этому атрибуту.
+      После запуска этого кода <tt>sidebar</tt> станет доступен  консоли браузера,
+	    так что можно будет с ним поиграться.
     </p>
 
 <pre class="runnable">
 var Sidebar = Backbone.Model.extend({
   promptColor: function() {
-    var cssColor = prompt("Please enter a CSS color:");
+    var cssColor = prompt("Пожалуйста, введите CSS-цвет:");
     this.set({color: cssColor});
   }
 });
@@ -682,14 +681,14 @@ sidebar.promptColor();
     <p id="Model-extend">
       <b class="header">extend</b><code>Backbone.Model.extend(properties, [classProperties])</code>
       <br />
-      To create a <b>Model</b> class of your own, you extend <b>Backbone.Model</b>
-      and provide instance <b>properties</b>, as well as optional
-      <b>classProperties</b> to be attached directly to the constructor function.
+      Чтобы создать свой собственный класс моделей, нужно расширить <b>Backbone.Model</b>
+      и предоставить свойства экземпляра в параметре <b>properties</b>; опциональный параметр 
+      <b>classProperties</b> отвечает за свойства, которые будут прицеплены напрямую к функции-конструктору.
     </p>
 
     <p>
-      <b>extend</b> correctly sets up the prototype chain, so subclasses created
-      with <b>extend</b> can be further extended and subclassed as far as you like.
+      <b>extend</b> корректно устанавливает цепочку прототипов, так что дочерние классы, 
+	    созданные с помощью <b>extend</b> могут дальше расширяться и наследоваться, сколько угодно.
     </p>
 
 <pre>
@@ -717,11 +716,11 @@ var PrivateNote = Note.extend({
 </pre>
 
     <p class="warning">
-        Brief aside on <tt>super</tt>: JavaScript does not provide
-        a simple way to call super &mdash; the function of the same name defined
-        higher on the prototype chain. If you override a core function like
-        <tt>set</tt>, or <tt>save</tt>, and you want to invoke the
-        parent object's implementation, you'll have to explicitly call it, along these lines:
+      Небольшое замечание о <tt>super</tt>: JavaScript не предоставляет простого способа
+      вызвать родительский метод &mdash; функцию с таким же именем, определенную выше
+      в цепочке прототипов. Если вы переопределяете функцию ядра, например 
+      <tt>set</tt>, или <tt>save</tt>, и хотите вызвать родительскую имплементацию,
+  	  вам придется вручную вызвать ее примерно вот так:
     </p>
 
 <pre>
@@ -736,76 +735,73 @@ var Note = Backbone.Model.extend({
     <p id="Model-constructor">
       <b class="header">constructor / initialize</b><code>new Model([attributes], [options])</code>
       <br />
-      When creating an instance of a model, you can pass in the initial values
-      of the <b>attributes</b>, which will be <a href="#Model-set">set</a> on the
-      model. If you define an <b>initialize</b> function, it will be invoked when
-      the model is created.
+      Создавая экземпляр модели, вы можете передать начальные значения атрибутов
+	    в параметре <b>attributes</b>, которые будут переданы в метод <a href="#Model-set">set</a> модели.
+	    Если вы определите функцию <b>initialize</b>, она будет вызвана после создания модели.
     </p>
 
 <pre>
 new Book({
-  title: "One Thousand and One Nights",
-  author: "Scheherazade"
+  title: "Тысяча и одна ночь",
+  author: "Шахерезада"
 });
 </pre>
 
     <p>
-      In rare cases, if you're looking to get fancy,
-      you may want to override <b>constructor</b>, which allows
-      you to replace the actual constructor function for your model.
+      В редких случаях, если вам досталось что-то особенное (if you're looking to get fancy),
+      вы можете захотеть переопределить <b>constructor</b>, что позволит заменить
+      настоящую функцию-конструктор для вашей модели.
     </p>
     
     <p>
-      If you pass a <tt>{collection: ...}</tt> as the <b>options</b>, the model
-      gains a <tt>collection</tt> property that will be used to indicate which
-      collection the model belongs to, and is used to help compute the model's
-      <a href="#Model-url">url</a>. The <tt>model.collection</tt> property is
-      otherwise added automatically when you first add a model to a collection.
+      Если вы передаете <tt>{collection: ...}</tt> в качестве параметра <b>options</b>, 
+	    модель получит свойство <tt>collection</tt>, которое будет использовано для индикации того, 
+	    к какой коллекции принадлежит данная модель, и для того, чтобы вычислить свойство
+      <a href="#Model-url">url</a>. В противном случае свойство <tt>model.collection</tt>
+	    будет добавлено автоматически в момент первого добавления модели в коллекцию.
     </p>
 
     <p id="Model-get">
       <b class="header">get</b><code>model.get(attribute)</code>
       <br />
-      Get the current value of an attribute from the model. For example:
+      Отдает текущее значение атрибута модели, например:
       <tt>note.get("title")</tt>
     </p>
 
     <p id="Model-set">
       <b class="header">set</b><code>model.set(attributes, [options])</code>
       <br />
-      Set a hash of attributes (one or many) on the model. If any of the attributes
-      change the models state, a <tt>"change"</tt> event will be triggered, unless
-      <tt>{silent: true}</tt> is passed as an option. Change events for specific
-      attributes are also triggered, and you can bind to those as well, for example:
-      <tt>change:title</tt>, and <tt>change:content</tt>. You may also pass
-      individual keys and values.
+      Хэш <b>attributes</b> устанавливает значения атрибутам (одному или многим).
+  	  Если любой из атрибутов изменяет состояние модели, то сработает событие <tt>"change"</tt> — 
+	    если только вы не передали <tt>{silent: true}</tt> в параметре <b>option</b>. События изменения 
+	    для каждого из атрибутов (например, <tt>change:title</tt>, или <tt>change:content</tt>)
+	    сработают точно так же, и вы точно так же можете привязать к ним слушатели.<br />
+	    Так же можно передавать отдельный ключ и значение:
     </p>
 
 <pre>
-note.set({title: "March 20", content: "In his eyes she eclipses..."});
+note.set({title: "20-ого марта", content: "В его глазах она затмевала…"});
 
-book.set("title", "A Scandal in Bohemia");
+book.set("title", "Скандал в Богемии");
 </pre>
 
     <p>
-      If the model has a <a href="#Model-validate">validate</a> method,
-      it will be validated before the attributes are set, no changes will
-      occur if the validation fails, and <b>set</b> will return <tt>false</tt>.
-      Otherwise, <b>set</b> returns a reference to the model.
-      You may also pass an <tt>error</tt>
-      callback in the options, which will be invoked instead of triggering an
-      <tt>"error"</tt> event, should validation fail.
-      If <tt>{silent: true}</tt> is passed as an option, the validation is deferred
-      until the next change.
+      Если у модели определен метод <a href="#Model-validate">validate</a>,
+      значения будут отвалидированы перед установкой атрибутов. Если значения не пройдут валидацию, 
+      изменений не произойдет, и <b>set</b> вернет <tt>false</tt>. В противном случае <b>set</b>
+	    возвращает ссылку на экземпляр модели.
+      Также можно передать <tt>error</tt>-коллбэк в <b>options</b>, который будет 
+	    вызван вместо запуска события <tt>"error"</tt>, если валидация провалится.
+      Если передать <tt>{silent: true}</tt> в опциях, то валидация будет отложена до следующего изменения.
     </p>
 
     <p id="Model-escape">
       <b class="header">escape</b><code>model.escape(attribute)</code>
       <br />
-      Similar to <a href="#Model-get">get</a>, but returns the HTML-escaped version
-      of a model's attribute. If you're interpolating data from the model into
-      HTML, using <b>escape</b> to retrieve attributes will prevent
-      <a href="http://en.wikipedia.org/wiki/Cross-site_scripting">XSS</a> attacks.
+      Этот метод похож на <a href="#Model-get">get</a>, но возвращает HTML-безопасную версию
+      атрибута. Если вы вставляете данные из модели в HTML, использование <b>escape</b>
+	    для получения атрибута предотвратит 
+      <a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D0%B6%D1%81%D0%B0%D0%B9%D1%82%D0%BE%D0%B2%D1%8B%D0%B9_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B8%D0%BD%D0%B3">XSS</a>-атаки.
     </p>
 
 <pre class="runnable">
@@ -819,8 +815,7 @@ alert(hacker.escape('name'));
     <p id="Model-has">
       <b class="header">has</b><code>model.has(attribute)</code>
       <br />
-      Returns <tt>true</tt> if the attribute is set to a non-null or non-undefined
-      value.
+      Возвращает <tt>true</tt>, если атрибут установлен не в <tt>null</tt> и не в <tt>undefined</tt>.
     </p>
 
 <pre>
@@ -832,34 +827,30 @@ if (note.has("title")) {
     <p id="Model-unset">
       <b class="header">unset</b><code>model.unset(attribute, [options])</code>
       <br />
-      Remove an attribute by deleting it from the internal attributes hash.
-      Fires a <tt>"change"</tt> event unless <tt>silent</tt> is passed as an option.
+      Убирает атрибут, удаляя его из внутреннего хэша атрибутов.
+      Запускает событие <tt>"change"</tt>, если не передать <tt>silent</tt> в опциях.
     </p>
 
     <p id="Model-clear">
       <b class="header">clear</b><code>model.clear([options])</code>
       <br />
-      Removes all attributes from the model. Fires a <tt>"change"</tt> event unless
-      <tt>silent</tt> is passed as an option.
+      Убирает все атрибуты из модели. Запускает событие <tt>"change"</tt>, если не передать <tt>silent</tt> в опциях.
     </p>
 
     <p id="Model-id">
       <b class="header">id</b><code>model.id</code>
       <br />
-      A special property of models, the <b>id</b> is an arbitrary string
-      (integer id or UUID). If you set the <b>id</b> in the
-      attributes hash, it will be copied onto the model as a direct property.
-      Models can be retrieved by id from collections, and the id is used to generate
-      model URLs by default.
+      Специальное свойство модели <b>id</b> — произвольная строка (целый id или UUID).
+	    Если вы указываете <b>id</b> в хэше атрибутов, он будет скопирован в свойство модели напрямую.
+      Модели могут быть вытащены из коллекций по id, и id используется для генерации URL по умолчанию.
     </p>
 
     <p id="Model-idAttribute">
       <b class="header">idAttribute</b><code>model.idAttribute</code>
       <br />
-      A model's unique identifier is stored under the <tt>id</tt> attribute.
-      If you're directly communicating with a backend (CouchDB, MongoDB) that uses
-      a different unique key, you may set a Model's <tt>idAttribute</tt> to
-      transparently map from that key to <tt>id</tt>.
+      Уникальный идентификатор модели хранится в атрибуте <tt>id</tt>.
+      Если ваше приложение напрямую коммуницирует с бэк-ендом (CouchDB, MongoDB), который использует 
+      другой уникальный ключ, вы можете указать <tt>idAttribute</tt>, чтобы прозрачно мапить этот ключ на <tt>id</tt>.
 
 <pre class="runnable">
 var Meal = Backbone.Model.extend({
@@ -874,72 +865,73 @@ alert("Cake id: " + cake.id);
     <p id="Model-cid">
       <b class="header">cid</b><code>model.cid</code>
       <br />
-      A special property of models, the <b>cid</b> or client id is a unique identifier
-      automatically assigned to all models when they're first created. Client ids
-      are handy when the model has not yet been saved to the server, and does not
-      yet have its eventual true <b>id</b>, but already needs to be visible in the UI.
-      Client ids take the form: <tt>c1, c2, c3 ...</tt>
+      Специальное свойство моделей <b>cid</b> (от client id, клиентский id) — уникальный идентификатор,
+      автоматически назначающийся всем моделям в момент инстанциирования. cid'ы удобны,
+      когда модель еще не была сохранена на сервер, и не имеет своего настоящего <b>id</b>,
+	    но уже должна быть видна в UI.
+      Клиентские id'ы принимают вид: <tt>c1, c2, c3 ...</tt>
     </p>
 
     <p id="Model-attributes">
       <b class="header">attributes</b><code>model.attributes</code>
       <br />
-      The <b>attributes</b> property is the internal hash containing the model's
-      state. Please use <a href="#Model-set">set</a> to update the attributes instead of modifying
-      them directly. If you'd like to retrieve and munge a copy of the model's
-      attributes, use <a href="#Model-toJSON">toJSON</a> instead.
+      Свойство <b>attributes</b> — это внутренний хэш, содержащий состояние модели.
+  	  Пожалуйста, используйте метод <a href="#Model-set">set</a> для обновления атрибутов 
+	    вместо прямого изменения этого хэша.
+	    Если вам нужны атрибуты, который не жаль испортить, можно получить копию
+	    с помощью метода<a href="#Model-toJSON">toJSON</a>.
     </p>
 
     <p id="Model-changed">
       <b class="header">changed</b><code>model.changed</code>
       <br />
-      The <b>changed</b> property is the internal hash containing all the attributes
-      that have changed since the last <tt>"change"</tt> event was triggered.
-      Please do not update <b>changed</b> directly.  Its state is maintained internally
-      by <a href="#Model-set">set</a> and <a href="#Model-change">change</a>.
-      A copy of <b>changed</b> can be acquired from
-      <a href="#Model-changedAttributes">changedAttributes</a>.
+      Свойство <b>changed</b> — это внутренний хэш, содержащий все атрибуты, которые были изменены 
+	    с тех пор, как последний раз срабатывало событие <tt>"change"</tt>.
+      Пожалуйста, не обновляйте <b>changed</b> напрямую. Его состояние поддерживается внутри
+      методами <a href="#Model-set">set</a> и <a href="#Model-change">change</a>.
+      Копию <b>changed</b> можно получить через <a href="#Model-changedAttributes">changedAttributes</a>.
     </p>
 
     <p id="Model-defaults">
-      <b class="header">defaults</b><code>model.defaults or model.defaults()</code>
+      <b class="header">defaults</b><code>model.defaults или model.defaults()</code>
       <br />
-      The <b>defaults</b> hash (or function) can be used to specify the default
-      attributes for your model. When creating an instance of the model,
-      any unspecified attributes will be set to their default value.
+      Хэш (или функция ) <b>defaults</b> используется для указания значений атрибутов
+	    по умолчанию. Во время инстанцирования модели все неуказанные атрибуты примут свое умолчательное значение.
     </p>
 
 <pre class="runnable">
 var Meal = Backbone.Model.extend({
   defaults: {
-    "appetizer":  "caesar salad",
-    "entree":     "ravioli",
-    "dessert":    "cheesecake"
+    "appetizer":  "Салат «Цезарь»",
+    "entree":     "Равиоли",
+    "dessert":    "Чиз-кейк"
   }
 });
 
-alert("Dessert will be " + (new Meal).get('dessert'));
+alert("На десерт: " + (new Meal).get('dessert'));
 </pre>
 
     <p class="warning">
-      Remember that in JavaScript, objects are passed by reference, so if you
-      include an object as a default value, it will be shared among all instances.
+      Помните, что в JavaScript объекты передаются по ссылке —
+	    так что, если какое-либо значение по умолчанию будет объектом,
+	    оно будет одним для всех экземпляров.
+	    <!-- Странное замечание. Зачем бы кому-то изменять умолчальные значения в модели пост-фактум? -->
     </p>
 
     <p id="Model-toJSON">
       <b class="header">toJSON</b><code>model.toJSON()</code>
       <br />
-      Return a copy of the model's <a href="#Model-attributes">attributes</a> for JSON stringification.
-      This can be used for persistence, serialization, or for augmentation before
-      being handed off to a view. The name of this method is a bit confusing, as
-      it doesn't actually return a JSON string &mdash; but I'm afraid that it's
-      the way that the <a href="https://developer.mozilla.org/en/JSON#toJSON()_method">JavaScript API for <b>JSON.stringify</b> works</a>.
+      Возвращает копию поля <a href="#Model-attributes">attributes</a> для превращения в JSON-строку.
+      Метод может быть использован для персистентности, сериализации или для аугментации перед
+	    передачей в представление.
+	    Имя этого метода несколько сбивает с толку, так как он на самом деле не возвращает JSON-строку,
+	    но именно так работает <a href="https://developer.mozilla.org/en/JSON#toJSON()_method">JavaScript API для <b>JSON.stringify</b></a>.
     </p>
 
 <pre class="runnable">
 var artist = new Backbone.Model({
-  firstName: "Wassily",
-  lastName: "Kandinsky"
+  firstName: "Василий",
+  lastName: "Кандинский"
 });
 
 artist.set({birthday: "December 16, 1866"});
@@ -950,19 +942,18 @@ alert(JSON.stringify(artist));
     <p id="Model-fetch">
       <b class="header">fetch</b><code>model.fetch([options])</code>
       <br />
-      Resets the model's state from the server by delegating to
-      <a href="#Sync">Backbone.sync</a>. Returns a
+      Переустанавливает состояние модели с сервера с помощью
+      <a href="#Sync">Backbone.sync</a>. Возвращает 
       <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>.
-      Useful if the model has never
-      been populated with data, or if you'd like to ensure that you have the
-      latest server state. A <tt>"change"</tt> event will be triggered if the
-      server's state differs from the current attributes. Accepts
-      <tt>success</tt> and <tt>error</tt> callbacks in the options hash, which
-      are passed <tt>(model, response)</tt> as arguments.
+      Полезен, если модель никогда не наполнялась данными, или если вы хотите 
+      удостовериться, что вы имеете свежайшие данные с сервера. Событие <tt>"change"</tt>
+	    сработает, если состояние сервера отличается от текущих атрибутов.
+	    Принимает коллбэки <tt>success</tt> и <tt>error</tt> в хэше <b>options</b>,
+	    в которые передаются <tt>(model, response)</tt> в качестве аргументов.
     </p>
 
 <pre>
-// Poll every 10 seconds to keep the channel model up-to-date.
+// Опрашивать каждые 10 секунд, чтобы хранить модель канала в актуальном состоянии.
 setInterval(function() {
   channel.fetch();
 }, 10000);
@@ -971,33 +962,29 @@ setInterval(function() {
     <p id="Model-save">
       <b class="header">save</b><code>model.save([attributes], [options])</code>
       <br />
-      Save a model to your database (or alternative persistence layer),
-      by delegating to <a href="#Sync">Backbone.sync</a>.  Returns a
-      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a> if
-      validation is successful and <tt>false</tt> otherwise. The <b>attributes</b>
-      hash (as in <a href="#Model-set">set</a>) should contain the attributes
-      you'd like to change &mdash; keys that aren't mentioned won't be altered &mdash; but,
-      a <i>complete representation</i> of the resource will be sent to the server.
-      As with <tt>set</tt>, you may pass individual keys and values instead of a hash.
-      If the model has a <a href="#Model-validate">validate</a>
-      method, and validation fails, the model will not be saved. If the model
-      <a href="#Model-isNew">isNew</a>, the save will be a <tt>"create"</tt>
-      (HTTP <tt>POST</tt>), if the model already
-      exists on the server, the save will be an <tt>"update"</tt> (HTTP <tt>PUT</tt>).
+      Сохраняет модель в БД (ли другой слой персистентности) при помощи <a href="#Sync">Backbone.sync</a>.
+	    Возвращает <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>, если валидация прошла успешно,
+	    и <tt>false</tt> в противном случае. Хэш <b>attributes</b> (также, как в  <a href="#Model-set">set</a>),
+  	  должен содержать атрибуты, которые вы хотите изменить — ключи, которые не были указаны, не будут изменены.
+	    Однако, на сервер будет послано <i>полное представление</i> ресурса.
+      Также, как и в <tt>set</tt>, можно передать отдельный ключ и значение вместо хэша.
+      Если у модели определен метод <a href="#Model-validate">validate</a>, и валидация не проходит успешно,
+	    модель не будет сохранена. Если флаг <a href="#Model-isNew">isNew</a> модели установлен в <tt>true</tt>,
+	    сохранение будет действием <tt>"create"</tt>(HTTP-глагол <tt>POST</tt>); если модель уже существует на сервере,
+	    сохранение будет действием <tt>"update"</tt> (HTTP-глагол <tt>PUT</tt>).
     </p>
 
     <p>
-      Calling <tt>save</tt> with new attributes will cause a <tt>"change"</tt>
-      event immediately, and a <tt>"sync"</tt> event after the server has acknowledged
-      the successful change. Pass <tt>{wait: true}</tt> if you'd like to wait
-      for the server before setting the new attributes on the model.
+      Вызов <tt>save</tt> с новыми атрибутами немедленно вызовет срабатывание события <tt>"change"</tt>,
+      и события <tt>"sync"</tt> — после того, как сервер известит об успешном изменении.
+	    Передайте <tt>{wait: true}</tt>, если хотите подождать ответа сервера, прежде чем устанавливать 
+  	  новые значения атрибутов модели.
     </p>
 
     <p>
-      In the following example, notice how our overridden version
-      of <tt>Backbone.sync</tt> receives a <tt>"create"</tt> request
-      the first time the model is saved and an <tt>"update"</tt>
-      request the second time.
+      Обратите внимание, как в следующем примере наша переопределенная версия <tt>Backbone.sync</tt>
+	    получает запрос <tt>"create"</tt> в первый раз, когда сохраняется модель, и <tt>"update"</tt>
+      во второй раз.
     </p>
 
 <pre class="runnable">
@@ -1007,41 +994,38 @@ Backbone.sync = function(method, model) {
 };
 
 var book = new Backbone.Model({
-  title: "The Rough Riders",
-  author: "Theodore Roosevelt"
+  title: "Малая Земля",
+  author: "Леонид Брежнев"
 });
 
 book.save();
 
-book.save({author: "Teddy"});
+book.save({author: "Лёня"});
 </pre>
 
     <p>
-      <b>save</b> accepts <tt>success</tt> and <tt>error</tt> callbacks in the
-      options hash, which are passed <tt>(model, response)</tt> as arguments.
-      The <tt>error</tt> callback will also be invoked if the model has a
-      <tt>validate</tt> method, and validation fails. If a server-side
-      validation fails, return a non-<tt>200</tt> HTTP response code, along with
-      an error response in text or JSON.
+      <b>save</b> принимает коллбэки <tt>success</tt> и <tt>error</tt> в хэше <b>options</b>,
+	    в которые передаются <tt>(model, response)</tt> в качестве аргументов.
+      Коллбэк <tt>error</tt> также будет вызван, если у модели определен метод 
+      <tt>validate</tt>, и валидация проваливается. Если проваливается валидация на стороне сервера,
+	    верните не <tt>2XX</tt> HTTP-статус, вместе с описанием ошибки в тексте или в JSON.
     </p>
 
 <pre>
-book.save("author", "F.D.R.", {error: function(){ ... }});
+book.save("author", "У.К. Черненко", {error: function(){ ... }});
 </pre>
 
     <p id="Model-destroy">
       <b class="header">destroy</b><code>model.destroy([options])</code>
       <br />
-      Destroys the model on the server by delegating an HTTP <tt>DELETE</tt>
-      request to <a href="#Sync">Backbone.sync</a>. Returns a
-      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a> object, or
-      <tt>false</tt> if the model <a href="#Model-isNew">isNew</a>. Accepts
-      <tt>success</tt> and <tt>error</tt> callbacks in the options hash.
-      Triggers a <tt>"destroy"</tt> event on the model, which will bubble up
-      through any collections that contain it, and a <tt>"sync"</tt> event, after
-      the server has successfully acknowledged the model's deletion. Pass
-      <tt>{wait: true}</tt> if you'd like to wait for the server to respond
-      before removing the model from the collection.
+      Уничтожает модель на сервере с помощью HTTP-запроса <tt>DELETE</tt>
+      через <a href="#Sync">Backbone.sync</a>. Возвращает объект
+      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>, или
+      <tt>false</tt>, если флаг <a href="#Model-isNew">isNew</a> истинен. Принимает коллбэки
+      <tt>success</tt> и <tt>error</tt> в хэше <b>options</b>.
+      Запускает событие <tt>"destroy"</tt> на модели, которое всплывет на всех коллекциях, 
+	    которые содержат её; и событие <tt>"sync"</tt> после того, как сервер известит об успешном удалении модели.
+	    Передайте <tt>{wait: true}</tt>, если хотите подождать ответа сервера, прежде чем удалять модель.
     </p>
 
 <pre>
@@ -1053,31 +1037,27 @@ book.destroy({success: function(model, response) {
     <p id="Model-validate">
       <b class="header">validate</b><code>model.validate(attributes)</code>
       <br />
-      This method is left undefined, and you're encouraged to override it with
-      your custom validation logic, if you have any that can be performed
-      in JavaScript. <b>validate</b> is called before <tt>set</tt> and
-      <tt>save</tt>, and is passed the model attributes updated with the values
-      from <tt>set</tt> or <tt>save</tt>.
-      If the attributes are valid, don't return anything from <b>validate</b>;
-      if they are invalid, return an error of your choosing. It
-      can be as simple as a string error message to be displayed, or a complete
-      error object that describes the error programmatically. If <b>validate</b>
-      returns an error, <tt>set</tt> and <tt>save</tt> will not continue, and the
-      model attributes will not be modified.
-      Failed validations trigger an <tt>"error"</tt> event.
+      Этот метод оставлен неопределенным; поощряется переопределять его со своей логикой валидации — если у вас есть такая, которую можно выполнить на стороне клиента. Метод <b>validate</b> вызывается перед <tt>set</tt> и
+      <tt>save</tt>, и ему передаются атрибуты модели, обновленные значениями из <tt>set</tt> ли <tt>save</tt>.
+      Если атрибуты валидны, не возвращайте ничего из <b>validate</b>;
+      если нет, возвращайте любую ошибку на ваш выбор — как просто 
+	    строку с сообщением, которое надо отобразить, так и сложный объект, программно описывающий ошибку.
+  	  Если <b>validate</b> вернул ошибку, выполнение <tt>set</tt> или <tt>save</tt> прервется,
+  	  и атрибуты модели не будут изменены.
+      Проваленная валидация запустит событие <tt>"error"</tt>.
     </p>
 
 <pre class="runnable">
 var Chapter = Backbone.Model.extend({
   validate: function(attrs) {
     if (attrs.end < attrs.start) {
-      return "can't end before it starts";
+      return "Невозможно закончить до начала";
     }
   }
 });
 
 var one = new Chapter({
-  title : "Chapter One: The Beginning"
+  title : "Глава I: Начало"
 });
 
 one.on("error", function(model, error) {
@@ -1091,10 +1071,9 @@ one.set({
 </pre>
 
     <p>
-      <tt>"error"</tt> events are useful for providing coarse-grained error
-      messages at the model or collection level, but if you have a specific view
-      that can better handle the error, you may override and suppress the event
-      by passing an <tt>error</tt> callback directly:
+      События <tt>"error"</tt> полезны для поверхностной обработки ошибок на уровне модели или коллекции, 
+	    но если у вас есть специфичное представление, которое может лучше обработать ошибку, вы можете подавить 
+	    событие, напрямую передав <tt>error</tt>коллбэк:
     </p>
 
 <pre>
@@ -1108,37 +1087,37 @@ account.set({access: "unlimited"}, {
     <p id="Model-isValid">
       <b class="header">isValid</b><code>model.isValid()</code>
       <br />
-      Models may enter an invalid state if you make changes to them silently
-      ... useful when dealing with form input. Call <tt>model.isValid()</tt>
-      to check if the model is currently in a valid state, according to your
-      <tt>validate</tt> function.
+      Модели могут войти в невалидное состояние, если делать изменения
+	    с подавлением ошибок… что полезно в случае работы с формами ввода.
+	    Вызовите <tt>model.isValid()</tt> чтобы проверить, находится ли 
+	    сейчас модель в валидном состоянии согласно вашему методу <tt>validate</tt>.
     </p>
 
     <p id="Model-url">
       <b class="header">url</b><code>model.url()</code>
       <br />
-      Returns the relative URL where the model's resource would be located on
-      the server. If your models are located somewhere else, override this method
-      with the correct logic. Generates URLs of the form: <tt>"/[collection.url]/[id]"</tt>,
-      falling back to <tt>"/[urlRoot]/id"</tt> if the model is not part of a collection.
+      Возвращает относительный URL, по которому ресурс модели должен располагаться 
+	    на сервере. Если ваши модели расположены в другом месте, переопределите этот метод
+	    с правильной логикой. Генерирует URL'ы вида: <tt>"/[collection.url]/[id]"</tt>,
+      с фоллбеком к <tt>"/[urlRoot]/id"</tt>, если модель не является частью коллекции.
     </p>
 
     <p>
-      Delegates to <a href="#Collection-url">Collection#url</a> to generate the
-      URL, so make sure that you have it defined, or a <a href="#Model-urlRoot">urlRoot</a>
-      property, if all models of this class share a common root URL.
-      A model with an id of <tt>101</tt>, stored in a
-      <a href="#Collection">Backbone.Collection</a> with a <tt>url</tt> of <tt>"/documents/7/notes"</tt>,
-      would have this URL: <tt>"/documents/7/notes/101"</tt>
+      Обращается к <a href="#Collection-url">Collection#url</a>, чтобы сгенерировать URL,
+	    так что удостоверьтесь, что он определен, или к свойству <a href="#Model-urlRoot">urlRoot</a> модели,
+  	  если все модели этого класса разделают общий корневой URL.
+      Модель с id равным <tt>101</tt>, хранящяяся в 
+      <a href="#Collection">коллекции</a> с <tt>url</tt> равным <tt>"/documents/7/notes"</tt>,
+      будет иметь такой url: <tt>"/documents/7/notes/101"</tt>
     </p>
 
     <p id="Model-urlRoot">
-      <b class="header">urlRoot</b><code>model.urlRoot or model.urlRoot()</code>
+      <b class="header">urlRoot</b><code>model.urlRoot или model.urlRoot()</code>
       <br />
-      Specify a <tt>urlRoot</tt> if you're using a model outside of a collection,
-      to enable the default <a href="#Model-url">url</a> function to generate
-      URLs based on the model id. <tt>"/[urlRoot]/id"</tt><br />
-      Note that <tt>urlRoot</tt> may also be defined as a function.
+      Укажите <tt>urlRoot</tt>, если вы используете модель вне коллекции,
+      чтобы дефолтный метод <a href="#Model-url">url</a> генерировал
+      URL'ы, исходя из id. <tt>"/[urlRoot]/id"</tt><br />
+      Обратите внимание, что <tt>urlRoot</tt> так же может быть функцией.
     </p>
 
 <pre class="runnable">
@@ -1152,19 +1131,19 @@ alert(solaris.url());
     <p id="Model-parse">
       <b class="header">parse</b><code>model.parse(response)</code>
       <br />
-      <b>parse</b> is called whenever a model's data is returned by the
-      server, in <a href="#Model-fetch">fetch</a>, and <a href="#Model-save">save</a>.
-      The function is passed the raw <tt>response</tt> object, and should return
-      the attributes hash to be <a href="#Model-set">set</a> on the model. The
-      default implementation is a no-op, simply passing through the JSON response.
-      Override this if you need to work with a preexisting API, or better namespace
-      your responses.
+      Метод <b>parse</b> вызывается каждый раз, когда данные модели возвращаются
+	    сервером, в методах <a href="#Model-fetch">fetch</a> и <a href="#Model-save">save</a>.
+      Функции передается «сырой» объект <tt>response</tt>, и она должна возвратить 
+      хэш аттрибутов, который будет передан методу <a href="#Model-set">set</a>. Дефолтная
+  	  реализация просто пробрасывает JSON-ответ.
+      Переопределите этот метод, если вы работает с уже существующим API,
+  	  или чтобы лучше заворачивать в пространства имен ответы сервера.
     </p>
 
     <p>
-      If you're working with a Rails backend, you'll notice that Rails' default
-      <tt>to_json</tt> implementation includes a model's attributes under a
-      namespace. To disable this behavior for seamless Backbone integration, set:
+      Если вы работает с Rails, вы наткнетесь на то, что дефолтная реализация 
+      <tt>to_json</tt> отдает атрибуты модели в пространстве имен.
+	    Чтобы устранить это поведение для лучшей интеграции Backbone, установите:
     </p>
 
 <pre>
@@ -1174,36 +1153,35 @@ ActiveRecord::Base.include_root_in_json = false
     <p id="Model-clone">
       <b class="header">clone</b><code>model.clone()</code>
       <br />
-      Returns a new instance of the model with identical attributes.
+      Возвращает новый экземпляр модели с идентичными атрибутами.
     </p>
 
     <p id="Model-isNew">
       <b class="header">isNew</b><code>model.isNew()</code>
       <br />
-      Has this model been saved to the server yet? If the model does not yet have
-      an <tt>id</tt>, it is considered to be new.
+      Была ли модель уже сохранена на сервер? Если модель еще не имеет атрибута
+	  <tt>id</tt>, то она считается новой.
     </p>
 
     <p id="Model-change">
       <b class="header">change</b><code>model.change()</code>
       <br />
-      Manually trigger the <tt>"change"</tt> event and a <tt>"change:attribute"</tt>
-      event for each attribute that has changed. If you've been passing
-      <tt>{silent: true}</tt> to the <a href="#Model-set">set</a> function in order to
-      aggregate rapid changes to a model, you'll want to call <tt>model.change()</tt>
-      when you're all finished.
+      Ручной запуск событий <tt>"change"</tt> и <tt>"change:attribute"</tt>
+      для каждого измененного атрибута. Если вы передавали 
+      <tt>{silent: true}</tt> в <a href="#Model-set">set</a>, чтобы собрать быстрые изменения модели
+  	  вам нужно вызвать <tt>model.change()</tt>, когда закончите.
     </p>
 
     <p id="Model-hasChanged">
       <b class="header">hasChanged</b><code>model.hasChanged([attribute])</code>
       <br />
-      Has the model changed since the last <tt>"change"</tt> event? If an <b>attribute</b>
-      is passed, returns <tt>true</tt> if that specific attribute has changed.
+      Была ли модель изменена с последнего события <tt>"change"</tt>? Если передан <b>attribute</b>,
+      возвращает <tt>true</tt>, если этот атрибут был изменен.
     </p>
 
     <p class="warning">
-      Note that this method, and the following change-related ones,
-      are only useful during the course of a <tt>"change"</tt> event.
+      Обратите внимание, что этот метод, и следуюшие, касающиеся изменений, полезны только во время
+  	  обработки события <tt>"change"</tt>.
     </p>
 
 <pre>
@@ -1217,38 +1195,36 @@ book.on("change", function() {
     <p id="Model-changedAttributes">
       <b class="header">changedAttributes</b><code>model.changedAttributes([attributes])</code>
       <br />
-      Retrieve a hash of only the model's attributes that have changed. Optionally,
-      an external <b>attributes</b> hash can be passed in, returning
-      the attributes in that hash which differ from the model. This can be used
-      to figure out which portions of a view should be updated, or what calls
-      need to be made to sync the changes to the server.
+      Возвращает хэш только тех атрибутов модели, которые были изменены.
+  	  Опционально может быть передан внешний хэш атрибутов; в этом случае возвращаются
+  	  те атрибуты из этого хэша, которые отличаются от таковых в модели.
+  	  Может быть полезно для выяснения, какие части представения надо обновить,
+	    или какие вызовы надо сделать, чтобы синхронизировать изменения с сервером.
     </p>
 
     <p id="Model-previous">
       <b class="header">previous</b><code>model.previous(attribute)</code>
       <br />
-      During a <tt>"change"</tt> event, this method can be used to get the
-      previous value of a changed attribute.
+      Во время события <tt>"change"</tt>, этот метод позволяет получить предыдущее значение измененного атрибута.
     </p>
 
 <pre class="runnable">
 var bill = new Backbone.Model({
-  name: "Bill Smith"
+  name: "Иван Петров"
 });
 
 bill.on("change:name", function(model, name) {
-  alert("Changed name from " + bill.previous("name") + " to " + name);
+  alert("Изменено имя с " + bill.previous("name") + " на " + name);
 });
 
-bill.set({name : "Bill Jones"});
+bill.set({name : "Иван Иванов"});
 </pre>
 
     <p id="Model-previousAttributes">
       <b class="header">previousAttributes</b><code>model.previousAttributes()</code>
       <br />
-      Return a copy of the model's previous attributes. Useful for getting a
-      diff between versions of a model, or getting back to a valid state after
-      an error occurs.
+      Возвращает копию предыдущих атрибутов модели. Полезно, чтобы получить
+	    diff между версиями модели, или вернуться в валидное состояние после ошибки.
     </p>
 
     <h2 id="Collection">Backbone.Collection</h2>
