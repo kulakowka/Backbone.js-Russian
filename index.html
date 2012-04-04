@@ -1233,37 +1233,34 @@ bill.set({name : "Иван Иванов"});
     <h2 id="Collection">Backbone.Collection</h2>
 
     <p>
-      Collections are ordered sets of models. You can bind <tt>"change"</tt> events
-      to be notified when any model in the collection has been modified,
-      listen for <tt>"add"</tt> and <tt>"remove"</tt> events, <tt>fetch</tt>
-      the collection from the server, and use a full suite of
-      <a href="#Collection-Underscore-Methods">Underscore.js methods</a>.
+      Коллекции — это упорядоченные наборы моделей. Вы можете навесить обработчики — на событие <tt>"change"</tt>,
+      чтобы получать оповещения, когда любая модель в коллекции изменяется; 
+      на события <tt>"add"</tt> и <tt>"remove"</tt>, на получение (<tt>fetch</tt>)
+      коллекции с сервера, и использовать полный набор 
+      <a href="#Collection-Underscore-Methods">методов Underscore.js</a>.
     </p>
 
     <p>
-      Any event that is triggered on a model in a collection will also be
-      triggered on the collection directly, for convenience.
-      This allows you to listen for changes to specific attributes in any
-      model in a collection, for example:
+      Любое событие, которое сработает на модели в коллекции также сработает и напрямую — для удобства — на коллекции.
+      Это позволяет напрямую слушать события изменения отдельных атрибутов любой модели в коллекции. Например:
       <tt>Documents.on("change:selected", ...)</tt>
     </p>
 
     <p id="Collection-extend">
       <b class="header">extend</b><code>Backbone.Collection.extend(properties, [classProperties])</code>
       <br />
-      To create a <b>Collection</b> class of your own, extend <b>Backbone.Collection</b>,
-      providing instance <b>properties</b>, as well as optional <b>classProperties</b> to be attached
-      directly to the collection's constructor function.
+      Чтобы создать собственный класс коллекции, расширьте <b>Backbone.Collection</b>,
+      предоставив свойства экземпляра в хэше <b>properties</b>, и опциональные свойства класса в <b>classProperties</b>,
+      которые станут свойствами функции-конструктора.
     </p>
 
     <p id="Collection-model">
       <b class="header">model</b><code>collection.model</code>
       <br />
-      Override this property to specify the model class that the collection
-      contains. If defined, you can pass raw attributes objects (and arrays) to
+      Переопределите это свойство, чтобы указать класс моделей, которые содержит эта коллекция
+      Если это свойство определено, можно передавать сырые хэши объектов (и массивы) в методы 
       <a href="#Collection-add">add</a>, <a href="#Collection-create">create</a>,
-      and <a href="#Collection-reset">reset</a>, and the attributes will be
-      converted into a model of the proper type.
+      and <a href="#Collection-reset">reset</a>, и атрибуты будут сконвертированы в модели соответствующего типа.
     </p>
 
 <pre>
@@ -1275,10 +1272,9 @@ var Library = Backbone.Collection.extend({
     <p id="Collection-constructor">
       <b class="header">constructor / initialize</b><code>new Collection([models], [options])</code>
       <br />
-      When creating a Collection, you may choose to pass in the initial array of <b>models</b>.
-      The collection's <a href="#Collection-comparator">comparator</a> function
-      may be included as an option. If you define an <b>initialize</b> function, it will be
-      invoked when the collection is created.
+      При создании экземпляра коллекции можно передать начальный массив моделей (в параметре <b>models</b>).
+      В <b>options</b> может быть передана функция <a href="#Collection-comparator">функция-компаратор</a>.
+      Метод <b>initialize</b> вызывается после создания экземпляра коллекции.
     </p>
 
 <pre>
@@ -1288,20 +1284,18 @@ var tabs = new TabSet([tab1, tab2, tab3]);
     <p id="Collection-models">
       <b class="header">models</b><code>collection.models</code>
       <br />
-      Raw access to the JavaScript array of models inside of the collection. Usually you'll
-      want to use <tt>get</tt>, <tt>at</tt>, or the <b>Underscore methods</b>
-      to access model objects, but occasionally a direct reference to the array
-      is desired.
+      Прямой доступ к массиву моделей коллекции. Обычно используются методы 
+      <tt>get</tt>, <tt>at</tt>, или <b>методы Underscore</b>, чтобы получить модели,
+      но порой необходима прямая ссылка на массив.
     </p>
 
     <p id="Collection-toJSON">
       <b class="header">toJSON</b><code>collection.toJSON()</code>
       <br />
-      Return an array containing the attributes hash of each model in the
-      collection. This can be used to serialize and persist the
-      collection as a whole. The name of this method is a bit confusing, because
-      it conforms to
-      <a href="https://developer.mozilla.org/en/JSON#toJSON()_method">JavaScript's JSON API</a>.
+      Возвращает массив, содержащий хэш атрибутов каждой модели в коллекции.
+      Используется в сериализации и сохранении коллекции целиком.
+      Название несколько сбивает с толку потому, что соответствует
+      <a href="https://developer.mozilla.org/en/JSON#toJSON()_method">JSON API</a>.
     </p>
 
 <pre class="runnable">
@@ -1315,11 +1309,10 @@ alert(JSON.stringify(collection));
 </pre>
 
     <p id="Collection-Underscore-Methods">
-      <b class="header">Underscore Methods (28)</b>
+      <b class="header">Методы Underscore (28)</b>
       <br />
-      Backbone proxies to <b>Underscore.js</b> to provide 28 iteration functions
-      on <b>Backbone.Collection</b>. They aren't all documented here, but
-      you can take a look at the Underscore documentation for the full details&hellip;
+      Backbone проксирует <b>Underscore.js</b>, чтобы предоставить доступ к 28 функциям, итерирующим по <b>Backbone.Collection</b>.
+      Они не все документированы здесь, но можно смотреть на документацию самого Underscore.
     </p>
 
     <ul class="small">
@@ -1374,26 +1367,25 @@ var alphabetical = Books.sortBy(function(book) {
     <p id="Collection-add">
       <b class="header">add</b><code>collection.add(models, [options])</code>
       <br />
-      Add a model (or an array of models) to the collection. Fires an <tt>"add"</tt>
-      event, which you can pass <tt>{silent: true}</tt> to suppress. If a
-      <a href="#Collection-model">model</a> property is defined, you may also pass
-      raw attributes objects, and have them be vivified as instances of the model.
-      Pass <tt>{at: index}</tt> to splice the model into the collection at the
-      specified <tt>index</tt>. Likewise, if you're a callback listening to a
-      collection's <tt>"add"</tt> event, <tt>options.index</tt> will tell you the
-      index at which the model is being added to the collection.
+      Добавляет модель (или массив моделей) в коллекцию. Запускает событие <tt>"add"</tt>
+      в которое вы можете передать <tt>{silent: true}</tt> чтобы его подавить. Если
+      свойство <a href="#Collection-model">model</a> определено, можно передавать сырые атрибуты,
+      и они будут оживлены в инстансы моделей.
+      Чтобы вставить модель по специфичному индексу, передайте <tt>{at: index}</tt>.
+      Таким же образом, если у вас есть слушатель на событие <tt>"add"</tt>, 
+      в него будет передан индекс, куда была вставлена модель — в параметре <tt>options.index</tt>.
     </p>
 
 <pre class="runnable">
 var ships = new Backbone.Collection;
 
 ships.on("add", function(ship) {
-  alert("Ahoy " + ship.get("name") + "!");
+  alert("«"ship.get("name") + "» прямо по курсу!");
 });
 
 ships.add([
-  {name: "Flying Dutchman"},
-  {name: "Black Pearl"}
+  {name: "Летучий Голландец"},
+  {name: "Черная жемчужина"}
 ]);
 </pre>
 
