@@ -552,10 +552,10 @@
     <h2 id="Events">Backbone.Events</h2>
 
     <p>
-      <b>Events</b> is a module that can be mixed in to any object, giving the
-      object the ability to bind and trigger custom named events. Events do not
-      have to be declared before they are bound, and may take passed arguments.
-      For example:
+    	<b>Events</b> &mdash; это модуль, который может расширить возможности любого объекта, 
+    	давая объекту способностью отслеживать и вызывать пользовательские именованные события.
+    	События не должны быть объявлены прежде, чем будут расширены возможности объекта. 
+    	В событие можно передавать аргументы. Например:
     </p>
 
 <pre class="runnable">
@@ -564,25 +564,26 @@ var object = {};
 _.extend(object, Backbone.Events);
 
 object.on("alert", function(msg) {
-  alert("Triggered " + msg);
+  alert("Сработало " + msg);
 });
 
-object.trigger("alert", "an event");
+object.trigger("alert", "событие");
 </pre>
 
     <p>
-      For example, to make a handy event dispatcher that can coordinate events
-      among different areas of your application: <tt>var dispatcher = _.clone(Backbone.Events)</tt>
+    	Например, можно сделать удобный диспетчер событий, 
+    	который будет координировать события между различными областями приложения:
+    	<tt>var dispatcher = _.clone(Backbone.Events)</tt>
     </p>
 
     <p id="Events-on">
-      <b class="header">on</b><code>object.on(event, callback, [context])</code><span class="alias">Alias: bind</span>
+      <b class="header">on</b><code>object.on(event, callback, [context])</code><span class="alias">Синоним: bind</span>
       <br />
-      Bind a <b>callback</b> function to an object. The callback will be invoked
-      whenever the <b>event</b> is fired.
-      If you have a large number of different events on a page, the convention is to use colons to
-      namespace them: <tt>"poll:start"</tt>, or <tt>"change:selection"</tt>.
-      The event string may also be a space-delimited list of several events...
+      Привязывает <b>функцию обратного вызова (callback-функцию)</b> к объекту.
+      Callback-функция будет вызываться всякий раз, когда <b>событие</b> возникает.
+      Если у вас есть большое количество различных событий на странице, стоит использовать двоеточия в названиях:
+      <tt>"poll:start"</tt>, или <tt>"change:selection"</tt>.
+      Строка названия события (event) может состоять из разделенных пробелами нескольких событий...
     </p>
 
 <pre>
@@ -590,15 +591,18 @@ book.on("change:title change:author", ...);
 </pre>
 
     <p>
-      To supply a <b>context</b> value for <tt>this</tt> when the callback is invoked,
-      pass the optional third argument: <tt>model.on('change', this.render, this)</tt>
+      Для сохранения <b>контекста</b> значения <tt>this</tt>, 
+      при вызове callback-функции, 
+      передайте третий необязательный аргумент:
+      <tt>model.on('change', this.render, this)</tt>
     </p>
 
     <p>
-      Callbacks bound to the special
-      <tt>"all"</tt> event will be triggered when any event occurs, and are passed
-      the name of the event as the first argument. For example, to proxy all events
-      from one object to another:
+      Существует специальное значение <tt>"all"</tt>, 
+      которое необходимо указать в качестве названия события в callback-функции.
+      Такая callback-функция будет срабатывать при возникновении любого события.
+      Название события будет передаваться в первом аргументе.
+      Это можно использовать, например, для проксирования всех событий от одного объекта к другому:
     </p>
 
 <pre>
