@@ -474,36 +474,37 @@
     <h2 id="introduction">Введение</h2>
 
     <p>
-      When working on a web application that involves a lot of JavaScript, one
-      of the first things you learn is to stop tying your data to the DOM. It's all
-      too easy to create JavaScript applications that end up as tangled piles of
-      jQuery selectors and callbacks, all trying frantically to keep data in
-      sync between the HTML UI, your JavaScript logic, and the database on your
-      server. For rich client-side applications, a more structured approach
-      is often helpful.
+    	При работе с веб-приложением, которое включает в себя много JavaScript, 
+      первое, чему вы научитесь это перестать связывать ваши данные с DOM.
+      Это подходит для создания простых JavaScript приложений, 
+      которые в конечном итоге выглядят, 
+      как запутанные груды JQuery селекторов и функций обратного вызова (callback), 
+      которые отчаянно пытаются хранить данные в синхронизации между HTML UI, 
+      вашей JavaScript логики и базы данных на сервере.
+      Для сложных клиентских приложений, часто бывает полезным более структурированный подход.
     </p>
 
     <p>
-      With Backbone, you represent your data as
-      <a href="#Model">Models</a>, which can be created, validated, destroyed,
-      and saved to the server. Whenever a UI action causes an attribute of
-      a model to change, the model triggers a <i>"change"</i> event; all
-      the <a href="#View">Views</a> that display the model's state can be notified of the
-      change, so that they are able to respond accordingly, re-rendering themselves with
-      the new information. In a finished Backbone app, you don't have to write the glue
-      code that looks into the DOM to find an element with a specific <i>id</i>,
-      and update the HTML manually
-      &mdash; when the model changes, the views simply update themselves.
+      С Backbone, вы представляете ваши данные как <a href="#Model">Модели (Models)</a>, 
+      которые могут быть созданы, провалидированы, удалены, и сохранены на сервере.
+      Всякий раз, когда в интерфейсе изменяется атрибуты модели, модель вызывает событие <i>"change"</i>;
+      все <a href="#View">Представления (Views)</a>, 
+      которые отображают состояние модели, могут быть уведомлены об изменении атрибутов модели, 
+      с тем чтобы они могли реагировать соответствующим образом. Например
+      отрисовать себя с новой информацией.
+      В готовом приложении на Backbone, вы не должны писать код, 
+      который смотрит DOM, чтобы найти элемент с определенным идентификатором, 
+      и обновлять HTML вручную. При изменении модели, представление просто обновит себя самостоятельно.
     </p>
 
     <p>
-      If you're new here, and aren't yet quite sure what Backbone is for, start by
-      browsing the <a href="#examples">list of Backbone-based projects</a>.
+      Если вы новичок здесь, и еще не совсем уверены, что Backbone вам подходит, 
+      начните с просмотра <a href="#examples">списка проектов использующих Backbone</a>.
     </p>
 
     <p>
-      Many of the examples that follow are runnable. Click the <i>play</i> button
-      to execute them.
+      Многие из следующих примеров рабоспосбоны. 
+      Нажмите кнопку <i>play</i>, чтобы выполнить их.
     </p>
 
     <h2 id="upgrading">Upgrading to 0.9</h2>
