@@ -1392,17 +1392,16 @@ ships.add([
     <p id="Collection-remove">
       <b class="header">remove</b><code>collection.remove(models, [options])</code>
       <br />
-      Remove a model (or an array of models) from the collection. Fires a
-      <tt>"remove"</tt> event, which you can use <tt>silent</tt>
-      to suppress. If you're a callback listening to the <tt>"remove"</tt> event,
-      the index at which the model is being removed from the collection is available
-      as <tt>options.index</tt>.
+      Удаляет модель (или массив моделей) из коллекции. Запускает событие <tt>"remove"</tt>
+      которое вы можете подавить наличием ключа <tt>silent</tt> в хэше <b>options</b>.
+      Если есть слушатель события <tt>"remove"</tt>, то индекс удаляемой модели
+      доступен в <tt>options.index</tt>.
     </p>
 
     <p id="Collection-get">
       <b class="header">get</b><code>collection.get(id)</code>
       <br />
-      Get a model from a collection, specified by <b>id</b>.
+      Возвращает модель из коллекции по ее <b>id</b>.
     </p>
 
 <pre>
@@ -1412,81 +1411,80 @@ var book = Library.get(110);
     <p id="Collection-getByCid">
       <b class="header">getByCid</b><code>collection.getByCid(cid)</code>
       <br />
-      Get a model from a collection, specified by client id. The client id
-      is the <tt>.cid</tt> property of the model, automatically assigned whenever
-      a model is created. Useful for models which have not yet been saved to
-      the server, and do not yet have true ids.
+      Возвращает модель из коллекции по указанному клиентскому id (свойство <tt>.cid</tt>).
+      Это свойство модели автоматически назначается ей при создании. Находит применение для моделей,
+      которые еще не были сохранены на сервер и еще не имеют настоящего <tt>id</tt>.
     </p>
 
     <p id="Collection-at">
       <b class="header">at</b><code>collection.at(index)</code>
       <br />
-      Get a model from a collection, specified by index. Useful if your collection
-      is sorted, and if your collection isn't sorted, <b>at</b> will still
-      retrieve models in insertion order.
+      Возвращает модель из коллекции по индексу. Полезно, если ваша коллекция отсортирована;
+      если нет, то этот метод возвращает модели по порядку вставки.
     </p>
 
     <p id="Collection-push">
       <b class="header">push</b><code>collection.push(model, [options])</code>
       <br />
-      Add a model at the end of a collection. Takes the same options as
-      <a href="#Collection-add">add</a>.
+      Добавляет модель в конец коллекции. Принимает те же аргументы,
+      что и <a href="#Collection-add">add</a>.
     </p>
 
     <p id="Collection-pop">
       <b class="header">pop</b><code>collection.pop([options])</code>
       <br />
-      Remove and return the last model from a collection. Takes the same options as
-      <a href="#Collection-remove">remove</a>.
+      Удаляет последнюю модель из коллекции и возвращает ее. Принимает те же аргументы,
+      что и <a href="#Collection-remove">remove</a>.
     </p>
 
     <p id="Collection-unshift">
       <b class="header">unshift</b><code>collection.unshift(model, [options])</code>
       <br />
-      Add a model at the beginning of a collection. Takes the same options as
-      <a href="#Collection-add">add</a>.
+      Добавляет модель в начало коллекции. 
+      Add a model at the beginning of a collection. Принимает те же аргументы,
+      что и <a href="#Collection-add">add</a>.
     </p>
 
     <p id="Collection-shift">
       <b class="header">shift</b><code>collection.shift([options])</code>
       <br />
-      Remove and return the first model from a collection. Takes the same options as
-      <a href="#Collection-remove">remove</a>.
+      Удаляет первую модель из коллекции и возвращает ее. Принимает те же аргументы,
+      что и <a href="#Collection-remove">remove</a>.
     </p>
 
     <p id="Collection-length">
       <b class="header">length</b><code>collection.length</code>
       <br />
-      Like an array, a Collection maintains a <tt>length</tt> property, counting
-      the number of models it contains.
+      Подобно массивам, коллекции поддерживают свойство <tt>length</tt>,
+      равное количеству моделей, которые она содержит.
     </p>
 
     <p id="Collection-comparator">
       <b class="header">comparator</b><code>collection.comparator</code>
       <br />
-      By default there is no <b>comparator</b> function on a collection.
-      If you define a comparator, it will be used to maintain
-      the collection in sorted order. This means that as models are added,
-      they are inserted at the correct index in <tt>collection.models</tt>.
-      Comparator function can be defined as either a
-      <a href="http://underscorejs.org/#sortBy">sortBy</a>
-      (pass a function that takes a single argument),
-      or as a
-      <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort">sort</a>
-      (pass a comparator function that expects two arguments).
+      По умолчанию коллекции не определяют функцию-компаратор.
+      Если вы определяет компаратор, он будет использован, чтобы поддерживать
+      коллекцию в отсортированном виде. Это означает, что когда модели добавляются,
+      они вставляются по корректному индексу в <tt>collection.models</tt>.
+      <tt>comparator</tt> может быть определен либо как функция, подходящяя для 
+      <a href="http://underscorejs.org/#sortBy">sortBy из Underscore</a>
+      (функция одного аргумента),
+      либо как функция, подходящяя для 
+      <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort">Array.sort</a>
+      (функция двух аргументов).
     </p>
 
     <p>
-      "sortBy" comparator functions take a model and return a numeric or string
-      value by which the model should be ordered relative to others.
-      "sort" comparator functions take two models, and return <tt>-1</tt> if
-      the first model should come before the second, <tt>0</tt> if they are of
-      the same rank and <tt>1</tt> if the first model should come after.
+      Компараторы типа "sortBy" принимают модель и возвращают численное или строковое
+      значение, по которому модель должна быть отсортирована относительно других.
+      Компараторы типа "sort" принимают две модели, и должны возвращать: <tt>-1</tt>, если
+      перва модель должна идти перед второй; <tt>0</tt>, если у них одинаковая позиция;
+      и <tt>1</tt>, если перая модель должна идти после второй.
     </p>
 
     <p>
-      Note how even though all of the chapters in this example are added backwards,
-      they come out in the proper order:
+      Отметьте, что хотя главы в данном примере добавляются в обратном порядке,
+      в коллекции они расположены в верном порядке:
     </p>
 
 <pre class="runnable">
@@ -1497,34 +1495,33 @@ chapters.comparator = function(chapter) {
   return chapter.get("page");
 };
 
-chapters.add(new Chapter({page: 9, title: "The End"}));
-chapters.add(new Chapter({page: 5, title: "The Middle"}));
-chapters.add(new Chapter({page: 1, title: "The Beginning"}));
+chapters.add(new Chapter({page: 9, title: "Конец"}));
+chapters.add(new Chapter({page: 5, title: "Середина"}));
+chapters.add(new Chapter({page: 1, title: "Начало"}));
 
 alert(chapters.pluck('title'));
 </pre>
 
     <p class="warning">
-      Collections with comparator functions will not automatically re-sort if you
-      later change model attributes, so you may wish to call <tt>sort</tt> after
-      changing model attributes that would affect the order.
+      Коллекции с компаратором не будут автоматически пересортировываться, если 
+      вы измените атрибуты моделей, которые влияют на сортировку. В этом случае следует 
+      вызвать <tt>sort</tt> вручную.
     </p>
 
     <p id="Collection-sort">
       <b class="header">sort</b><code>collection.sort([options])</code>
       <br />
-      Force a collection to re-sort itself. You don't need to call this under
-      normal circumstances, as a collection with a <a href="#Collection-comparator">comparator</a> function
-      will maintain itself in proper sort order at all times. Calling <b>sort</b>
-      triggers the collection's <tt>"reset"</tt> event, unless silenced by passing
-      <tt>{silent: true}</tt>
+      Заставляет модель выполнить пересортировку. Обычно нет необходимости вызывать этот метод вручную,
+      так как коллекции с <a href="#Collection-comparator">компаратором</a> всегда сами будут поддерживать себя в 
+      отсортированном виде.
+      Вызов <b>sort</b> запускает на коллекции событие <tt>"reset"</tt> если не подавить его с помощью <tt>{silent: true}</tt>
     </p>
 
     <p id="Collection-pluck">
       <b class="header">pluck</b><code>collection.pluck(attribute)</code>
       <br />
-      Pluck an attribute from each model in the collection. Equivalent to calling
-      <tt>map</tt>, and returning a single attribute from the iterator.
+      Собирает значения атрибута из каждой модели в коллекции. Эквивалентно вызову
+      <tt>map</tt> с возвратом одного атрибута из итератора.
     </p>
 
 <pre class="runnable">
@@ -1542,19 +1539,19 @@ alert(JSON.stringify(names));
     <p id="Collection-where">
       <b class="header">where</b><code>collection.where(attributes)</code>
       <br />
-      Return an array of all the models in a collection that match the
-      passed <b>attributes</b>. Useful for simple cases of <tt>filter</tt>.
+      Возвращает массив всех моделей, подходящих под переданный хэш <b>attributes</b>. 
+      Полезно для простых случаев фильтрации.
     </p>
 
 <pre class="runnable">
 var friends = new Backbone.Collection([
-  {name: "Athos",      job: "Musketeer"},
-  {name: "Porthos",    job: "Musketeer"},
-  {name: "Aramis",     job: "Musketeer"},
-  {name: "d'Artagnan", job: "Guard"},
+  {name: "Атос",       job: "Мушкетер"},
+  {name: "Портос",     job: "Мушкетер"},
+  {name: "Арамис",     job: "Мушкетер"},
+  {name: "д'Артаньян", job: "Гвардеец короля"},
 ]);
 
-var musketeers = friends.where({job: "Musketeer"});
+var musketeers = friends.where({job: "Мушкетер"});
 
 alert(musketeers.length);
 </pre>
@@ -1562,9 +1559,9 @@ alert(musketeers.length);
     <p id="Collection-url">
       <b class="header">url</b><code>collection.url or collection.url()</code>
       <br />
-      Set the <b>url</b> property (or function) on a collection to reference
-      its location on the server. Models within the collection will use <b>url</b>
-      to construct URLs of their own.
+      Свойство (или функция) <b>url</b> предназначена для того чтобы указывать положение 
+      коллекции на сервере. Модели в коллекциях с определенным <b>url</b> 
+      будут использовать его, чтобы конструировать свои собственные URL'ы.
     </p>
 
 <pre>
@@ -1572,7 +1569,7 @@ var Notes = Backbone.Collection.extend({
   url: '/notes'
 });
 
-// Or, something more sophisticated:
+// Или чуть сложнее:
 
 var Notes = Backbone.Collection.extend({
   url: function() {
