@@ -579,7 +579,7 @@ object.trigger("alert", "событие");
     <p id="Events-on">
       <b class="header">on</b><code>object.on(event, callback, [context])</code><span class="alias">Синоним: bind</span>
       <br />
-      Привязывает <b>функцию обратного вызова (callback-функцию)</b> к объекту.
+      Привязывает функцию обратного вызова <b>callback</b> к объекту.
       Callback-функция будет вызываться всякий раз, когда <b>событие</b> возникает.
       Если у вас используется множество различных событий на странице, следует использовать двоеточия в названиях:
       <tt>"poll:start"</tt>, или <tt>"change:selection"</tt>.
@@ -591,7 +591,7 @@ book.on("change:title change:author", ...);
 </pre>
 
     <p>
-      Для сохранения <b>контекста</b> значения <tt>this</tt>, 
+      Для сохранения в <b>context</b> значения <tt>this</tt>, 
       при вызове callback-функции, 
       передайте третий необязательный аргумент:<br/>
       <tt>model.on('change', this.render, this)</tt>
@@ -612,30 +612,29 @@ proxy.on("all", function(eventName) {
 </pre>
 
     <p id="Events-off">
-      <b class="header">off</b><code>object.off([event], [callback], [context])</code><span class="alias">Alias: unbind</span>
+      <b class="header">off</b><code>object.off([event], [callback], [context])</code><span class="alias">Синоним: unbind</span>
       <br />
-      Remove a previously-bound <b>callback</b> function from an object. If no
-      <b>context</b> is specified, all of the versions of the callback with
-      different contexts will be removed. If no
-      callback is specified, all callbacks for the <b>event</b> will be
-      removed. If no event is specified, <i>all</i> event callbacks on the object
-      will be removed.
+      Удаляет привязанную ранее callback-функцию от объекта. 
+      Если параметр <b>context</b> не задан, все версии callback-функции в разных контекстах, будут удалены. 
+      
+      Если callback-функция не указана, все функции обратного вызова для события <b>event</b> будут удалены. 
+      Если событие не указано, <b>все</b> callback-функции события на объекте будут удалены.
     </p>
 
 <pre>
-// Removes just the `onChange` callback.
+// Удаляет только callback-функцию `onChange`.
 object.off("change", onChange);
 
-// Removes all "change" callbacks.
+// Удаляет все callback-функции для события "change".
 object.off("change");
 
-// Removes the `onChange` callback for all events.
+// Удаляет все callback-функции `onChange` для всех событий.
 object.off(null, onChange);
 
-// Removes all callbacks for `context` for all events.
+// Удаляет все callback-функции в контексте `context` для всех событий.
 object.off(null, null, context);
 
-// Removes all callbacks on `object`.
+// Удаляет все callback-функции для объекта `object`.
 object.off();
 </pre>
 
