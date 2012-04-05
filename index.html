@@ -2023,26 +2023,22 @@ model.save();  // POST to "/collection/id", with "_method=PUT" + header.
     <h2 id="View">Backbone.View</h2>
 
     <p>
-      Backbone views are almost more convention than they are code &mdash; they
-      don't determine anything about your HTML or CSS for you, and can be used
-      with any JavaScript templating library.
-      The general idea is to organize your interface into logical views,
-      backed by models, each of which can be updated independently when the
-      model changes, without having to redraw the page. Instead of digging into
-      a JSON object, looking up an element in the DOM, and updating the HTML by hand,
-      you can bind your view's <tt>render</tt> function to the model's <tt>"change"</tt>
-      event &mdash; and now everywhere that
-      model data is displayed in the UI, it is always immediately up to date.
+      Виды в Backbone — это скорее соглашение, нежели код: они никак не влияют
+      на ваш HTML и CSS, и могут быть использованы с любой шаблонной библиотекой.
+      Основная идея — организивать ваш интерфейс в логически выделенные виды,
+      опирающиеся на модели, каждая из которых может быть обновлена независимо, когда
+      модель изменяется, без необходимости перерисовать страницу. Вместо того, чтобы копаться
+      в JSON-объекте, выискивать элемент в DOM-дереве, и обновлять HTML вручную,
+      вы привязывате метод <tt>render</tt> вашего вида к событию <tt>"change"</tt> модели —
+      и теперь везде, где бы ни отображались данные модели, они немедленно становятся актуальными.
     </p>
 
     <p id="View-extend">
       <b class="header">extend</b><code>Backbone.View.extend(properties, [classProperties])</code>
       <br />
-      Get started with views by creating a custom view class. You'll want to
-      override the <a href="#View-render">render</a> function, specify your
-      declarative <a href="#View-delegateEvents">events</a>, and perhaps the
-      <tt>tagName</tt>, <tt>className</tt>, or <tt>id</tt> of the View's root
-      element.
+      Создания своего класса вида. Нужно переопределить метод <a href="#View-render">render</a>
+      декларативно указать свои <a href="#View-delegateEvents">события</a>, и, возможно,
+      <tt>tagName</tt>, <tt>className</tt>, или <tt>id</tt> корневого элемента вашего представления.
     </p>
 
 <pre>
@@ -2068,15 +2064,15 @@ var DocumentRow = Backbone.View.extend({
     <p id="View-constructor">
       <b class="header">constructor / initialize</b><code>new View([options])</code>
       <br />
-      When creating a new View, the options you pass are attached to the view
-      as <tt>this.options</tt>, for future reference. There are several special
-      options that, if passed, will be attached directly to the view:
+      При создании экземпляра представления, опции которые вы передаете в хэше <b>options</b>
+      будут доступны как <tt>this.options</tt> внутри представления. Есть несколько особенных опций,
+      которые, будучи переданы, будут доступны напрямую:
       <tt>model</tt>, <tt>collection</tt>,
-      <tt>el</tt>, <tt>id</tt>, <tt>className</tt>, <tt>tagName</tt> and <tt>attributes</tt>.
-      If the view defines an <b>initialize</b> function, it will be called when
-      the view is first created. If you'd like to create a view that references
-      an element <i>already</i> in the DOM, pass in the element as an option:
-      <tt>new View({el: existingElement})</tt>
+      <tt>el</tt>, <tt>id</tt>, <tt>className</tt>, <tt>tagName</tt> и <tt>attributes</tt>.
+      Если представление определяет метод <b>initialize</b>, он будет вызван 
+      в момент создания экземпляра. Если вы хотите создать представление, которое
+      ссылается на элемент, <i>уже присутствующий</i> в DOM, передайте его в опциях:
+      <tt>new View({el: existingElement})</tt>. В дальнейшем он так же будет доступен как <tt>this.el</tt>
     </p>
 
 <pre>
@@ -2091,13 +2087,12 @@ new DocumentRow({
     <p id="View-el">
       <b class="header">el</b><code>view.el</code>
       <br />
-      All views have a DOM element at all times (the <b>el</b> property),
-      whether they've already been inserted into the page or not. In this
-      fashion, views can be rendered at any time, and inserted into the DOM all
-      at once, in order to get high-performance UI rendering with as few
-      reflows and repaints as possible. <tt>this.el</tt> is created from the
-      view's <tt>tagName</tt>, <tt>className</tt>, <tt>id</tt> and <tt>attributes</tt> properties,
-      if specified. If not, <b>el</b> is an empty <tt>div</tt>.
+      Все представления всегда имеют DOM-элемент в любой момент времени, (свойство <b>el</b>),
+      вставлены они в документ или нет. Таким образом представления могут быть отрендерены в любое время,
+      и вставлены в DOM-дерево все разом — это приводит к высокопроизводительному интерфейсу
+      с как можно меньшим количеством переформатирований и перерисовываний (reflows and repaints)
+      <tt>this.el</tt> создается из свойств <tt>tagName</tt>, <tt>className</tt>, <tt>id</tt> и <tt>attributes</tt>,
+      если они указаны. Если нет — <b>el</b> будет пустым <tt>div</tt>'ом.
     </p>
 
 <pre class="runnable">
@@ -2118,8 +2113,8 @@ alert(item.el + ' ' + body.el);
     <p id="View-$el">
       <b class="header">$el</b><code>view.$el</code>
       <br />
-      A cached jQuery (or Zepto) object for the view's element. A handy
-      reference instead of re-wrapping the DOM element all the time.
+      Закешированный объект jQuery (или Zepto) c элементом данного представления — то же самое, что <tt>$(this.el)</tt>. 
+      Удобная ссылка — замена постоянному оборачиванию DOM-элемента.
     </p>
 
 <pre>
@@ -2131,27 +2126,26 @@ listView.$el.append(itemView.el);
     <p id="View-setElement">
       <b class="header">setElement</b><code>view.setElement(element)</code>
       <br />
-      If you'd like to apply a Backbone view to a different DOM element, use
-      <b>setElement</b>, which will also create the cached <tt>$el</tt> reference
-      and move the view's delegated events from the old element to the new one.
+      Если вы хотите применить Backbone-представление к другому DOM-элементу, используйте
+      <b>setElement</b>, который также создаст закешированную ссылку <tt>$el</tt>
+      и перенесет делегированные события со старого элемента на новый.
     </p>
 
     <p id="View-attributes">
       <b class="header">attributes</b><code>view.attributes</code>
       <br />
-      A hash of attributes that will be set as HTML DOM element attributes on the
-      view's <tt>el</tt> (id, class, data-properties, etc.), or a function that
-      returns such a hash.
+      Хэш атрибутов, которые будут установлены DOM-элементу <tt>el</tt> (id, класс, data-атрибуты, и т.д.),
+      или функция, которая возвращает такой хэш.
     </p>
 
     <p id="View-dollar">
       <b class="header">$ (jQuery or Zepto)</b><code>view.$(selector)</code>
       <br />
-      If jQuery or Zepto is included on the page, each view has a
-      <b>$</b> function that runs queries scoped within the view's element. If you use this
-      scoped jQuery function, you don't have to use model ids as part of your query
-      to pull out specific elements in a list, and can rely much more on HTML class
-      attributes. It's equivalent to running: <tt>view.$el.find(selector)</tt>
+      Если jQuery или Zepto подключены на странице, каждое представление имеет
+      функцию <b>$</b>, которая выполняет DOM-запросы внутри элемента представления.
+      Используя эту функцию, вы не нуждаетесь в использовании id модели как части вашего запроса чтобы 
+      получить определенные элементы в списке, и можете больше полагаться на HTML-класс.
+      Это эквавлентно такому вызову: <tt>view.$el.find(selector)</tt>
     </p>
 
 <pre>
@@ -2169,11 +2163,10 @@ ui.Chapter = Backbone.View.extend({
     <p id="View-render">
       <b class="header">render</b><code>view.render()</code>
       <br />
-      The default implementation of <b>render</b> is a no-op. Override this
-      function with your code that renders the view template from model data,
-      and updates <tt>this.el</tt> with the new HTML. A good
-      convention is to <tt>return this</tt> at the end of <b>render</b> to
-      enable chained calls.
+      Дефолтная реализация метода <b>render</b> — пустая функция. Переопределите её
+      своим кодом отрисовки шаблона с данными модели и обновления <tt>this.el</tt> новым HTML.
+      Хорошее соглашение — делать <tt>return this</tt> в конце <b>render</b>, чтобы иметь возможность
+      чейнить вызовы.
     </p>
 
 <pre>
@@ -2186,46 +2179,45 @@ var Bookmark = Backbone.View.extend({
 </pre>
 
     <p>
-      Backbone is agnostic with respect to your preferred method of HTML templating.
-      Your <b>render</b> function could even munge together an HTML string, or use
-      <tt>document.createElement</tt> to generate a DOM tree. However, we suggest
-      choosing a nice JavaScript templating library.
+      Backbone ничего не знает о ваших предпочтениях создания HTML.
+      Ваш метод <b>render</b> может просто слепливать HTML-строку, или использовать
+      <tt>document.createElement</tt>, чтобы генерировать DOM-дерево. Как бы то ни было, мы предлагаем
+      выбрать хорошую шаблонную библиотеку.
       <a href="http://github.com/janl/mustache.js">Mustache.js</a>,
-      <a href="http://github.com/creationix/haml-js">Haml-js</a>, and
-      <a href="http://github.com/sstephenson/eco">Eco</a> are all fine alternatives.
-      Because <a href="http://documentcloud.github.com/underscore/">Underscore.js</a> is already on the page,
-      <a href="http://documentcloud.github.com/underscore/#template">_.template</a>
-      is available, and is an excellent choice if you've already XSS-sanitized
-      your interpolated data.
+      <a href="http://github.com/creationix/haml-js">Haml-js</a>, и
+      <a href="http://github.com/sstephenson/eco">Eco</a> являются хорошими альтернативами.
+      Так как на странице уже присутствует <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>,
+      доступна функция <a href="http://documentcloud.github.com/underscore/#template">_.template</a>
+      и является превосходным выбором, если вы уже санитировали свои данные от XSS.
     </p>
 
     <p>
-      Whatever templating strategy you end up with, it's nice if you <i>never</i>
-      have to put strings of HTML in your JavaScript. At DocumentCloud, we
-      use <a href="http://documentcloud.github.com/jammit/">Jammit</a> in order
-      to package up JavaScript templates stored in <tt>/app/views</tt> as part
-      of our main <tt>core.js</tt> asset package.
+      На какой бы стратегии шаблонизации вы бы не остановились, она хороша, если вы <i>никогда</i>
+      не помещаете строки с HTML в ваш JavaScript. В DocumentCloud мы используем
+      <a href="http://documentcloud.github.com/jammit/">Jammit</a> чтобы упаковать 
+      наши JS-шаблоны, хранящиеся в <tt>/app/views</tt>, как часть нашего
+      главного пакета ассетов, в <tt>core.js</tt>.
     </p>
 
     <p id="View-remove">
       <b class="header">remove</b><code>view.remove()</code>
       <br />
-      Convenience function for removing the view from the DOM. Equivalent to calling
+      Удобная функция для удаления элемента представления из DOM. Эквивалентно вызову
       <tt>$(view.el).remove();</tt>
     </p>
 
     <p id="View-make">
       <b class="header">make</b><code>view.make(tagName, [attributes], [content])</code>
       <br />
-      Convenience function for creating a DOM element of the given type (<b>tagName</b>),
-      with optional attributes and HTML content. Used internally to create the
-      initial <tt>view.el</tt>.
+      Удобная функция для создания DOM-элемента данного типа (<b>tagName</b>),
+      с опциональными атрибутами и HTML-содержимым content. Используется «под капотом»,
+      чтобы создать начальный <tt>view.el</tt>.
     </p>
 
 <pre class="runnable">
 var view = new Backbone.View;
 
-var el = view.make("b", {"class": "bold"}, "Bold! ");
+var el = view.make("b", {"class": "bold"}, "Жырнота! ");
 
 $("#make-demo").append(el);
 </pre>
@@ -2235,38 +2227,36 @@ $("#make-demo").append(el);
     <p id="View-delegateEvents">
       <b class="header">delegateEvents</b><code>delegateEvents([events])</code>
       <br />
-      Uses jQuery's <tt>delegate</tt> function to provide declarative callbacks
-      for DOM events within a view.
-      If an <b>events</b> hash is not passed directly, uses <tt>this.events</tt>
-      as the source. Events are written in the format <tt>{"event selector": "callback"}</tt>.
-      The callback may be either the name of a method on the view, or a direct
-      function body.
-      Omitting the <tt>selector</tt> causes the event to be bound to the view's
-      root element (<tt>this.el</tt>). By default, <tt>delegateEvents</tt> is called
-      within the View's constructor for you, so if you have a simple <tt>events</tt>
-      hash, all of your DOM events will always already be connected, and you will
-      never have to call this function yourself.
+      Использует функцию <tt>delegate</tt> из jQuery для декларативного описания обработчиков DOM-событий 
+      внутри представления.
+      Если хэш <b>events</b> не передан явно, используется <tt>this.events</tt>.
+      События записываются в следующем формате <tt>{"событие селектор": "обработчик"}</tt>.
+      Обработчик может быть как именем метода представления, так и напрямую функцией. 
+      Если опустить <tt>селектор</tt>, то событие будет привязано к корневому элементу представления.
+      (<tt>this.el</tt>). По умолчанию <tt>delegateEvents</tt> вызывается внутри конструктора за вас,
+      так что если ваш хэш <tt>events</tt> прост, все ваши DOM-события уже будут снабжены обработчиками,
+      и вам не придется вызывать этот метод вручную.
     </p>
 
     <p>
-      The <tt>events</tt> property may also be defined as a function that returns
-      an <b>events</b> hash, to make it easier to programmatically define your
-      events, as well as inherit them from parent views.
+      Свойство <tt>events</tt> может так же быть определено как функция, которая 
+      возвращает соответствующий хэш, чтобы было проще программно описать ваши 
+      события, так же как и унаследовать их от родительского преставления.
     </p>
 
     <p>
-      Using <b>delegateEvents</b> provides a number of advantages over manually
-      using jQuery to bind events to child elements during <a href="#View-render">render</a>. All attached
-      callbacks are bound to the view before being handed off to jQuery, so when
-      the callbacks are invoked, <tt>this</tt> continues to refer to the view object. When
-      <b>delegateEvents</b> is run again, perhaps with a different <tt>events</tt>
-      hash, all callbacks are removed and delegated afresh &mdash; useful for
-      views which need to behave differently when in different modes.
+      Использование <b>delegateEvents</b> предоставляет несколько преимуществ перед ручным 
+      навешиванием обработчиков с помощью jQuery во время <a href="#View-render">рендеринга</a>. Все присоединенные
+      коллбеки привязываются к представлению перед передачей их в jQuery, так что при их вызове
+      <tt>this</tt> продолжает ссылаться на экземпляр представления. Когда
+      <b>delegateEvents</b> запускается снова (возможно, с другим хэшем событий)
+      все коллбеки удаляются и делегируются заново &mdash; что удобно для представлений,
+      которым нужно менять поведение в разных режимах.
     </p>
 
     <p>
-      A view that displays a document in a search result might look
-      something like this:
+      Представление, которое отображает документ в результатах поиска может 
+      выглядеть примерно так:
     </p>
 
 <pre>
@@ -2302,8 +2292,8 @@ var DocumentView = Backbone.View.extend({
     <p id="View-undelegateEvents">
       <b class="header">undelegateEvents</b><code>undelegateEvents()</code>
       <br />
-      Removes all of the view's delegated events. Useful if you want to disable
-      or remove a view from the DOM temporarily.
+      Удаляет все делегированные события. Применяется, если нужно временно деактивировать либо
+      удалить представление из DOM.
     </p>
 
     <h2 id="Utility">Utility Functions</h2>
@@ -2311,10 +2301,10 @@ var DocumentView = Backbone.View.extend({
     <p id="Utility-noConflict">
       <b class="header">noConflict</b><code>var backbone = Backbone.noConflict();</code>
       <br />
-      Returns the <tt>Backbone</tt> object back to its original value. You can
-      use the return value of <tt>Backbone.noConflict()</tt> to keep a local
-      reference to Backbone. Useful for embedding Backbone on third-party
-      websites, where you don't want to clobber the existing Backbone.
+      Откатывает объект <tt>Backbone</tt> в предыдущее значение. Можно
+      использовать возвращенное из <tt>Backbone.noConflict()</tt> значение, чтобы хранить
+      ссылку на Backbone. Находит применение при внедрении Backbone на третье-сторонние сайты,
+      где вы не хотите испортить существующий Backbone.
     </p>
 
 <pre>
@@ -2325,9 +2315,9 @@ var model = localBackbone.Model.extend(...);
     <p id="Utility-setDomLibrary">
       <b class="header">setDomLibrary</b><code>Backbone.setDomLibrary(jQueryNew);</code>
       <br />
-      If you have multiple copies of <tt>jQuery</tt> on the page, or simply want
-      to tell Backbone to use a particular object as its DOM / Ajax library,
-      this is the function for you.
+      Если у вас несколько копий <tt>jQuery</tt> на странице, или если вы хотите
+      приказать Backbone использовать определенный объект в качестве DOM / Ajax библиотеки,
+      это функция для вас.
     </p>
 
     <h2 id="examples">Examples</h2>
