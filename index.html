@@ -1581,20 +1581,21 @@ var Notes = Backbone.Collection.extend({
     <p id="Collection-parse">
       <b class="header">parse</b><code>collection.parse(response)</code>
       <br />
-      <b>parse</b> is called by Backbone whenever a collection's models are
-      returned by the server, in <a href="#Collection-fetch">fetch</a>.
-      The function is passed the raw <tt>response</tt> object, and should return
-      the array of model attributes to be <a href="#Collection-add">added</a>
-      to the collection. The default implementation is a no-op, simply passing
-      through the JSON response. Override this if you need to work with a
-      preexisting API, or better namespace your responses. Note that afterwards,
-      if your model class already has a <tt>parse</tt> function, it will be
-      run against each fetched model.
+      <b>parse</b> вызывается каждый раз, когда модели коллекции 
+      приходят с сервера, в методе <a href="#Collection-fetch">fetch</a>.
+      Функции принимает сырой объект <tt>response</tt>, и должна вернуть
+      массив атрибутов моделей, которые будут добавлены в коллекцию 
+      методом <a href="#Collection-add">add</a>. Дефолтная
+      реализация просто пробрасывает JSON-ответ.
+      Переопределите этот метод, если вы работает с уже существующим API,
+      или чтобы лучше заворачивать в пространства имен ответы сервера.
+      Следует отметить, что после этого, если у модели тоже есть метод <tt>parse</tt>,
+      он будет вызван на каждой полученной модели.
     </p>
 
 <pre>
 var Tweets = Backbone.Collection.extend({
-  // The Twitter Search API returns tweets under "results".
+  // API поиска Twitter возвращает твиты в поле "results".
   parse: function(response) {
     return response.results;
   }
@@ -1604,17 +1605,16 @@ var Tweets = Backbone.Collection.extend({
     <p id="Collection-fetch">
       <b class="header">fetch</b><code>collection.fetch([options])</code>
       <br />
-      Fetch the default set of models for this collection from the server,
-      resetting the collection when they arrive. The <b>options</b> hash takes
-      <tt>success</tt> and <tt>error</tt>
-      callbacks which will be passed <tt>(collection, response)</tt> as arguments.
-      When the model data returns from the server, the collection will
+      Получает дефолтный набор моделей для этой коллекции с сервера,
+      вызывая по их прибытии <tt>reset</tt>. В хэш <b>options</b> могут быть коллбеки
+      <tt>success</tt> и <tt>error</tt>, которым передаются коллекция и ответ сервера 
+      <tt>(collection, response)</tt> в качестве аргументов.
+      Когда данные моделей придут с сервера, коллекция вызовет метод
       <a href="#Collection-reset">reset</a>.
-      Delegates to <a href="#Sync">Backbone.sync</a>
-      under the covers for custom persistence strategies and returns a
-      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>.
-      The server handler for <b>fetch</b> requests should return a JSON array of
-      models.
+      Внутри <tt>fetch</tt> обращается к <a href="#Sync">Backbone.sync</a>
+      чтобы можно было создать свою стратегию персистентности, и возвращает
+      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>-объект.
+      Серверный обрабтчик запросов <b>fetch</b> должен возвращать JSON-массив моделей.
     </p>
 
 <pre class="runnable">
@@ -1629,40 +1629,37 @@ Accounts.fetch();
 </pre>
 
     <p>
-      If you'd like to add the incoming models to the current collection, instead
-      of replacing the collection's contents, pass <tt>{add: true}</tt> as an
-      option to <b>fetch</b>.
+      Можно добавить пришедшие модели в коллекцию, вместо замены, передав
+      <tt>{add: true}</tt> в хэше <tt>options</tt>.
     </p>
 
     <p>
-      <b>jQuery.ajax</b> options can also be passed directly as <b>fetch</b> options,
-      so to fetch a specific page of a paginated collection:
+      Опции <b>jQuery.ajax</b> также могут быть напрямую переданы в <b>fetch</b>,
+      чтобы, например, получить определенную страницу пагинированной коллекции:
       <tt>Documents.fetch({data: {page: 3}})</tt>
     </p>
 
     <p>
-      Note that <b>fetch</b> should not be used to populate collections on
-      page load &mdash; all models needed at load time should already be
-      <a href="#FAQ-bootstrap">bootstrapped</a> in to place. <b>fetch</b> is
-      intended for lazily-loading models for interfaces that are not needed
-      immediately: for example, documents with collections of notes that may be
-      toggled open and closed.
+      Заметьте, что <b>fetch</b> не должен использоваться, чтобы наполнять коллекции на этапе
+      загрузки страницы — все модели, необходимые во время загрузки должны быть
+      <a href="#FAQ-bootstrap">предзагружены</a>. <b>fetch</b> предназначен
+      для «ленивой» загрузки моделей для интерфейсов, которые не нужны 
+      немедленно: например, документы с коллекциями заметок, которые могут быть открыты или закрыты.
     </p>
 
     <p id="Collection-reset">
       <b class="header">reset</b><code>collection.reset(models, [options])</code>
       <br />
-      Adding and removing models one at a time is all well and good, but sometimes
-      you have so many models to change that you'd rather just update the collection
-      in bulk. Use <b>reset</b> to replace a collection with a new list
-      of models (or attribute hashes), triggering a single <tt>"reset"</tt> event
-      at the end. Pass <tt>{silent: true}</tt> to suppress the <tt>"reset"</tt> event.
-      Using reset with no arguments is useful as a way to empty the collection.
+      Добавлять и удалять модели по одной — хорошо и правильно, но иногда 
+      надо изменить столько моделей, что проще обновить коллекцию целиком.
+      Используйте <b>reset</b>, чтобы заменить коллекцию новым списком моделей
+      (или хэшей атрибутов). При этом сработает одно событие <tt>"reset"</tt> 
+      в конце. Передайте <tt>{silent: true}</tt>, чтобы подавить его.
+      Вызов <b>reset</b> без аргументов — удобный способ опустошить коллекцию.
     </p>
 
     <p>
-      Here's an example using <b>reset</b> to bootstrap a collection during initial page load,
-      in a Rails application.
+      Вот пример использования <b>reset</b> для предзагрузки коллекции в приложении на Rails:
     </p>
 
 <pre>
@@ -1673,8 +1670,7 @@ Accounts.fetch();
 </pre>
 
     <p>
-      Calling <tt>collection.reset()</tt> without passing any models as arguments
-      will empty the entire collection.
+      Вызов <tt>collection.reset()</tt> без передачи каких-либо моделей сделает коллекцию пустой.
     </p>
 
     <p id="Collection-create">
