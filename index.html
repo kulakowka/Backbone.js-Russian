@@ -1855,62 +1855,59 @@ app.navigate("help/troubleshooting", {trigger: true, replace: true});
     <h2 id="History">Backbone.history</h2>
 
     <p>
-      <b>History</b> serves as a global router (per frame) to handle <tt>hashchange</tt>
-      events or <tt>pushState</tt>, match the appropriate route, and trigger callbacks. You shouldn't
-      ever have to create one of these yourself &mdash; you should use the reference
-      to <tt>Backbone.history</tt> that will be created for you automatically if you make use
-      of <a href="#Router">Routers</a> with <a href="#Router-routes">routes</a>.
+      <b>History</b> служит глобальным роутером (в пределах фрейма), обрабатывая события <tt>hashchange</tt>
+      или вызовы <tt>pushState</tt>, находя сопоставление с подходящим роутом, и запуская коллбэки.
+      Вам не надо даже вручную создавать ничего из этого — используйте ссылку на <tt>Backbone.history</tt>,
+      которая будет автоматически создана, если вы воспользуетесь 
+      <a href="#Router">Router</a>'ом с определенными в нем <a href="#Router-routes">routes</a>.
     </p>
 
     <p>
-      <b>pushState</b> support exists on a purely opt-in basis in Backbone.
-      Older browsers that don't support <tt>pushState</tt> will continue to use
-      hash-based URL fragments, and if a hash URL is visited by a
-      <tt>pushState</tt>-capable browser, it will be transparently upgraded to
-      the true URL. Note that using real URLs requires your web server to be
-      able to correctly render those pages, so back-end changes are required
-      as well. For example, if you have a route of <tt>/documents/100</tt>,
-      your web server must be able to serve that page, if the browser
-      visits that URL directly. For full search-engine crawlability, it's best to
-      have the server generate the complete HTML for the page ... but if it's a web
-      application, just rendering the same content you would have for the root URL,
-      and filling in the rest with Backbone Views and JavaScript works fine.
+      Поддержка <b>pushState</b> существует в Backbone в сугубо опциональной форме.
+      Старые браузеры, которые не поддерживают <tt>pushState</tt> будут продолжать использовать
+      хэш-фрагменты адресов, и если поддерживающий <tt>pushState</tt> браузер зайдет на URL с хэшем,
+      этот URL будет прозрачно заменен настоящим URL'ом. Отметьте, что использование таких адресов
+      требует от веб-сервера корректной отдачи таких страниц, так что могут потребоваться изменения и на сервере.
+      Например, если у вас есть роут <tt>/documents/100</tt>,
+      ваш сервер должен отдать эту страницу, если браузер зайдет на нее напрямую.
+      Для полной индексации поисковиками лучше всего, если сервер генерирует полный HTML 
+      для страницы… но если речь идет о веб-приложении, достаточно просто отдавать тот же контент, что 
+      и для корневой страницы, и дополнять оставшееся с помощью JS и представлений Backbone.
     </p>
 
     <p id="History-start">
       <b class="header">start</b><code>Backbone.history.start([options])</code>
       <br />
-      When all of your <a href="#Router">Routers</a> have been created,
-      and all of the routes are set up properly, call <tt>Backbone.history.start()</tt>
-      to begin monitoring <tt>hashchange</tt> events, and dispatching routes.
+      Когда созданы все ваши <a href="#Router">роутеры</a> и все роуты корректно
+      установлены, вызовите <tt>Backbone.history.start()</tt>
+      чтобы начать отслеживать события <tt>hashchange</tt> и диспетчеризовать роуты.
     </p>
 
     <p>
-      To indicate that you'd like to use HTML5 <tt>pushState</tt> support in
-      your application, use <tt>Backbone.history.start({pushState: true})</tt>.
+      Чтобы обозначить, что вы хотите использовать поддержку <tt>pushState</tt> из HTML5 
+      в вашем приложении, вызовите <tt>Backbone.history.start({pushState: true})</tt>.
     </p>
 
     <p>
-      If your application is not being served from the root url <tt>/</tt> of your
-      domain, be sure to tell History where the root really is, as an option:
+      Если приложение отдается не с корневого адреса (<tt>/</tt>)
+      домена, обязательно укажите History, где находится корень, с помощью опции:
       <tt>Backbone.history.start({pushState: true, root: "/public/search/"})</tt>
     </p>
 
     <p>
-      When called, if a route succeeds with a match for the current URL,
-      <tt>Backbone.history.start()</tt> returns <tt>true</tt>. If no defined
-      route matches the current URL, it returns <tt>false</tt>.
+      Во время вызова, если в роутах находится соответствие с текущим адресом,
+      <tt>Backbone.history.start()</tt> возвращает <tt>true</tt>. Если ни один 
+      из существующих роутов не подходит к текущему адресу, будет возвращено значение <tt>false</tt>.
     </p>
 
     <p>
-      If the server has already rendered the entire page, and you don't want the
-      initial route to trigger when starting History, pass <tt>silent: true</tt>.
+      Если сервер уже отрисовал всю страницу, и вы не хотите, чтобы начальный роут сработал, 
+      когда стартует History, передайте <tt>silent: true</tt>.
     </p>
 
     <p>
-      Because hash-based history in Internet Explorer relies on an
-      <tt>&lt;iframe&gt;</tt>, be sure to only call <tt>start()</tt> after the DOM
-      is ready.
+      Так как хэш-навигация в IE полагается на <tt>&lt;iframe&gt;</tt>,
+      вызывайте <tt>start()</tt> только после готовности DOM.
     </p>
 
 <pre>
@@ -1924,42 +1921,43 @@ $(function(){
     <h2 id="Sync">Backbone.sync</h2>
 
     <p>
-      <b>Backbone.sync</b> is the function that Backbone calls every time it
-      attempts to read or save a model to the server. By default, it uses
-      <tt>(jQuery/Zepto).ajax</tt> to make a RESTful JSON request and returns a
-      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>. You can override
-      it in order to use a different persistence strategy, such as WebSockets,
-      XML transport, or Local Storage.
+      <b>Backbone.sync</b> — функция, которую Backbone вызывает каждый раз, 
+      когда пытается прочитать/сохранить модель с/на сервер. По умолчанию она использует 
+      <tt>(jQuery/Zepto).ajax</tt>, чтобы делать RESTful JSON-запросы и возвращает
+      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>. Ее можно переопределить, чтобы 
+      использовать другую стратегию персистентности — WebSocket'ы,
+      XML транспорт, или localStorage.
     </p>
 
     <p>
-      The method signature of <b>Backbone.sync</b> is <tt>sync(method, model, [options])</tt>
+      Сигнатура метода — <tt>sync(method, model, [options])</tt>
     </p>
 
     <ul>
-      <li><b>method</b> – the CRUD method (<tt>"create"</tt>, <tt>"read"</tt>, <tt>"update"</tt>, or <tt>"delete"</tt>)</li>
-      <li><b>model</b> – the model to be saved (or collection to be read)</li>
-      <li><b>options</b> – success and error callbacks, and all other jQuery request options</li>
+      <li><b>method</b> – метод CRUD (<tt>"create"</tt>, <tt>"read"</tt>, <tt>"update"</tt>, or <tt>"delete"</tt>)</li>
+      <li><b>model</b> – модель для сохранения (или коллекция для чтения)</li>
+      <li><b>options</b> – коллбэки <tt>success<tt/> и <tt>error</tt> на успех и на ошибку,
+      и любые другие опции, которые принимает jQuery.ajax.</li>
     </ul>
 
     <p>
-      With the default implementation, when <b>Backbone.sync</b> sends up a request to save
-      a model, its attributes will be passed, serialized as JSON, and sent in the HTTP body
-      with content-type <tt>application/json</tt>. When returning a JSON response,
-      send down the attributes of the  model that have been changed by the server, and need
-      to be updated on the client. When responding to a <tt>"read"</tt> request from a collection
-      (<a href="#Collection#fetch">Collection#fetch</a>), send down an array
-      of model attribute objects.
+      В реализации по умолчанию, когда <b>Backbone.sync</b> посылает запрос на сохранение
+      модели, её атрибуты будут переданы, сериализованные как JSON, и посланы в теле HTTP
+      с контент-типом <tt>application/json</tt>. Возвращая JSON-ответ,
+      посылайте атрибуты модели, которые были изменены сервером, и должны быть 
+      обновлены на клиенте. Отвечая на запрос <tt>"read"</tt> от коллекции
+      (<a href="#Collection#fetch">Collection#fetch</a>), посылайте массив 
+      атрибутов моделей.
     </p>
 
     <p>
-      The <b>sync</b> function may be overriden globally as <tt>Backbone.sync</tt>,
-      or at a finer-grained level, by adding a <tt>sync</tt> function to a Backbone
-      collection or to an individual model.
+      Функция <b>sync</b> может быть переопределена глобально как <tt>Backbone.sync</tt>,
+      или на более тонком уровне, добавлением метода <tt>sync</tt> в коллекцию Backbone
+      или в отдельную модель.
     </p>
 
     <p>
-      The default <b>sync</b> handler maps CRUD to REST like so:
+      Обработчик <b>sync</b> по умолчанию мапит CRUD в REST таким образом:
     </p>
 
     <ul>
@@ -1970,10 +1968,10 @@ $(function(){
     </ul>
 
     <p>
-      As an example, a Rails handler responding to an <tt>"update"</tt> call from
-      <tt>Backbone</tt> might look like this: <i>(In real code, never use
-      </i><tt>update_attributes</tt><i> blindly, and always whitelist the attributes
-      you allow to be changed.)</i>
+      Для примера, обработчик в Rails, отвечающий на вызов <tt>"update"</tt> из
+      <tt>Backbone</tt> может выглядеть так: <i>(В настоящем коде никогда не используйте 
+      </i><tt>update_attributes</tt><i> слепо, и всегда перечисляйте атрибуты, 
+      разрешенные к изменению, с помощью «белого списка».)</i>
     </p>
 
 <pre>
@@ -1985,19 +1983,19 @@ end
 </pre>
 
     <p>
-      One more tip for Rails integration is to disable the default namespacing for
-      <tt>to_json</tt> calls on models by setting <tt>ActiveRecord::Base.include_root_in_json = false</tt>
+      Еще один совет по интеграции с Rails  — отключить заворачивание в пространство имен для 
+      вызовов <tt>to_json</tt> на моделях, установив <tt>ActiveRecord::Base.include_root_in_json = false</tt>
     </p>
 
     <p id="Sync-emulateHTTP">
       <b class="header">emulateHTTP</b><code>Backbone.emulateHTTP = true</code>
       <br />
-      If you want to work with a legacy web server that doesn't support Backbones's
-      default REST/HTTP approach, you may choose to turn on <tt>Backbone.emulateHTTP</tt>.
-      Setting this option will fake <tt>PUT</tt> and <tt>DELETE</tt> requests with
-      a HTTP <tt>POST</tt>, setting the <tt>X-HTTP-Method-Override</tt> header
-      with the true method. If <tt>emulateJSON</tt> is also on, the true method
-      will be passed as an additional <tt>_method</tt> parameter.
+      Если необходимо работать со старым сервером, который не поддерживает подход 
+      по умолчанию REST/HTTP, можно включить эмуляцию HTTP-глаголов <tt>Backbone.emulateHTTP</tt>.
+      Установка этой опции будет подделывать <tt>PUT</tt> и <tt>DELETE</tt> запросы 
+      с помощью HTTP <tt>POST</tt>, устанавливая заголовок <tt>X-HTTP-Method-Override</tt> 
+      в настоящий метод. Если опция <tt>emulateJSON</tt> также включена, 
+      настоящий метод будет передан, как дополнительный параметр <tt>_method</tt>.
     </p>
 
 <pre>
@@ -2009,32 +2007,31 @@ model.save();  // POST to "/collection/id", with "_method=PUT" + header.
     <p id="Sync-emulateJSON">
       <b class="header">emulateJSON</b><code>Backbone.emulateJSON = true</code>
       <br />
-      If you're working with a legacy web server that can't handle requests
-      encoded as <tt>application/json</tt>, setting <tt>Backbone.emulateJSON = true;</tt>
-      will cause the JSON to be serialized under a <tt>model</tt> parameter, and
-      the request to be made with a <tt>application/x-www-form-urlencoded</tt>
-      mime type, as if from an HTML form.
+      Если необходимо работать со старым сервером, который не может обрабатывать 
+      запросы, закодированные как <tt>application/json</tt>, выставление <tt>Backbone.emulateJSON = true;</tt>
+      заставит JSON сериализоваться в параметр <tt>model</tt>, и запрос будет сделан
+      с mime-типом <tt>application/x-www-form-urlencoded</tt>, как если бы это была HTML-форма.
     </p>
 
     <h2 id="View">Backbone.View</h2>
 
     <p>
-      Виды в Backbone — это скорее соглашение, нежели код: они никак не влияют
+      Представления в Backbone — это скорее соглашение, нежели код: они никак не влияют
       на ваш HTML и CSS, и могут быть использованы с любой шаблонной библиотекой.
-      Основная идея — организивать ваш интерфейс в логически выделенные виды,
+      Основная идея — организовать ваш интерфейс в логически выделенные представления,
       опирающиеся на модели, каждая из которых может быть обновлена независимо, когда
       модель изменяется, без необходимости перерисовать страницу. Вместо того, чтобы копаться
       в JSON-объекте, выискивать элемент в DOM-дереве, и обновлять HTML вручную,
-      вы привязывате метод <tt>render</tt> вашего вида к событию <tt>"change"</tt> модели —
+      вы привязываете метод <tt>render</tt> представления к событию <tt>"change"</tt> модели —
       и теперь везде, где бы ни отображались данные модели, они немедленно становятся актуальными.
     </p>
 
     <p id="View-extend">
       <b class="header">extend</b><code>Backbone.View.extend(properties, [classProperties])</code>
       <br />
-      Создания своего класса вида. Нужно переопределить метод <a href="#View-render">render</a>
-      декларативно указать свои <a href="#View-delegateEvents">события</a>, и, возможно,
-      <tt>tagName</tt>, <tt>className</tt>, или <tt>id</tt> корневого элемента вашего представления.
+      Создание своего класса представления. Нужно переопределить метод <a href="#View-render">render</a>,
+      декларативно указать <a href="#View-delegateEvents">события</a>, и, возможно,
+      <tt>tagName</tt>, <tt>className</tt>, или <tt>id</tt> корневого элемента представления.
     </p>
 
 <pre>
@@ -2061,8 +2058,8 @@ var DocumentRow = Backbone.View.extend({
       <b class="header">constructor / initialize</b><code>new View([options])</code>
       <br />
       При создании экземпляра представления, опции которые вы передаете в хэше <b>options</b>
-      будут доступны как <tt>this.options</tt> внутри представления. Есть несколько особенных опций,
-      которые, будучи переданы, будут доступны напрямую:
+      будут доступны как <tt>this.options</tt> внутри него. Есть несколько особенных опций,
+      которые, будучи переданы, будут доступны как прямые свойства представления:
       <tt>model</tt>, <tt>collection</tt>,
       <tt>el</tt>, <tt>id</tt>, <tt>className</tt>, <tt>tagName</tt> и <tt>attributes</tt>.
       Если представление определяет метод <b>initialize</b>, он будет вызван
@@ -2083,7 +2080,7 @@ new DocumentRow({
     <p id="View-el">
       <b class="header">el</b><code>view.el</code>
       <br />
-      Все представления всегда имеют DOM-элемент в любой момент времени, (свойство <b>el</b>),
+      Все представления всегда имеют DOM-элемент в любой момент времени (свойство <b>el</b>),
       вставлены они в документ или нет. Таким образом представления могут быть отрендерены в любое время,
       и вставлены в DOM-дерево все разом — это приводит к высокопроизводительному интерфейсу
       с как можно меньшим количеством переформатирований и перерисовываний (reflows and repaints)
@@ -2140,8 +2137,8 @@ listView.$el.append(itemView.el);
       Если jQuery или Zepto подключены на странице, каждое представление имеет
       функцию <b>$</b>, которая выполняет DOM-запросы внутри элемента представления.
       Используя эту функцию, вы не нуждаетесь в использовании id модели как части вашего запроса чтобы
-      получить определенные элементы в списке, и можете больше полагаться на HTML-класс.
-      Это эквавлентно такому вызову: <tt>view.$el.find(selector)</tt>
+      получить определенные элементы в списке, и можете полагаться на HTML-класс.
+      Это эквивалентно такому вызову: <tt>view.$el.find(selector)</tt>
     </p>
 
 <pre>
@@ -2159,10 +2156,10 @@ ui.Chapter = Backbone.View.extend({
     <p id="View-render">
       <b class="header">render</b><code>view.render()</code>
       <br />
-      Дефолтная реализация метода <b>render</b> — пустая функция. Переопределите её
+      Метод <b>render</b> по умолчанию реализован как пустая функция. Переопределите её
       своим кодом отрисовки шаблона с данными модели и обновления <tt>this.el</tt> новым HTML.
       Хорошее соглашение — делать <tt>return this</tt> в конце <b>render</b>, чтобы иметь возможность
-      чейнить вызовы.
+      делать цепочечные вызовы.
     </p>
 
 <pre>
@@ -2176,7 +2173,7 @@ var Bookmark = Backbone.View.extend({
 
     <p>
       Backbone ничего не знает о ваших предпочтениях создания HTML.
-      Ваш метод <b>render</b> может просто слепливать HTML-строку, или использовать
+      Ваш метод <b>render</b> может просто конкатенировать HTML-строку, или использовать
       <tt>document.createElement</tt>, чтобы генерировать DOM-дерево. Как бы то ни было, мы предлагаем
       выбрать хорошую шаблонную библиотеку.
       <a href="http://github.com/janl/mustache.js">Mustache.js</a>,
@@ -2206,7 +2203,7 @@ var Bookmark = Backbone.View.extend({
       <b class="header">make</b><code>view.make(tagName, [attributes], [content])</code>
       <br />
       Удобная функция для создания DOM-элемента данного типа (<b>tagName</b>),
-      с опциональными атрибутами и HTML-содержимым content. Используется «под капотом»,
+      с опциональными атрибутами и HTML-содержимым <b>content</b>. Используется «под капотом»,
       чтобы создать начальный <tt>view.el</tt>.
     </p>
 
@@ -2299,7 +2296,7 @@ var DocumentView = Backbone.View.extend({
       <br />
       Откатывает объект <tt>Backbone</tt> в предыдущее значение. Можно
       использовать возвращенное из <tt>Backbone.noConflict()</tt> значение, чтобы хранить
-      ссылку на Backbone. Находит применение при внедрении Backbone на третье-сторонние сайты,
+      ссылку на Backbone. Находит применение при внедрении Backbone на сторонние сайты,
       где вы не хотите испортить существующий Backbone.
     </p>
 
@@ -2316,26 +2313,27 @@ var model = localBackbone.Model.extend(...);
       это функция для вас.
     </p>
 
-    <h2 id="examples">Examples</h2>
+    <h2 id="examples">Примеры</h2>
 
     <p>
-      The list of examples that follows, while long, is not exhaustive. If you've
-      worked on an app that uses Backbone, please add it to the
-      <a href="https://github.com/documentcloud/backbone/wiki/Projects-and-Companies-using-Backbone">wiki page of Backbone apps</a>.
+      Нижеследующий список примеров крайне неполон, так как мы (переводчики) 
+      не хотели переводить длинный список неизвестных в рунете приложений. 
+      Если вы используете Backbone в русско-язычном веб-приложении, пожалуйста, дайте нам знать.
+      Вы можете взглянуть на <a href="http://backbonejs.org/#examples">оригинальный список примеров</a> или посетить
+      <a href="https://github.com/documentcloud/backbone/wiki/Projects-and-Companies-using-Backbone">вики-страницу приложений на Backbone</a>.
     </p>
 
     <p id="examples-todos">
-      <a href="http://jgn.me/">Jérôme Gravel-Niquet</a> has contributed a
-      <a href="examples/todos/index.html">Todo List application</a>
-      that is bundled in the repository as Backbone example. If you're wondering
-      where to get started with Backbone in general, take a moment to
-      <a href="docs/todos.html">read through the annotated source</a>. The app uses a
-      <a href="docs/backbone-localstorage.html">LocalStorage adapter</a>
-      to transparently save all of your todos within your browser, instead of
-      sending them to a server. Jérôme also has a version hosted at
-      <a href="http://localtodos.com/">localtodos.com</a> that uses a
-      <a href="http://github.com/jeromegn/backbone-mootools">MooTools-backed version of Backbone</a>
-      instead of jQuery.
+      <a href="http://jgn.me/">Jérôme Gravel-Niquet</a> создал пример приложения
+      <a href="examples/todos/index.html">списков Todo</a>, которое находится в репозитории.
+      Если вы не знаете, с чего вообще начать в Backbone, потратьте минутку,
+      <a href="docs/todos.html">чтобы прочесть исходный код с аннотациями</a>. Это приложение использует
+      <a href="docs/backbone-localstorage.html">адаптер к localStorage</a>, 
+      чтобы прозрачно сохранять все ваши todo в браузере, вместо отсылки их на сервер.
+      Так же есть версия, расположенная 
+      <a href="http://localtodos.com/">localtodos.com</a>, которая использует
+      <a href="http://github.com/jeromegn/backbone-mootools">MooTools-базированную версию Backbone</a>
+      вместо jQuery.
     </p>
 
     <div style="text-align: center;">
@@ -2347,12 +2345,11 @@ var model = localBackbone.Model.extend(...);
     <h2 id="examples-documentcloud">DocumentCloud</h2>
 
     <p>
-      The <a href="http://www.documentcloud.org/public/#search/">DocumentCloud workspace</a>
-      is built on Backbone.js, with <i>Documents</i>, <i>Projects</i>,
-      <i>Notes</i>, and <i>Accounts</i> all as Backbone models and collections.
-      If you're interested in history &mdash; both Underscore.js and Backbone.js
-      were originally extracted from the DocumentCloud codebase, and packaged
-      into standalone JS libraries.
+      <a href="http://www.documentcloud.org/public/#search/">Рабочее пространство DocumentCloud</a>
+      построено на Backbone.js, и <i>Документы</i>, <i>Проекты</i>,
+      <i>Заметки</i>, и <i>Счета</i> — все являются моделями и коллекциями Backbone.
+      Если вам интересна история — и Underscore.js и Backbone.js
+      были изначально извлечены из кода DocumentCloud codebase, и упакованы, как самостоятельные JS-библиотеки.
     </p>
 
     <div style="text-align: center;">
@@ -2364,14 +2361,14 @@ var model = localBackbone.Model.extend(...);
     <h2 id="examples-linkedin">LinkedIn Mobile</h2>
 
     <p>
-      <a href="http://www.linkedin.com/">LinkedIn</a> used Backbone.js to create
-      its <a href="http://www.linkedin.com/static?key=mobile">next-generation HTML5 mobile web app</a>.
-      Backbone made it easy to keep the app modular, organized and extensible so
-      that it was possible to program the complexities of LinkedIn's user experience.
-      The app also uses <a href="http://zeptojs.com/">Zepto</a>,
+      <a href="http://www.linkedin.com/">LinkedIn</a> использует Backbone.js, чтобы создать 
+      их <a href="http://www.linkedin.com/static?key=mobile">HTML5 мобильное веб-приложение следующего поколения</a>.
+      С Backbone просто сохранять приложение модульным, организованным и расширяемым,
+      что сделало возможно запрограммировать сложности UX LinkedIn.
+      Приложение так же использует <a href="http://zeptojs.com/">Zepto</a>,
       <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>,
       <a href="http://sass-lang.com/">SASS</a>, <a href="http://cubiq.org/iscroll">iScroll</a>,
-      HTML5 LocalStorage and Canvas.
+      localStorage и сanvas.
     </p>
 
     <div style="text-align: center;">
@@ -2380,47 +2377,14 @@ var model = localBackbone.Model.extend(...);
       </a>
     </div>
 
-    <h2 id="examples-flow">Flow</h2>
-
-    <p>
-      <a href="http://www.metalabdesign.com/">MetaLab</a> used Backbone.js to create
-      <a href="http://www.getflow.com/">Flow</a>, a task management app for teams. The
-      workspace relies on Backbone.js to construct task views, activities, accounts,
-      folders, projects, and tags. You can see the internals under <tt>window.Flow</tt>.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://www.getflow.com/">
-        <img src="docs/images/flow.png" alt="Flow" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-audiovroom">AudioVroom</h2>
-
-    <p>
-      <a href="http://www.audiovroom.com/">AudioVroom</a> is a free music
-      streaming app that allows you to listen to your Facebook friends like
-      radio stations. It relies heavily on Backbone (views and song management)
-      and also features a responsive grid-based design (using CSS3 media-queries)
-      to deliver a unified user experience on desktops, mobiles, and tablets alike.
-      Being a pure Backbone app, AudioVroom is only 60kb compressed, and can be
-      entirely hosted on the CDN.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://www.audiovroom.com/">
-        <img src="docs/images/audiovroom.png" alt="AudioVroom" class="example_image" />
-      </a>
-    </div>
-
     <h2 id="examples-foursquare">Foursquare</h2>
 
     <p>
-      Foursquare is a fun little startup that helps you meet up with friends,
-      discover new places, and save money. Backbone Models are heavily used in
-      the core JavaScript API layer and Views power many popular features like
-      the <a href="https://foursquare.com">homepage map</a> and
-      <a href="https://foursquare.com/seriouseats/list/the-best-doughnuts-in-ny">lists</a>.
+      Foursquare — небольшой забавный стартап, который помогает встречаться с друзьями,
+      открывать новые места и экономить деньги.
+      Модели Backbone широко используются в ядре API, и представления движут многие популярные фичи, 
+      как<a href="https://foursquare.com">карта на домашней странице</a> и 
+      <a href="https://foursquare.com/seriouseats/list/the-best-doughnuts-in-ny">списки</a>.
     </p>
 
     <div style="text-align: center;">
@@ -2429,102 +2393,23 @@ var model = localBackbone.Model.extend(...);
       </a>
     </div>
 
-    <h2 id="examples-wunderkit">Wunderkit</h2>
-
-    <p>
-      <a href="http://get.wunderkit.com/">Wunderkit</a> is a productivity and
-      social collaboration platform. It
-      uses Backbone.js as the foundation for the single-page application,
-      which is backed by a RESTful Rails API.
-      The freedom and agility that Backbone gives to developers
-      made it possible to build Wunderkit in a very short time and
-      extend it with custom features: a write-through cache using HTML5
-      localStorage, and a view hierarchy extension to easily manage trees of
-      sub-views. Aside from Backbone, Wunderkit also
-      depends on <a href="http://jquery.com/">jQuery</a>, <a href="http://underscorejs.org/">Underscore</a>, <a href="http://requirejs.org/">Require.js</a>, <a href="http://lesscss.org/">LESS</a> and doT.js templates.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://get.wunderkit.com/">
-        <img src="docs/images/wunderkit.png" alt="Wunderkit" class="example_image" />
-      </a>
-    </div>
-
     <h2 id="examples-khan-academy">Khan Academy</h2>
 
     <p>
-      <a href="http://www.khanacademy.org">Khan Academy</a> is on a mission to
-      provide a free world-class education to anyone anywhere. With thousands of
-      videos, hundreds of JavaScript-driven exercises, and big plans for the
-      future, Khan Academy uses Backbone to keep frontend code modular and organized.
-      <a href="https://khanacademy.kilnhg.com/Code/Website/Group/stable/Files/javascript/profile-package?rev=tip">User profiles</a>
-      and <a href="https://khanacademy.kilnhg.com/Code/Website/Group/stable/File/javascript/shared-package/goals.js?rev=tip">goal setting</a>
-      are implemented with Backbone, <a href="http://jquery.com/">jQuery</a> and <a href="http://handlebarsjs.com/">Handlebars</a>, and most new feature
-      work is being pushed to the client side, greatly increasing the quality of
-      <a href="https://github.com/Khan/khan-api/">the API</a>.
+      <a href="http://www.khanacademy.org">Khan Academy</a> выполняет миссию 
+      предоставления бесплатного образования мирового уровня всем и везде.
+      С тысячью видео, сотнями работающих на JS упражнений, и большими планами на будущее,
+      Khan Academy использует Backbone, чтобы хранить фронтенд-код модульным и организованным.
+      <a href="https://khanacademy.kilnhg.com/Code/Website/Group/stable/Files/javascript/profile-package?rev=tip">Профили пользователей</a>
+      и <a href="https://khanacademy.kilnhg.com/Code/Website/Group/stable/File/javascript/shared-package/goals.js?rev=tip">установка целей</a>
+      рализованы с помощью Backbone, <a href="http://jquery.com/">jQuery</a> и <a href="http://handlebarsjs.com/">Handlebars</a>, 
+      и большая часть работы по новым фичам сдвигается на клиентскую сторону, сильно увеличивая качество 
+      <a href="https://github.com/Khan/khan-api/">API</a>.
     </p>
 
     <div style="text-align: center;">
       <a href="http://www.khanacademy.org">
         <img src="docs/images/khan-academy.png" alt="Khan Academy" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-do">Do</h2>
-
-    <p>
-      <a href="http://do.com">Do</a> is a social productivity app that makes it
-      easy to work on tasks, track projects, and take notes with your team.
-      The <a href="http://do.com">Do.com</a> web application was built from the
-      ground up to work seamlessly on your smartphone, tablet and computer. The
-      team used Backbone, <a href="http://coffeescript.org/">CoffeeScript</a> and <a href="http://handlebarsjs.com/">Handlebars</a> to build a full-featured
-      app in record time and rolled their own extensions for complex navigation
-      and model sync support.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://do.com">
-        <img src="docs/images/do.png" alt="Do" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-posterous">Posterous</h2>
-
-    <p>
-      <a href="https://posterous.com/">Posterous Spaces</a> is
-      <a href="http://technology.posterous.com/posterous-spaces-is-built-on-backbonejs">built on Backbone</a>.
-      The models and collections mirror the public
-      <a href="http://posterous.com/api">Posterous API</a>. Backbone made it easy
-      for the team to create a JavaScript-heavy application with complex
-      interactions and state maintenance. Spaces also uses <a href="http://coffeescript.org/">CoffeeScript</a>,
-      <a href="http://underscorejs.org/">Underscore.js</a>, <a href="https://github.com/creationix/haml-js">Haml.js</a>, <a href="http://sass-lang.com/">Sass</a>, <a href="http://compass-style.org/">Compass</a>, and of course <a href="http://jquery.com">jQuery</a>.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="https://posterous.com/">
-        <img src="docs/images/posterous-spaces.png" alt="Posterous Spaces" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-groupon">Groupon Now!</h2>
-
-    <p>
-      <a href="http://www.groupon.com/now">Groupon Now!</a> helps you find
-      local deals that you can buy and use right now. When first developing
-      the product, the team decided it would be AJAX heavy with smooth transitions
-      between sections instead of full refreshes, but still needed to be fully
-      linkable and shareable. Despite never having used Backbone before, the
-      learning curve was incredibly quick &mdash; a prototype was hacked out in an
-      afternoon, and the team was able to ship the product in two weeks.
-      Because the source is minimal and understandable, it was easy to
-      add several Backbone extensions for Groupon Now!: changing the router
-      to handle URLs with querystring parameters, and adding a simple
-      in-memory store for caching repeated requests for the same data.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://www.groupon.com/now">
-        <img src="docs/images/groupon.png" alt="Groupon Now!" class="example_image" />
       </a>
     </div>
 
@@ -2544,554 +2429,91 @@ var model = localBackbone.Model.extend(...);
       </a>
     </div>
 
-    <h2 id="examples-slavery-footprint">Slavery Footprint</h2>
-
-    <p>
-      <a href="http://slaveryfootprint.org/survey">Slavery Footprint</a>
-      allows consumers to visualize how their consumption habits are
-      connected to modern-day slavery and provides them with an opportunity
-      to have a deeper conversation with the companies that manufacture the
-      goods they purchased.
-      Based in Oakland, California, the Slavery Footprint team works to engage
-      individuals, groups, and businesses to build awareness for and create
-      deployable action against forced labor, human trafficking, and modern-day
-      slavery through online tools, as well as off-line community education and
-      mobilization programs.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://slaveryfootprint.org/survey">
-        <img src="docs/images/slavery-footprint.png" alt="Slavery Footprint" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-stripe">Stripe</h2>
-
-    <p>
-      <a href="https://stripe.com">Stripe</a> provides an API for accepting
-      credit cards on the web. Stripe's
-      <a href="https://manage.stripe.com">management interface</a> was recently
-      rewritten from scratch in Coffeescript using Backbone.js as the primary
-      framework, <a href="https://github.com/sstephenson/eco">Eco</a> for templates, <a href="http://sass-lang.com/">Sass</a> for stylesheets, and <a href="https://github.com/sstephenson/stitch">Stitch</a> to package
-      everything together as <a href="http://commonjs.org/">CommonJS</a> modulas. The new app uses
-      <a href="https://stripe.com/docs/api">Stripe's API</a> directly for the
-      majority of its actions; Backbone.js models made it simple to map
-      client-side models to their corresponding RESTful resources.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="https://stripe.com">
-        <img src="docs/images/stripe.png" alt="Stripe" class="example_image" />
-      </a>
-    </div>
-
-    <p>
-      <a href="http://airbnb.com">Airbnb</a> used Backbone.js and
-      <a href="http://coffeescript.org">CoffeeScript</a> to quickly build
-      <a href="http://m.airbnb.com">Airbnb Mobile</a>
-      in six weeks with a team of three. The mobile version of Airbnb lets you
-      discover and book rental spaces directly from your phone: from a private
-      apartment to a private island...
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://m.airbnb.com/">
-        <img src="docs/images/airbnb-mobile.png" alt="Airbnb-Mobile" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-diaspora">Diaspora</h2>
-
-    <p>
-      <a href="http://www.joindiaspora.com/">Diaspora</a> is a distributed social
-      network, formed from a number of independently operated <i>pods</i>.
-      You own your personal data, and control with whom you share.
-      All of Diaspora is <a href="https://github.com/diaspora/diaspora">open-source</a>
-      code, built with <a href="http://rubyonrails.org/">Rails</a> and Backbone.js.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://www.joindiaspora.com/">
-        <img src="docs/images/diaspora.png" alt="Diaspora" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-soundcloud">SoundCloud Mobile</h2>
-
-    <p>
-      <a href="http://soundcloud.com">SoundCloud</a> is the leading sound sharing
-      platform on the internet, and Backbone.js provides the foundation for
-      <a href="http://m.soundcloud.com">SoundCloud Mobile</a>. The project uses
-      the public SoundCloud <a href="http://soundcloud.com/developers">API</a>
-      as a data source (channeled through a nginx proxy),
-      <a href="http://api.jquery.com/category/plugins/templates/">jQuery templates</a>
-      for the rendering, <a href="http://docs.jquery.com/Qunit">Qunit
-      </a> and <a href="http://www.phantomjs.org/">PhantomJS</a> for
-      the testing suite. The JS code, templates and CSS are built for the
-      production deployment with various Node.js tools like
-      <a href="https://github.com/dsimard/ready.js">ready.js</a>,
-      <a href="https://github.com/mde/jake">Jake</a>,
-      <a href="https://github.com/tmpvar/jsdom">jsdom</a>.
-      The <b>Backbone.History</b> was modified to support the HTML5 <tt>history.pushState</tt>.
-      <b>Backbone.sync</b> was extended with an additional SessionStorage based cache
-      layer.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://m.soundcloud.com">
-        <img src="docs/images/soundcloud.png" alt="SoundCloud" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-pandora">Pandora</h2>
-
-    <p>
-      When <a href="http://www.pandora.com/newpandora">Pandora</a> redesigned
-      their site in HTML5, they chose Backbone.js to help
-      manage the user interface and interactions. For example, there's a model
-      that represents the "currently playing track", and multiple views that
-      automatically update when the current track changes. The station list is a
-      collection, so that when stations are added or changed, the UI stays up to date.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://www.pandora.com/newpandora">
-        <img src="docs/images/pandora.png" alt="Pandora" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-code-school">Code School</h2>
-
-    <p>
-      <a href="http://www.codeschool.com">Code School</a> courses teach people
-      about various programming topics like <a href="http://coffeescript.org">CoffeeScript</a>, CSS, Ruby on Rails,
-      and more. The new Code School course
-      <a href="http://coffeescript.codeschool.com/levels/1/challenges/1">challenge page</a>
-      is built from the ground up on Backbone.js, using
-      everything it has to offer: the router, collections, models, and complex
-      event handling. Before, the page was a mess of <a href="http://jquery.com/">jQuery</a> DOM manipulation
-      and manual Ajax calls. Backbone.js helped introduce a new way to
-      think about developing an organized front-end application in Javascript.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://www.codeschool.com">
-        <img src="docs/images/code-school.png" alt="Code School" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-cloudapp">CloudApp</h2>
-
-    <p>
-      <a href="http://getcloudapp.com">CloudApp</a> is simple file and link
-      sharing for the Mac. Backbone.js powers the web tools
-      which consume the <a href="http://developer.getcloudapp.com">documented API</a>
-      to manage Drops. Data is either pulled manually or pushed by
-      <a href="http://pusher.com">Pusher</a> and fed to
-      <a href="http://github.com/janl/mustache.js">Mustache</a> templates for
-      rendering. Check out the <a href="http://cloudapp.github.com/engine">annotated source code</a>
-      to see the magic.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://getcloudapp.com">
-        <img src="docs/images/cloudapp.png" alt="CloudApp" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-seatgeek">SeatGeek</h2>
-
-    <p>
-      <a href="http://seatgeek.com">SeatGeek</a>'s stadium ticket maps were originally
-      developed with <a href="http://prototypejs.org/">Prototype.js</a>. Moving to Backbone.js and <a href="http://jquery.com/">jQuery</a> helped organize
-      a lot of the UI code, and the increased structure has made adding features
-      a lot easier. SeatGeek is also in the process of building a mobile
-      interface that will be Backbone.js from top to bottom.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://seatgeek.com">
-        <img src="docs/images/seatgeek.png" alt="SeatGeek" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-grove">Grove.io</h2>
-
-    <p>
-      <a href="http://grove.io">Grove.io</a> provides hosted IRC for teams.
-      Backbone.js powers Grove's web client together with <a href="http://handlebarsjs.com/">Handlebars.js templating</a>.
-      Updates to chat stream are pulled in realtime using long-polling.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://grove.io">
-        <img src="docs/images/grove.png" alt="Grove.io" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-kicksend">Kicksend</h2>
-
-    <p>
-      <a href="http://kicksend.com">Kicksend</a> is a real-time file sharing
-      platform that helps everyday people send and receive files of any size
-      with their friends and family. Kicksend's web application makes extensive
-      use of Backbone.js to model files, friends, lists and activity streams.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://kicksend.com">
-        <img src="docs/images/kicksend.png" alt="Kicksend" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-shortmail">Shortmail</h2>
-
-    <p>
-      <a href="http://410labs.com/">410 Labs</a> uses Backbone.js at
-      <a href="http://shortmail.com/">Shortmail.com</a> to build a
-      fast and responsive inbox, driven by the <a href="#Router">Router</a>.
-      Backbone works with a <a href="http://rubyonrails.org/">Rails</a> backend to provide inbox rendering, archiving,
-      replying, composing, and even a changes feed. Using Backbone's event-driven
-      model and pushing the rendering and interaction logic to the front-end
-      has not only simplified the view code, it has also drastically reduced the
-      load on Shortmail's servers.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://shortmail.com">
-        <img src="docs/images/shortmail.png" alt="Shortmail" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-battlefield">Battlefield Play4Free</h2>
-
-    <p>
-      <a href="http://battlefield.play4free.com/">Battlefield Play4Free</a> is
-      the latest free-to-play first person shooter from the same team that
-      created Battlefield Heroes. The in-game HTML5 front-end for makes heavy use of
-      Backbone's views, models and collections to help keep the code modular
-      and structured.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://battlefield.play4free.com/">
-        <img src="docs/images/battlefield.png" alt="Battlefield Play4Free" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-salon">Salon.io</h2>
-
-    <p>
-      <a href="http://salon.io">Salon.io</a> provides a space where photographers,
-      artists and designers freely arrange their visual art on virtual walls.
-      <a href="http://salon.io">Salon.io</a> runs on <a href="http://rubyonrails.org/">Rails</a>, but does not use
-      much of the traditional stack, as the entire frontend is designed as a
-      single page web app, using Backbone.js and
-      <a href="http://coffeescript.org">CoffeeScript</a>.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://salon.io">
-        <img src="docs/images/salon.png" alt="Salon.io" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-tilemill">TileMill</h2>
-
-    <p>
-      Our fellow
-      <a href="http://www.newschallenge.org/">Knight Foundation News Challenge</a>
-      winners, <a href="http://mapbox.com/">MapBox</a>, created an open-source
-      map design studio with Backbone.js:
-      <a href="http://mapbox.github.com/tilemill/">TileMill</a>.
-      TileMill lets you manage map layers based on shapefiles and rasters, and
-      edit their appearance directly in the browser with the
-      <a href="https://github.com/mapbox/carto">Carto styling language</a>.
-      Note that the gorgeous <a href="http://mapbox.com/">MapBox</a> homepage
-      is also a Backbone.js app.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://mapbox.github.com/tilemill/">
-        <img src="docs/images/tilemill.png" alt="TileMill" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-blossom">Blossom</h2>
-
-    <p>
-      <a href="http://blossom.io">Blossom</a> is a lightweight project management
-      tool for lean teams. Backbone.js is heavily used in combination with
-      <a href="http://coffeescript.org">CoffeeScript</a> to provide a smooth
-      interaction experience. The RESTful backend is built
-      with <a href="http://flask.pocoo.org/">Flask</a> on Google App Engine.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://blossom.io">
-        <img src="docs/images/blossom.png" alt="Blossom" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-animoto">Animoto</h2>
-
-    <p>
-      <a href="http://animoto.com">Animoto</a> is a web-based video creation
-      platform, where users can upload their own photos, video clips and music
-      and create beautifully orchestrated slideshows. The video editor app is
-      built with Backbone.js and <a href="http://jquery.com">jQuery</a> and interfaces with a <a href="http://rubyonrails.org/">Ruby on Rails</a>
-      backend. Backbone has provided structure which helps the Animoto team
-      iterate quickly on the codebase while reducing the risk of regressions.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://www.animoto.com/">
-        <img src="docs/images/animoto.png" alt="Tzigla" class="Animoto Video Editor" />
-      </a>
-    </div>
-
-    <h2 id="examples-chaincal">ChainCal</h2>
-
-    <h2 id="examples-chaincal">ChainCal</h2>
-
-    <p>
-      <a href="http://chaincalapp.com/">ChainCal</a>
-      is an iPhone app that helps you to track your daily goals in a
-      minimalist, visual way. The app is written almost entirely in <a href="http://coffeescript.org/">CoffeeScript</a>,
-      Backbone handles the models, collections and views, and persistence is
-      done with a Backbone.sync localStorage adapter. Templates are written in
-      <a href="https://github.com/sstephenson/eco">Eco</a> and the app is packaged with <a href="http://brunch.io/">Brunch</a> and deployed with <a href="http://phonegap.com/">Phonegap</a>.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://chaincalapp.com/">
-        <img src="docs/images/chaincal.png" alt="ChainCal" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-attictv">AtticTV</h2>
-
-    <p>
-      <a href="http://attictv.com/">AtticTV</a> is MTV for the Youtube Generation:
-      kick back and relax while watching the best
-      music videos of your favorite genre. The videos are synced across the
-      world, so, you're never watching alone on AtticTV. AtticTV is served by
-      <a href="http://nodejs.org/">NodeJS</a> written in <a href="http://coffeescript.org/">CoffeeScript</a> with <a href="http://socket.io/">Socket.IO</a> as data transport. The
-      frontend is built with Backbone.js with pushstate support, <a href="http://jquery.com/">jQuery</a>, and
-      <a href="http://jade-lang.com/">Jade templates</a>.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://attictv.com/">
-        <img src="docs/images/attictv.png" alt="AtticTV" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-decide">Decide</h2>
-
-    <p>
-      <a href="http://decide.com">Decide.com</a> helps people decide when to buy
-      consumer electronics. It relies heavily on Backbone.js to render and
-      update its Search Results Page. An "infinite scroll" feature takes
-      advantage of a SearchResults model containing a collection of
-      Product models to fetch more results and render them on the fly
-      with <a href="http://mustache.github.com">Mustache</a>. A SearchController keeps everything in sync and
-      maintains page state in the URL. Backbone also powers the user
-      accounts and settings management.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://decide.com">
-        <img src="docs/images/decide.png" alt="Decide" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-editd">EDITD</h2>
-
-    <p>
-      <a href="http://editd.com">EDITD</a> aims to disrupt the fashion
-      industry with big data. The next generation of their web application
-      is based on a custom JavaScript framework that builds on top of
-      Backbone. The back end is
-      <a href="https://www.djangoproject.com/">Django</a> +
-      <a href="http://www.elasticsearch.org/">Elastic Search</a>,
-      <a href="http://handlebarsjs.com/">Handlebars.js</a> is used for templating,
-      <a href="http://code.google.com/p/js-test-driver/">jsTestDriver</a> for testing, and
-      <a href="http://jashkenas.github.com/docco/">Docco</a> for quick documentation.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://editd.com">
-        <img src="docs/images/editd.png" alt="EDITD" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-trello">Trello</h2>
-
-    <p>
-      <a href="http://trello.com">Trello</a> is a collaboration tool that
-      organizes your projects into boards. A Trello board holds many lists of
-      cards, which can contain checklists, files and conversations, and may be
-      voted on and organized with labels. Updates on the board happen in
-      real time. The site was built ground up using Backbone.js for all the
-      models, views, and routes.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://trello.com">
-        <img src="docs/images/trello.png" alt="Trello" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-ducksboard">Ducksboard</h2>
-
-    <p>
-    <a href="http://ducksboard.com/">Ducksboard</a> is an online dashboard
-      for your SaaS and business metrics, built with
-      <a href="http://twistedmatrix.com/">Twisted</a> and
-      <a href="http://www.djangoproject.com/">Django</a> and using WebSockets.
-      It can fetch data from popular providers or accept input through
-      a simple API.
-      Backbone is used throughout Ducksboard's interface, every widget,
-      dashboard and SaaS account is a Backbone model with several views
-      (data display, configuration view). A
-      <a href="https://public.ducksboard.com/BFVzKVPeOoWRsL0VZ8MZ/">live demo</a>
-      is available.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://ducksboard.com/">
-        <img src="docs/images/ducksboard.png" alt="Ducksboard" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-quietwrite">QuietWrite</h2>
-
-    <p>
-      <a href="http://www.twitter.com/jamesjyu">James Yu</a> used Backbone.js to
-      create <a href="http://www.quietwrite.com/">QuietWrite</a>, an app
-      that gives writers a clean and quiet interface to concentrate on the text itself.
-      The editor relies on Backbone to persist document data to the server. He
-      followed up with a Backbone.js + <a href="http://rubyonrails.org/">Rails</a> tutorial that describes how to implement
-      <a href="http://www.jamesyu.org/2011/01/27/cloudedit-a-backbone-js-tutorial-by-example/">CloudEdit, a simple document editing app</a>.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://www.quietwrite.com/">
-        <img src="docs/images/quietwrite.png" alt="QuietWrite" class="example_image" />
-      </a>
-    </div>
-
-    <h2 id="examples-tzigla">Tzigla</h2>
-
-    <p>
-      <a href="http://twitter.com/evilchelu">Cristi Balan</a> and
-      <a href="http://dira.ro">Irina Dumitrascu</a> created
-      <a href="http://tzigla.com">Tzigla</a>, a collaborative drawing
-      application where artists make tiles that connect to each other to
-      create <a href="http://tzigla.com/boards/1">surreal drawings</a>.
-      Backbone models help organize the code, routers provide
-      <a href="http://tzigla.com/boards/1#!/tiles/2-2">bookmarkable deep links</a>,
-      and the views are rendered with
-      <a href="https://github.com/creationix/haml-js">haml.js</a> and
-      <a href="http://zeptojs.com/">Zepto</a>.
-      Tzigla is written in Ruby (<a href="http://rubyonrails.org/">Rails</a>) on the backend, and
-      <a href="http://coffeescript.org">CoffeeScript</a> on the frontend, with
-      <a href="http://documentcloud.github.com/jammit/">Jammit</a>
-      prepackaging the static assets.
-    </p>
-
-    <div style="text-align: center;">
-      <a href="http://www.tzigla.com/">
-        <img src="docs/images/tzigla.png" alt="Tzigla" class="example_image" />
-      </a>
-    </div>
-
     <h2 id="faq">F.A.Q.</h2>
 
     <p id="FAQ-events">
-      <b class="header">Catalog of Events</b>
+      <b class="header">Каталог событий</b>
       <br />
-      Here's a list of all of the built-in events that Backbone.js can fire.
-      You're also free to trigger your own events on Models and Views as you
-      see fit.
+      Это список всех встроенных событий, которые может запускать Backbone.js.
+      Вы так же вольны запускать свои собственные события на моделях и представлениях,
+      как считаете нужным.
     </p>
 
     <ul class="small">
-      <li><b>"add"</b> (model, collection) &mdash; when a model is added to a collection. </li>
-      <li><b>"remove"</b> (model, collection) &mdash; when a model is removed from a collection. </li>
-      <li><b>"reset"</b> (collection) &mdash; when the collection's entire contents have been replaced. </li>
-      <li><b>"change"</b> (model, options) &mdash; when a model's attributes have changed. </li>
-      <li><b>"change:[attribute]"</b> (model, value, options) &mdash; when a specific attribute has been updated. </li>
-      <li><b>"destroy"</b> (model, collection) &mdash; when a model is <a href="#Model-destroy">destroyed</a>. </li>
-      <li><b>"sync"</b> (model, collection) &mdash; triggers whenever a model has been successfully synced to the server. </li>
-      <li><b>"error"</b> (model, collection) &mdash; when a model's validation fails, or a <a href="#Model-save">save</a> call fails on the server. </li>
-      <li><b>"route:[name]"</b> (router) &mdash; when one of a router's routes has matched. </li>
-      <li><b>"all"</b> &mdash; this special event fires for <i>any</i> triggered event, passing the event name as the first argument. </li>
+      <li><b>"add"</b> (model, collection) &mdash; кога модель добавляется в коллекцию. </li>
+      <li><b>"remove"</b> (model, collection) &mdash; когда модель удаляется из коллекции. </li>
+      <li><b>"reset"</b> (collection) &mdash; когда все содержимое коллекции заменяется. </li>
+      <li><b>"change"</b> (model, options) &mdash; когда атрибут модели меняется. </li>
+      <li><b>"change:[attribute]"</b> (model, value, options) &mdash; когда меняется конкретный атрибут модели. </li>
+      <li><b>"destroy"</b> (model, collection) &mdash; когда модель <a href="#Model-destroy">уничтожена</a>. </li>
+      <li><b>"sync"</b> (model, collection) &mdash; срабатывает, когда модель была успешно синхронизирована с сервером. </li>
+      <li><b>"error"</b> (model, collection) &mdash; когда валидация модели проваливается, или вызов <a href="#Model-save">save</a> проваливается на сервере. </li>
+      <li><b>"route:[name]"</b> (router) &mdash; когда один из роутов находит соответствие. </li>
+      <li><b>"all"</b> &mdash; это специальное событие срабатывает каждый раз,
+      когда срабатывает <i>любое</i> событие, передавая имя события первым аргументом</li>
     </ul>
 
     <p id="FAQ-tim-toady">
-      <b class="header">There's More Than One Way To Do It</b>
+      <b class="header">Больше, чем один, способов сделать это</b>
       <br />
-      It's common for folks just getting started to treat the examples listed
-      on this page as some sort of gospel truth. In fact, Backbone.js is intended
-      to be fairly agnostic about many common patterns in client-side code.
-      For example...
+      Часто люди начинают обращаться с примерами, приведенными на этой странице, 
+      как с какой-то божественной истиной. На самом деле, Backbone.js предназначен
+      быть довольно агностичным насчет многих частых паттернов клиентского кода.
+      Например…
     </p>
 
     <p>
-      <b>References between Models and Views</b> can be handled several ways.
-      Some people like to have direct pointers, where views correspond 1:1 with
-      models (<tt>model.view</tt> and <tt>view.model</tt>). Others prefer to have intermediate
-      "controller" objects that orchestrate the creation and organization of
-      views into a hierarchy. Others still prefer the evented approach, and always
-      fire events instead of calling methods directly. All of these styles work well.
+      <b>Отношения между моделями и представлениями</b> могут осуществляться многими способами.
+      Некоторым нравится иметь прямые указатели, когда представления соотносятся 1:1 с моделями
+      <tt>model.view</tt> и <tt>view.model</tt>). Другие предпочитают иметь промежуточный 
+      "контроллер", который дирижирует созданием и организацией представлений в иерархию.
+      Другие все еще предпочитают событийный подход, и всегда запускают события вместо 
+      прямого вызова методов. Все это прекрасно работает.
     </p>
 
     <p>
-      <b>Batch operations</b> on Models are common, but often best handled differently
-      depending on your server-side setup. Some folks don't mind making individual
-      Ajax requests. Others create explicit resources for RESTful batch operations:
-      <tt>/notes/batch/destroy?ids=1,2,3,4</tt>. Others tunnel REST over JSON, with the
-      creation of "changeset" requests:
+      <b>Групповые операции</b> над моделями часто встречаются, но лучший способ обработки
+      зависит от серверной стороны. Некоторых не заботят индивидуальные AJAX-запросы.
+      Другие создают явные ресурсы для RESTful групповых операций:
+      <tt>/notes/batch/destroy?ids=1,2,3,4</tt>. Третьи туннелируют REST через JSON, созданием 
+      запросов "changeset":
     </p>
 
 <pre>
   {
-    "create":  [array of models to create]
-    "update":  [array of models to update]
-    "destroy": [array of model ids to destroy]
+    "create":  [массив моделей для создания]
+    "update":  [массив моделей для обновления]
+    "destroy": [массив id моделей для уничтожения]
   }
 </pre>
 
     <p>
-      <b>Feel free to define your own events.</b> <a href="#Events">Backbone.Events</a>
-      is designed so that you can mix it in to any JavaScript object or prototype.
-      Since you can use any string as an event, it's often handy to bind
-      and trigger your own custom events: <tt>model.on("selected:true")</tt> or
+      <b>Создавайте свой события.</b> <a href="#Events">Backbone.Events</a>
+      спроектирован так, что вы можете вмешать его в любой объект или прототип.
+      Так как можно использовать любую строку в качестве имени события, часто 
+      удобно привязываться и запускать свои собственные события: <tt>model.on("selected:true")</tt> или
       <tt>model.on("editing")</tt>
     </p>
 
     <p>
-      <b>Render the UI</b> as you see fit. Backbone is agnostic as to whether you
-      use <a href="http://documentcloud.github.com/underscore/#template">Underscore templates</a>,
-      <a href="https://github.com/janl/mustache.js">Mustache.js</a>, direct DOM
-      manipulation, server-side rendered snippets of HTML, or
-      <a href="http://jqueryui.com/">jQuery UI</a> in your <tt>render</tt> function.
-      Sometimes you'll create a view for each model ... sometimes you'll have a
-      view that renders thousands of models at once, in a tight loop. Both can be
-      appropriate in the same app, depending on the quantity of data involved,
-      and the complexity of the UI.
+      <b>Отрисовывайте UI</b>, как считаете нужным. Backbone ничего не знает о том, 
+      используете вы <a href="http://documentcloud.github.com/underscore/#template">шаблоны Underscore</a>,
+      <a href="https://github.com/janl/mustache.js">Mustache.js</a>, прямые DOM-манипуляции,
+      сгенерированные на сервере кусочки HTML, или <a href="http://jqueryui.com/">jQuery UI</a>
+      в методе <tt>render</tt>.
+      Иногда вы создаете представление для каждой модели, иногда есть представление,
+      которое отображает тысячи моделей разом, в одном цикле. Оба подхода могут 
+      подходить в одном приложении, в зависимости от количества данных и сложности UI.
     </p>
 
     <p id="FAQ-nested">
-      <b class="header">Nested Models &amp; Collections</b>
+      <b class="header">Вложенные модели и коллекции</b>
       <br />
-      It's common to nest collections inside of models with Backbone. For example,
-      consider a <tt>Mailbox</tt> model that contains many <tt>Message</tt> models.
-      One nice pattern for handling this is have a <tt>this.messages</tt> collection
-      for each mailbox, enabling the lazy-loading of messages, when the mailbox
-      is first opened ... perhaps with <tt>MessageList</tt> views listening for
+      Нередко коллекции вкладываются внутрь моделей в Backbone. Например,
+      рассмотрим модель <tt>Mailbox</tt>, которая содержит много моделей <tt>Message</tt>.
+      Есть хороший паттерн организации этого всего — иметь коллекцию <tt>this.messages</tt> для
+      каждого ящика, делая возможным ленивую загрузку сообщений, когда ящик открывается первый раз…
+      возможно, в паре с представлениями <tt>MessageList</tt>, слушающими события
       <tt>"add"</tt> and <tt>"remove"</tt> events.
     </p>
 
@@ -3110,58 +2532,57 @@ var Mailbox = Backbone.Model.extend({
 
 var Inbox = new Mailbox;
 
-// And then, when the Inbox is opened:
+// И потом, когда Inbox открывается:
 
 Inbox.messages.fetch();
 </pre>
 
     <p>
-      If you're looking for something more opinionated, there are a number of
-      Backbone plugins that add sophisticated associations among models,
-      <a href="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">available on the wiki</a>.
+      Если нужно что-то более строгое — 
+      <a href="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">существует много плагинов</a>,
+      которые добавляют сложные ассоциации между моделями.
     </p>
 
     <p>
-      Backbone doesn't include direct support for nested models and collections
-      or "has many" associations because there are a number
-      of good patterns for modeling structured data on the client side, and
-      <i>Backbone should provide the foundation for implementing any of them.</i>
-      You may want to&hellip;
+      Backbone не включает прямой поддержки вложенных моделей и коллекций
+      или связей "has many", так как существует много хороших паттернов
+      моделирования сложных структур на клиенте, и 
+      <i>Backbone должен предоставлять фундамент для реализации любого и них.</i>
+      Вам может понадобиться&hellip;
     </p>
 
     <ul>
       <li>
-        Mirror an SQL database's structure, or the structure of a NoSQL database.
+        Отражать структуру SQL БД, или структуру NoSQL БД.
       </li>
       <li>
-        Use models with arrays of "foreign key" ids, and join to top level
-        collections (a-la tables).
+        Использовать модели с массивами "внешних ключей", и джойнить 
+        их в коллекции верхнего уровня (a-la таблицы).
       </li>
       <li>
-        For associations that are numerous, use a range of ids instead of an
-        explicit list.
+        Для многочисленных связей использовать диапазоны id вместо явного списка.
       </li>
       <li>
-        Avoid ids, and use direct references, creating a partial object graph
-        representing your data set.
+        Избегать id и использовать прямые ссылки, создавая частичный граф,
+        предсталяющий ваш набор данных.
       </li>
       <li>
-        Lazily load joined models from the server, or lazily deserialize nested
-        models from JSON documents.
+        Лениво подгружать объединенные модели с сервера, или лениво десериализовать вложенные
+        модели из JSON-документов.
       </li>
     </ul>
 
     <p id="FAQ-bootstrap">
-      <b class="header">Loading Bootstrapped Models</b>
+      <b class="header">Предзагрузка моделей</b>
       <br />
-      When your app first loads, it's common to have a set of initial models that
-      you know you're going to need, in order to render the page. Instead of
-      firing an extra AJAX request to <a href="#Collection-fetch">fetch</a> them,
-      a nicer pattern is to have their data already bootstrapped into the page.
-      You can then use <a href="#Collection-reset">reset</a> to populate your
-      collections with the initial data. At DocumentCloud, in the
-      <a href="http://en.wikipedia.org/wiki/ERuby">ERB</a> template for the
-      workspace, we do something along these lines:
+      Когда ваше приложение грузится, обычно имеется набор начальных моделей,
+      которые точно понадобятся чтобы отобразить страницу.
+      Вместо того, чтобы сделать еще один AJAX-запрос с помощью <a href="#Collection-fetch">fetch</a>,
+      лучшим паттером будет иметь их данные уже загруженными в страницу.
+      Тогда можно будет использовать <a href="#Collection-reset">reset</a>, чтобы наполнить коллекции 
+      начальными данными. В DocumentCloud, в
+      <a href="http://en.wikipedia.org/wiki/ERuby">ERB</a>-шаблоне для рабочего пространства,
+      мы делаем так:
     </p>
 
 <pre>
@@ -3173,67 +2594,59 @@ Inbox.messages.fetch();
 &lt;/script&gt;
 </pre>
 
-    <p>You have to <a href="http://mathiasbynens.be/notes/etago">escape</a>
-    <tt>&lt;/</tt> within the JSON string, to prevent javascript injection
-    attacks.
+    <p>Не забудьте сделать <a href="http://mathiasbynens.be/notes/etago">escape</a>
+    <tt>&lt;/</tt> внутри JSON-строки, чтобы предотвратить атаки с помощью внедрения JS.
 
     <p id="FAQ-extending">
-      <b class="header">Extending Backbone</b>
+      <b class="header">Расширяя Backbone</b>
       <br />
-      Many JavaScript libraries are meant to be insular and self-enclosed,
-      where you interact with them by calling their public API, but never peek
-      inside at the guts. Backbone.js is <i>not</i> that kind of library.
+      Многие JS-библиотеки созданы быть отгороженным и замкнутыми.
+      Вы взаимодействуете с ними вызывая их публичный API, но никогда не заглядываете
+      во внутренности. Backbone.js <i>не является</i> такой библиотекой.
     </p>
 
     <p>
-      Because it serves as a foundation for your application, you're meant to
-      extend and enhance it in the ways you see fit &mdash; the entire source
-      code is <a href="docs/backbone.html">annotated</a> to make this easier
-      for you. You'll find that there's very little there apart from core
-      functions, and most of those can be overriden or augmented should you find
-      the need. If you catch yourself adding methods to <tt>Backbone.Model.prototype</tt>,
-      or creating your own base subclass, don't worry &mdash; that's how things are
-      supposed to work.
+      Так как она служит фундаментом вашего приложения, подразумевается что вы
+      будете расширять и улучшать её под себя — весь исходный код
+      <a href="docs/backbone.html">аннотирован</a> чтобы облегчить это.
+      Вы обнаружите, что там не так уж много всего, помимо функций ядра,
+      и большинство из них может быть переопределено или улучшено, если вам нужно.
+      Если вы поймаете себя на том, что добавляете методы в <tt>Backbone.Model.prototype</tt>,
+      или создаете свои собственные базовые субклассы, не беспокойтесь — так и было задумано.
     </p>
 
     <p id="FAQ-mvc">
-      <b class="header">How does Backbone relate to "traditional" MVC?</b>
+      <b class="header">Как Backbone соотносится с «традиционным» MVC?</b>
       <br />
-      Different implementations of the
-      <a href="http://en.wikipedia.org/wiki/Model–View–Controller">Model-View-Controller</a>
-      pattern tend to disagree about the definition of a controller. If it helps any, in
-      Backbone, the <a href="#View">View</a> class can also be thought of as a
-      kind of controller, dispatching events that originate from the UI, with
-      the HTML template serving as the true view. We call it a View because it
-      represents a logical chunk of UI, responsible for the contents of a single
-      DOM element.
+      Разные имплементации паттерна
+      <a href="http://ru.wikipedia.org/wiki/Model–View–Controller">Model-View-Controller</a>
+      имеют тенденцию расходиться в определениях контроллера. Если это поможет — в
+      Backbone, класс <a href="#View">представления</a> может считаться и чем-то вроде 
+      контроллера, диспетчиризуя события, которые идут от UI, а HTML-шаблон — настоящим представлением.
+      Мы назвали его «View», так как он отвечает за логически выделенный кусок UI,
+      ответственный за контент одного DOM-элемента.
     </p>
 
     <p>
-      Comparing the overall structure of Backbone to a server-side MVC framework
-      like <b>Rails</b>, the pieces line up like so:
+      Сравнивая общую структуру Backbone с серверным MVC-фреймворком, как <b>Rails</b>,
+      получим примерно следующее:
     </p>
 
     <ul>
       <li>
-        <b>Backbone.Model</b> &ndash; Like a Rails model minus the class
-        methods. Wraps a row of data in business logic.
+        <b>Backbone.Model</b> — Подобна моделям в Rails, минус методы класса. Оборачивает строчку данных в бизнес-логику.
       </li>
       <li>
-        <b>Backbone.Collection</b> &ndash; A group of models on the client-side,
-        with sorting/filtering/aggregation logic.
+        <b>Backbone.Collection</b> — группа моделей на клиентской стороне, с сортировкой/фильтрацией/аггрегацией.
       </li>
       <li>
-        <b>Backbone.Router</b> &ndash; Rails <tt>routes.rb</tt> + Rails controller
-        actions. Maps URLs to functions.
+        <b>Backbone.Router</b> — <tt>routes.rb</tt> в Rails + экшены контроллера. Мапит адреса на функции.
       </li>
       <li>
-        <b>Backbone.View</b> &ndash; A logical, re-usable piece of UI. Often,
-        but not always, associated with a model.
+        <b>Backbone.View</b> — Логиески выделенный, готовый к повторному использованию кусочек интерфейса. Часто, но не всегда, связан с моделью.
       </li>
       <li>
-        <b>Client-side Templates</b> &ndash; Rails <tt>.html.erb</tt> views,
-        rendering a chunk of HTML.
+        <b>Клиентские шаблоны</b> — <tt>.html.erb</tt> из Rails, отрисовывающее кусочек HTML.
       </li>
     </ul>
 
