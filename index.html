@@ -1704,30 +1704,31 @@ var othello = NYPL.create({
     <h2 id="Router">Backbone.Router</h2>
 
     <p>
-      Web applications often provide linkable, bookmarkable, shareable URLs for
-      important locations in the app. Until recently, hash fragments
-      (<tt>#page</tt>) were used to provide these permalinks, but with the
-      arrival of the History API, it's now possible to use standard URLs (<tt>/page</tt>).
-      <b>Backbone.Router</b> provides methods for routing client-side pages, and
-      connecting them to actions and events. For browsers which don't yet support
-      the History API, the Router handles graceful fallback and transparent
-      translation to the fragment version of the URL.
+      	Веб-приложения часто предоставляют возможность
+		зафиксировать свое состояние, сделав закладку. Это делается с помощью добавления
+		к URL фрагмента определенного вида. 
+		До недавнего времени, для этих целей использовались исключительно хэши (<tt>#page</tt>),
+		но с появлением History API стало возможно использовать URL обычного вида (<tt>/page</tt>).
+		<b>Backbone.Router</b> предоставляет методы для маршрутизации на стороне клиента,
+		а также связывания этих действий с событиями. Для браузеров, которые не поддерживают
+		History API, Router весьма элегантно проделает тоже самое, используя фрагментарную структуру URL.
     </p>
 
     <p>
-      During page load, after your application has finished creating all of its routers,
-      be sure to call <tt>Backbone.history.start()</tt>, or
-      <tt>Backbone.history.start({pushState: true})</tt> to route the initial URL.
+      	Во время загрузки страницы, после того, как ваше приложение создаст все необходимые ему
+		роутеры, не забудьте вызвать <tt>Backbone.history.start()</tt> или
+		<tt>Backbone.history.start({pushState: true})</tt>, чтобы задать начальное состояние приложения.
     </p>
 
     <p id="Router-extend">
       <b class="header">extend</b><code>Backbone.Router.extend(properties, [classProperties])</code>
       <br />
-      Get started by creating a custom router class. Define actions that are
-      triggered when certain URL fragments are
-      matched, and provide a <a href="#Router-routes">routes</a> hash
-      that pairs routes to actions. Note that you'll want to avoid using a
-      leading slash in your route definitions:
+      Создавая свой класс-маршрутизатор, нужно расширить <b>Backbone.Router</b>. 
+	  Определить для него actions, действия, которые будут выполнены
+	  когда часть текущего URL совпадет с заданным фрагментом, и предоставить хэш
+	  <a href="#Router-routes">роутов (routes)</a>, в котором будут описаны паттерны URL и 
+	  соответствующие им actions.<br/>
+	  На заметку: нельзя начинать название роута со слэша.
     </p>
 
 <pre>
@@ -1753,27 +1754,24 @@ var Workspace = Backbone.Router.extend({
     <p id="Router-routes">
       <b class="header">routes</b><code>router.routes</code>
       <br />
-      The routes hash maps URLs with parameters to functions on your router,
-      similar to the <a href="#View">View</a>'s <a href="#View-delegateEvents">events hash</a>.
-      Routes can contain parameter parts, <tt>:param</tt>, which match a single URL
-      component between slashes; and splat parts <tt>*splat</tt>, which can match
-      any number of URL components.
+      Хэш роутов описывает соответствие паттернов URL с функциями вашего роутера и их аргументами, аналогично тому, 
+	  как это происходит с <a href="#View-delegateEvents">хэшем событий</a> <a href="#View">View</a>. Роут может содержать параметрические части,
+	  <tt>:param</tt>, каждая из которых будет соответствовать единственному фрагменту URL между слэшами, и <tt>*splat</tt> части, 
+	  которые могут соответствовать любому количеству фрагментов URL.
     </p>
 
     <p>
-      For example, a route of <tt>"search/:query/p:page"</tt> will match
-      a fragment of <tt>#search/obama/p2</tt>, passing <tt>"obama"</tt>
-      and <tt>"2"</tt> to the action. A route of <tt>"file/*path"</tt> will
-      match <tt>#file/nested/folder/file.txt</tt>,
-      passing <tt>"nested/folder/file.txt"</tt> to the action.
+      	Например, роут "search/:query/p:page" соответствует фрагменту #search/obama/p2 и аргументы obama и p2 
+		будут переданы в action. Роут <tt>"file/*path"</tt> соотвествует <tt>#file/nested/folder/file.txt</tt> и в action, 
+		в качестве аргумента будет передана строка <tt>"nested/folder/file.txt"</tt>.
     </p>
 
     <p>
-      When the visitor presses the back button, or enters a URL, and a particular
-      route is matched, the name of the action will be fired as an
-      <a href="#Events">event</a>, so that other objects can listen to the router,
-      and be notified. In the following example, visiting <tt>#help/uploading</tt>
-      will fire a <tt>route:help</tt> event from the router.
+      	Кодга пользователь жмет кнопки «назад/вперед» или вводит в адресную строку URL, который
+		сооветствует какому-либо роуту, будет сгенерировано <a href="#Events">событие (event)</a>, одноименное action этого роута,
+		таким образом другие объекты тоже могу слушать роутер и «быть в курсе» происходящих событий.
+		В приведенном ниже примере посещение <tt>#help/uploading</tt> приведет к тому, что роутер 
+		сгенерирует событие <tt>route:help</tt>.
     </p>
 
 <pre>
@@ -1794,31 +1792,29 @@ router.on("route:help", function(page) {
     <p id="Router-constructor">
       <b class="header">constructor / initialize</b><code>new Router([options])</code>
       <br />
-      When creating a new router, you may pass its
-      <a href="#Router-routes">routes</a> hash directly as an option, if you
-      choose. All <tt>options</tt> will also be passed to your <tt>initialize</tt>
-      function, if defined.
+      Создавая роутер вы можете задать его роуты, передав их в качестве свойства объекта <tt>options</tt>, 
+	  если хотите. Кроме того объект <tt>options</tt> целиком будет передан в определенную вами
+	  функцию <tt>initialize</tt>.
     </p>
 
     <p id="Router-route">
       <b class="header">route</b><code>router.route(route, name, [callback])</code>
       <br />
-      Manually create a route for the router, The <tt>route</tt> argument may
-      be a <a href="#Router-routes">routing string</a> or regular expression.
-      Each matching capture from the route or regular expression will be passed as
-      an argument to the callback. The <tt>name</tt> argument will be triggered as
-      a <tt>"route:name"</tt> event whenever the route is matched.  If the
-      <tt>callback</tt> argument is omitted <tt>router[name]</tt> will be used
-      instead.
+      С помощью этого метода можно добавить новый роут к объекту после инициализации.
+	  Аргумент <tt>route</tt> может быть <a href="#Router-routes">строкой-роутом</a>  или регулярным выражением.
+	  Части URL, соответствующие заданному роуту или регулярному выражению, будут
+	  переданы функции callback в качестве аргументов. Аргумент <tt>name</tt> будет использован
+	  для того, чтобы сгенерировать события вида <tt>"route:name"</tt> при совпадении фрагмента URL и роута.
+	  Если аргумент <tt>callback</tt> опущен, то будет использована <tt>router[name]</tt>.
     </p>
 
 <pre>
 initialize: function(options) {
 
-  // Matches #page/10, passing "10"
+  // совпадает с #page/10, в function будет передано "10"
   this.route("page/:number", "page", function(number){ ... });
 
-  // Matches /117-a/b/c/open, passing "117-a/b/c" to this.open
+  // совпадает с /117-a/b/c/open, в this.open будет передано "117-a/b/c"
   this.route(/^(.*?)\/open$/, "open");
 
 },
@@ -1829,12 +1825,12 @@ open: function(id) { ... }
     <p id="Router-navigate">
       <b class="header">navigate</b><code>router.navigate(fragment, [options])</code>
       <br />
-      Whenever you reach a point in your application that you'd like to save
-      as a URL, call <b>navigate</b> in order to update the URL.
-      If you wish to also call the route function, set the <b>trigger</b>
-      option to <tt>true</tt>.
-      To update the URL without creating an entry in the browser's history,
-      set the <b>replace</b> option to <tt>true</tt>.
+      Когда вы решите, что ваше приложение находится в состоянии, которое желательно было бы сохранить,
+	  вызовите <b>navigate</b> чтобы обновить URL, передав в качестве аргумента <tt>fragment</tt> необходимый фрагмент URL.
+	  Если при этом вы хотите вызвать функцию роутера, то установите свойство <b>trigger</b>
+	  в <tt>true</tt>.
+	  Для того, чтобы обновить URL без создания записи в истории браузера, установите свойство
+	  <b>replace</b> в <tt>true</tt>.
     </p>
 
 <pre>
@@ -1843,11 +1839,11 @@ openPage: function(pageNumber) {
   this.navigate("page/" + pageNumber);
 }
 
-# Or ...
+# или ...
 
 app.navigate("help/troubleshooting", {trigger: true});
 
-# Or ...
+# или ...
 
 app.navigate("help/troubleshooting", {trigger: true, replace: true});
 </pre>
