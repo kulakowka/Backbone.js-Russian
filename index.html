@@ -350,40 +350,9 @@
       <li>– <a href="#examples-todos">Todos</a></li>
       <li>– <a href="#examples-documentcloud">DocumentCloud</a></li>
       <li>– <a href="#examples-linkedin">LinkedIn Mobile</a></li>
-      <li>– <a href="#examples-flow">Flow</a></li>
-      <li>– <a href="#examples-audiovroom">AudioVroom</a></li>
       <li>– <a href="#examples-foursquare">Foursquare</a></li>
-      <li>– <a href="#examples-wunderkit">Wunderkit</a></li>
       <li>– <a href="#examples-khan-academy">Khan Academy</a></li>
-      <li>– <a href="#examples-do">Do</a></li>
-      <li>– <a href="#examples-posterous">Posterous Spaces</a></li>
-      <li>– <a href="#examples-groupon">Groupon Now!</a></li>
       <li>– <a href="#examples-basecamp">Basecamp Mobile</a></li>
-      <li>– <a href="#examples-slavery-footprint">Slavery Footprint</a></li>
-      <li>– <a href="#examples-stripe">Stripe</a></li>
-      <li>– <a href="#examples-airbnb">Airbnb Mobile</a></li>
-      <li>– <a href="#examples-diaspora">Diaspora</a></li>
-      <li>– <a href="#examples-soundcloud">SoundCloud Mobile</a></li>
-      <li>– <a href="#examples-pandora">Pandora</a></li>
-      <li>– <a href="#examples-code-school">Code School</a></li>
-      <li>– <a href="#examples-cloudapp">CloudApp</a></li>
-      <li>– <a href="#examples-seatgeek">SeatGeek</a></li>
-      <li>– <a href="#examples-grove">Grove.io</a></li>
-      <li>– <a href="#examples-kicksend">Kicksend</a></li>
-      <li>– <a href="#examples-shortmail">Shortmail</a></li>
-      <li>– <a href="#examples-battlefield">Battlefield Play4Free</a></li>
-      <li>– <a href="#examples-salon">Salon.io</a></li>
-      <li>– <a href="#examples-tilemill">TileMill</a></li>
-      <li>– <a href="#examples-blossom">Blossom</a></li>
-      <li>– <a href="#examples-animoto">Animoto</a></li>
-      <li>– <a href="#examples-chaincal">ChainCal</a></li>
-      <li>– <a href="#examples-attictv">AtticTV</a></li>
-      <li>– <a href="#examples-decide">Decide</a></li>
-      <li>– <a href="#examples-editd">EDITD</a></li>
-      <li>– <a href="#examples-trello">Trello</a></li>
-      <li>– <a href="#examples-ducksboard">Ducksboard</a></li>
-      <li>– <a href="#examples-quietwrite">QuietWrite</a></li>
-      <li>– <a href="#examples-tzigla">Tzigla</a></li>
     </ul>
 
     <a class="toc_title" href="#faq">
@@ -391,12 +360,12 @@
     </a>
     <ul class="toc_section">
       <li>– <a href="#FAQ-events">Каталог событий</a></li>
-      <li>– <a href="#FAQ-tim-toady">Большо одного способа сделать это</a></li>
+      <li>– <a href="#FAQ-tim-toady">Больше, чем один способ  сделать это</a></li>
       <li>– <a href="#FAQ-nested">Вложенные модели и коллекции</a></li>
-      <li>– <a href="#FAQ-bootstrap">Загрузка подготовленных моделей</a></li>
+      <li>– <a href="#FAQ-bootstrap">Предзагрузка моделей</a></li>
       <li>– <a href="#FAQ-extending">Расширяем Backbone</a></li>
       <li>– <a href="#FAQ-mvc">Традиционное MVC</a></li>
-      <li>– <a href="#FAQ-this">Связка "this"</a></li>
+      <li>– <a href="#FAQ-this">Привязка "this"</a></li>
       <li>– <a href="#FAQ-rails">Работа с Rails</a></li>
     </ul>
 
@@ -2416,11 +2385,11 @@ var model = localBackbone.Model.extend(...);
     <h2 id="examples-basecamp">Basecamp Mobile</h2>
 
     <p>
-      <a href="http://37signals.com/">37Signals</a> used Backbone.js to create
-      <a href="http://basecamphq.com/mobile">Basecamp Mobile</a>, the mobile version
-      of their popular project management software. You can access all your Basecamp
-      projects, post new messages, and comment on milestones (all represented
-      internally as Backbone.js models).
+      <a href="http://37signals.com/">37Signals</a> использовали Backbone.js, чтобы создать
+      <a href="http://basecamphq.com/mobile">Basecamp Mobile</a>, мобильную версию 
+      их популярного ПО управления проектами. Есть доступ ко всем вашим проектами в Basecamp,
+      можно постить новые сообщения и комментировать майлстоны (все они внутри представлены
+      как модели Backbone.js).
     </p>
 
     <div style="text-align: center;">
@@ -2646,26 +2615,26 @@ Inbox.messages.fetch();
         <b>Backbone.View</b> — Логиески выделенный, готовый к повторному использованию кусочек интерфейса. Часто, но не всегда, связан с моделью.
       </li>
       <li>
-        <b>Клиентские шаблоны</b> — <tt>.html.erb</tt> из Rails, отрисовывающее кусочек HTML.
+        <b>Клиентские шаблоны</b> — <tt>.html.erb</tt> из Rails, отрисовывающее кусочки HTML.
       </li>
     </ul>
 
     <p id="FAQ-this">
-      <b class="header">Binding "this"</b>
+      <b class="header">Привязка "this"</b>
       <br />
-      Perhaps the single most common JavaScript "gotcha" is the fact that when
-      you pass a function as a callback, its value for <tt>this</tt> is lost. With
-      Backbone, when dealing with <a href="#Events">events</a> and callbacks,
-      you'll often find it useful to rely on
-      <a href="http://documentcloud.github.com/underscore/#bind">_.bind</a> and
+      Вероятно, самая общая засада в JavaScript — это тот факт, 
+      что когда функция передается как коллбек, её оригинальный контекст (<tt>this</tt>) теряется.
+      С Backbone, имея дело с <a href="#Events">событиями</a> и коллбеками,
+      часто полезно полагаться на 
+      <a href="http://documentcloud.github.com/underscore/#bind">_.bind</a> и
       <a href="http://documentcloud.github.com/underscore/#bindAll">_.bindAll</a>
-      from Underscore.js.
+      из Underscore.js.
     </p>
 
     <p>
-      When binding callbacks to Backbone events, you can choose to pass an optional
-      third argument to specify the <tt>this</tt> that will be used when the
-      callback is later invoked:
+      Назначая обработчики на события Backbone, можно передать опциональный
+      третий параметр, чтобы контекст <tt>this</tt>, с которым обработчик 
+      будет потом вызван:
     </p>
 
 <pre>
@@ -2680,23 +2649,24 @@ var MessageList = Backbone.View.extend({
 
 });
 
-// Later, in the app...
+// Потом в приложении…
 
 Inbox.messages.add(newMessage);
 </pre>
 
     <p id="FAQ-rails">
-      <b class="header">Working with Rails</b>
+      <b class="header">Работа Rails</b>
       <br />
-      Backbone.js was originally extracted from
-      <a href="http://www.documentcloud.org">a Rails application</a>; getting
-      your client-side (Backbone) Models to sync correctly with your server-side
-      (Rails) Models is painless, but there are still a few things to be aware of.
+      Backbone.js изначально был извлечен из 
+      <a href="http://www.documentcloud.org">Rails-приложения</a>; заставить 
+      модели на клиенте (в Backbone) корректно синхронизироваться с серверными
+      (Rails) моделями не составляет никакого труда, но все же есть несколько вещей, 
+      о которых следует знать.
     </p>
 
     <p>
-      By default, Rails adds an extra layer of wrapping around the JSON representation
-      of models. You can disable this wrapping by setting:
+      По умолчанию, Rails добавляет еще одну обертку в JSON-представлении
+      моделей. Вы можете отключить это оборачивание, установив:
     </p>
 
 <pre>
@@ -2704,302 +2674,13 @@ ActiveRecord::Base.include_root_in_json = false
 </pre>
 
     <p>
-      ... in your configuration. Otherwise, override
-      <a href="#Model-parse">parse</a> to pull model attributes out of the
-      wrapper. Similarly, Backbone PUTs and POSTs direct JSON representations
-      of models, where by default Rails expects namespaced attributes. You can
-      have your controllers filter attributes directly from <tt>params</tt>, or
-      you can override <a href="#Model-toJSON">toJSON</a> in Backbone to add
-      the extra wrapping Rails expects.
-    </p>
-
-    <h2 id="changelog">Change Log</h2>
-
-    <b class="header">0.9.2</b> &mdash; <small><i>March 21, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/backbone/compare/0.9.1...0.9.2">Diff</a><br />
-    <ul style="margin-top: 5px;">
-      <li>
-        Instead of throwing an error when adding duplicate models to a collection,
-        Backbone will now silently skip them instead.
-      </li>
-      <li>
-        Added <a href="#Collection-push">push</a>,
-        <a href="#Collection-pop">pop</a>,
-        <a href="#Collection-unshift">unshift</a>, and
-        <a href="#Collection-shift">shift</a> to collections.
-      </li>
-      <li>
-        A model's <a href="#Model-changed">changed</a> hash is now exposed for
-        easy reading of the changed attribute delta, since the model's last
-        <tt>"change"</tt> event.
-      </li>
-      <li>
-        Added <a href="#Collection-where">where</a> to collections for simple
-        filtering.
-      </li>
-      <li>
-        You can now use a single <a href="#Events-off">off</a> call
-        to remove all callbacks bound to a specific object.
-      </li>
-      <li>
-        Bug fixes for nested individual change events, some of which may be
-        "silent".
-      </li>
-      <li>
-        Bug fixes for URL encoding in <tt>location.hash</tt> fragments.
-      </li>
-      <li>
-        Bug fix for client-side validation in advance of a <tt>save</tt> call
-        with <tt>{wait: true}</tt>.
-      </li>
-      <li>
-        Updated / refreshed the example
-        <a href="examples/todos/index.html">Todo List</a> app.
-      </li>
-    </ul>
-
-    <b class="header">0.9.1</b> &mdash; <small><i>Feb. 2, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/backbone/compare/0.9.0...0.9.1">Diff</a><br />
-    <ul style="margin-top: 5px;">
-      <li>
-        Reverted to 0.5.3-esque behavior for validating models. Silent changes
-        no longer trigger validation (making it easier to work with forms).
-        Added an <tt>isValid</tt> function that you can use to check if a model
-        is currently in a valid state.
-      </li>
-      <li>
-        If you have multiple versions of jQuery on the page, you can now tell
-        Backbone which one to use with <tt>Backbone.setDomLibrary</tt>.
-      </li>
-      <li>
-        Fixes regressions in <b>0.9.0</b> for routing with "root", saving with
-        both "wait" and "validate", and the order of nested "change" events.
-      </li>
-    </ul>
-
-    <b class="header">0.9.0</b> &mdash; <small><i>Jan. 30, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/backbone/compare/0.5.3...0.9.0">Diff</a><br />
-    <ul style="margin-top: 5px;">
-      <li>
-        Creating and destroying models with <tt>create</tt> and <tt>destroy</tt>
-        are now optimistic by default. Pass <tt>{wait: true}</tt> as an option
-        if you'd like them to wait for a successful server response to proceed.
-      </li>
-      <li>
-        Two new properties on views: <tt>$el</tt> &mdash; a cached jQuery (or Zepto)
-        reference to the view's element, and <tt>setElement</tt>, which should
-        be used instead of manually setting a view's <tt>el</tt>. It will
-        both set <tt>view.el</tt> and <tt>view.$el</tt> correctly, as well as
-        re-delegating events on the new DOM element.
-      </li>
-      <li>
-        You can now bind and trigger multiple spaced-delimited events at once.
-        For example: <tt>model.on("change:name change:age", ...)</tt>
-      </li>
-      <li>
-        When you don't know the key in advance, you may now call
-        <tt>model.set(key, value)</tt> as well as <tt>save</tt>.
-      </li>
-      <li>
-        Multiple models with the same <tt>id</tt> are no longer allowed in a
-        single collection.
-      </li>
-      <li>
-        Added a <tt>"sync"</tt> event, which triggers whenever a model's state
-        has been successfully synced with the server (create, save, destroy).
-      </li>
-      <li>
-        <tt>bind</tt> and <tt>unbind</tt> have been renamed to <tt>on</tt>
-        and <tt>off</tt> for clarity, following jQuery's lead.
-        The old names are also still supported.
-      </li>
-      <li>
-        A Backbone collection's <tt>comparator</tt> function may now behave
-        either like a <a href="http://underscorejs.org/#sortBy">sortBy</a>
-        (pass a function that takes a single argument),
-        or like a <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort">sort</a>
-        (pass a comparator function that expects two arguments). The comparator
-        function is also now bound by default to the collection &mdash; so you
-        can refer to <tt>this</tt> within it.
-      </li>
-      <li>
-        A view's <tt>events</tt> hash may now also contain direct function
-        values as well as the string names of existing view methods.
-      </li>
-      <li>
-        Validation has gotten an overhaul &mdash; a model's <tt>validate</tt> function
-        will now be run even for silent changes, and you can no longer create
-        a model in an initially invalid state.
-      </li>
-      <li>
-        Added <tt>shuffle</tt> and <tt>initial</tt> to collections, proxied
-        from Underscore.
-      </li>
-      <li>
-        <tt>Model#urlRoot</tt> may now be defined as a function as well as a
-        value.
-      </li>
-      <li>
-        <tt>View#attributes</tt> may now be defined as a function as well as a
-        value.
-      </li>
-      <li>
-        Calling <tt>fetch</tt> on a collection will now cause all fetched JSON
-        to be run through the collection's model's <tt>parse</tt> function, if
-        one is defined.
-      </li>
-      <li>
-        You may now tell a router to <tt>navigate(fragment, {replace: true})</tt>,
-        which will either use <tt>history.replaceState</tt> or
-        <tt>location.hash.replace</tt>, in order to change the URL without adding
-        a history entry.
-      </li>
-      <li>
-        Within a collection's <tt>add</tt> and <tt>remove</tt> events, the index
-        of the model being added or removed is now available as <tt>options.index</tt>.
-      </li>
-      <li>
-        Added an <tt>undelegateEvents</tt> to views, allowing you to manually
-        remove all configured event delegations.
-      </li>
-      <li>
-        Although you shouldn't be writing your routes with them in any case &mdash;
-        leading slashes (<tt>/</tt>) are now stripped from routes.
-      </li>
-      <li>
-        Calling <tt>clone</tt> on a model now only passes the attributes
-        for duplication, not a reference to the model itself.
-      </li>
-    </ul>
-
-    <p>
-      <b class="header">0.5.3</b> &mdash; <small><i>August 9, 2011</i></small><br />
-      A View's <tt>events</tt> property may now be defined as a function, as well
-      as an object literal, making it easier to programmatically define and inherit
-      events. <tt>groupBy</tt> is now proxied from Underscore as a method on Collections.
-      If the server has already rendered everything on page load, pass
-      <tt>Backbone.history.start({silent: true})</tt> to prevent the initial route
-      from triggering. Bugfix for pushState with encoded URLs.
-    </p>
-
-    <p>
-      <b class="header">0.5.2</b> &mdash; <small><i>July 26, 2011</i></small><br />
-      The <tt>bind</tt> function, can now take an optional third argument, to specify
-      the <tt>this</tt> of the callback function.
-      Multiple models with the same <tt>id</tt> are now allowed in a collection.
-      Fixed a bug where calling <tt>.fetch(jQueryOptions)</tt> could cause an
-      incorrect URL to be serialized.
-      Fixed a brief extra route fire before redirect, when degrading from
-      <tt>pushState</tt>.
-    </p>
-
-    <p>
-      <b class="header">0.5.1</b> &mdash; <small><i>July 5, 2011</i></small><br />
-      Cleanups from the 0.5.0 release, to wit: improved transparent upgrades from
-      hash-based URLs to pushState, and vice-versa. Fixed inconsistency with
-      non-modified attributes being passed to <tt>Model#initialize</tt>. Reverted
-      a <b>0.5.0</b> change that would strip leading hashbangs from routes.
-      Added <tt>contains</tt> as an alias for <tt>includes</tt>.
-    </p>
-
-    <p>
-      <b class="header">0.5.0</b> &mdash; <small><i>July 1, 2011</i></small><br />
-      A large number of tiny tweaks and micro bugfixes, best viewed by looking
-      at <a href="https://github.com/documentcloud/backbone/compare/0.3.3...0.5.0">the commit diff</a>.
-      HTML5 <tt>pushState</tt> support, enabled by opting-in with:
-      <tt>Backbone.history.start({pushState: true})</tt>.
-      <tt>Controller</tt> was renamed to <tt>Router</tt>, for clarity.
-      <tt>Collection#refresh</tt> was renamed to <tt>Collection#reset</tt> to emphasize
-      its ability to both reset the collection with new models, as well as empty
-      out the collection when used with no parameters.
-      <tt>saveLocation</tt> was replaced with <tt>navigate</tt>.
-      RESTful persistence methods (save, fetch, etc.) now return the jQuery deferred
-      object for further success/error chaining and general convenience.
-      Improved XSS escaping for <tt>Model#escape</tt>.
-      Added a <tt>urlRoot</tt> option to allow specifying RESTful urls without
-      the use of a collection.
-      An error is thrown if <tt>Backbone.history.start</tt> is called multiple times.
-      <tt>Collection#create</tt> now validates before initializing the new model.
-      <tt>view.el</tt> can now be a jQuery string lookup.
-      Backbone Views can now also take an <tt>attributes</tt> parameter.
-      <tt>Model#defaults</tt> can now be a function as well as a literal attributes
-      object.
-    </p>
-
-    <p>
-      <b class="header">0.3.3</b> &mdash; <small><i>Dec 1, 2010</i></small><br />
-      Backbone.js now supports <a href="http://zeptojs.com">Zepto</a>, alongside
-      jQuery, as a framework for DOM manipulation and Ajax support.
-      Implemented <a href="#Model-escape">Model#escape</a>, to efficiently handle
-      attributes intended for HTML interpolation. When trying to persist a model,
-      failed requests will now trigger an <tt>"error"</tt> event. The
-      ubiquitous <tt>options</tt> argument is now passed as the final argument
-      to all <tt>"change"</tt> events.
-    </p>
-
-    <p>
-      <b class="header">0.3.2</b> &mdash; <small><i>Nov 23, 2010</i></small><br />
-      Bugfix for IE7 + iframe-based "hashchange" events. <tt>sync</tt> may now be
-      overridden on a per-model, or per-collection basis. Fixed recursion error
-      when calling <tt>save</tt> with no changed attributes, within a
-      <tt>"change"</tt> event.
-    </p>
-
-    <p>
-      <b class="header">0.3.1</b> &mdash; <small><i>Nov 15, 2010</i></small><br />
-      All <tt>"add"</tt> and <tt>"remove"</tt> events are now sent through the
-      model, so that views can listen for them without having to know about the
-      collection. Added a <tt>remove</tt> method to <a href="#View">Backbone.View</a>.
-      <tt>toJSON</tt> is no longer called at all for <tt>'read'</tt> and <tt>'delete'</tt> requests.
-      Backbone routes are now able to load empty URL fragments.
-    </p>
-
-    <p>
-      <b class="header">0.3.0</b> &mdash; <small><i>Nov 9, 2010</i></small><br />
-      Backbone now has <a href="#Controller">Controllers</a> and
-      <a href="#History">History</a>, for doing client-side routing based on
-      URL fragments.
-      Added <tt>emulateHTTP</tt> to provide support for legacy servers that don't
-      do <tt>PUT</tt> and <tt>DELETE</tt>.
-      Added <tt>emulateJSON</tt> for servers that can't accept <tt>application/json</tt>
-      encoded requests.
-      Added <a href="#Model-clear">Model#clear</a>, which removes all attributes
-      from a model.
-      All Backbone classes may now be seamlessly inherited by CoffeeScript classes.
-    </p>
-
-    <p>
-      <b class="header">0.2.0</b> &mdash; <small><i>Oct 25, 2010</i></small><br />
-      Instead of requiring server responses to be namespaced under a <tt>model</tt>
-      key, now you can define your own <a href="#Model-parse">parse</a> method
-      to convert responses into attributes for Models and Collections.
-      The old <tt>handleEvents</tt> function is now named
-      <a href="#View-delegateEvents">delegateEvents</a>, and is automatically
-      called as part of the View's constructor.
-      Added a <a href="#Collection-toJSON">toJSON</a> function to Collections.
-      Added <a href="#Collection-chain">Underscore's chain</a> to Collections.
-    </p>
-
-    <p>
-      <b class="header">0.1.2</b> &mdash; <small><i>Oct 19, 2010</i></small><br />
-      Added a <a href="#Model-fetch">Model#fetch</a> method for refreshing the
-      attributes of single model from the server.
-      An <tt>error</tt> callback may now be passed to <tt>set</tt> and <tt>save</tt>
-      as an option, which will be invoked if validation fails, overriding the
-      <tt>"error"</tt> event.
-      You can now tell backbone to use the <tt>_method</tt> hack instead of HTTP
-      methods by setting <tt>Backbone.emulateHTTP = true</tt>.
-      Existing Model and Collection data is no longer sent up unnecessarily with
-      <tt>GET</tt> and <tt>DELETE</tt> requests. Added a <tt>rake lint</tt> task.
-      Backbone is now published as an <a href="http://npmjs.org">NPM</a> module.
-    </p>
-
-    <p>
-      <b class="header">0.1.1</b> &mdash; <small><i>Oct 14, 2010</i></small><br />
-      Added a convention for <tt>initialize</tt> functions to be called
-      upon instance construction, if defined. Documentation tweaks.
-    </p>
-
-    <p>
-      <b class="header">0.1.0</b> &mdash; <small><i>Oct 13, 2010</i></small><br />
-      Initial Backbone release.
+      в конфигурации. Или переопределите 
+      <a href="#Model-parse">parse</a> таким образом, чтобы вытаскивать атрибуты моделей из
+      обертки. Похожим способом Backbone делает PUT и POST запросы с прямым JSON-представлением
+      моделей, хотя Rails ожидает атрибуты завернутыми в пространство имен. Можно заставить
+      контроллеры фильтровать атрибуты прямо из <tt>params</tt>, или переопределить 
+      метод <a href="#Model-toJSON">toJSON</a> в Backbone, добавив 
+      дополнительную обертку, которую ждет Rails.
     </p>
 
     <p>
