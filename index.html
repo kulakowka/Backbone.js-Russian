@@ -1348,7 +1348,7 @@ var alphabetical = Books.sortBy(function(book) {
 var ships = new Backbone.Collection;
 
 ships.on("add", function(ship) {
-  alert("«"ship.get("name") + "» прямо по курсу!");
+  alert("«" + ship.get("name") + "» прямо по курсу!");
 });
 
 ships.add([
