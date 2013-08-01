@@ -724,6 +724,20 @@ proxy.on("all", function(eventName) {
 });
 </pre>
 
+    <p>
+      Все методы Backbone.Events также поддерживают передачу параметров через хэш,
+      как альтернативу передачи позиционных аргументов:
+    </p>
+
+<pre>
+book.on({
+  "change:title": titleView.update,
+  "change:author": authorPane.update,
+  "destroy": bookView.remove
+});
+</pre>
+
+
     <p id="Events-off">
       <b class="header">off</b><code>object.off([event], [callback], [context])</code><span class="alias">Синоним: unbind</span>
       <br />
@@ -731,7 +745,7 @@ proxy.on("all", function(eventName) {
       Если параметр <b>context</b> не задан, все версии обработчика будут удалены, независимо от контекста.
 
       Если не указан обработчик, будут удалены все обработчики для события <b>event</b>.
-      Если не указано событие, будут удалены <b>все</b> обработчики.
+      Если не указано событие, обработчики для <i>всех</i> событий будут удалены.
     </p>
 
 <pre>
@@ -751,11 +765,92 @@ object.off(null, null, context);
 object.off();
 </pre>
 
+    <p>
+      Помните, что вызов <tt>model.off()</tt>, удалит <i>все</i> события
+      модели &mdash; в том числе события, которые используются внутри Backbone.
+    </p>
+
     <p id="Events-trigger">
       <b class="header">trigger</b><code>object.trigger(event, [*args])</code>
       <br />
       Вызывает срабатывание события <b>event</b> (или группы событий — разделенных пробелами).
       Последующие аргументы в <b>trigger</b> будут переданы вместе с событием в обработчик.
+    </p>
+
+    <p id="Events-once">
+      <b class="header">once</b><code>object.once(event, callback, [context])</code>
+      <br />
+      Ведет себя также как <a href="#Events-on">on</a>, за исключением того, что будет удален после первого
+      срабатывания события. Можно произнести как "В следующий раз когда что-то призойдет, сделай это".
+    </p>
+
+    <p id="Events-listenTo">
+      <b class="header">listenTo</b><code>object.listenTo(other, event, callback)</code>
+      <br />
+      Указывает объекту <b>object</b> прослушивать конкретное событие другого <b>other</b> объекта.
+      Преимуществом использования этого метода вместо <tt>other.on(event, callback)</tt>,
+      в том, что <b>listenTo</b> позволяет объекту <b>object</b> отслеживать события которые
+      позже могут быть удалены все сразу.
+    </p>
+
+<pre>
+view.listenTo(model, 'change', view.render);
+</pre>
+
+    <p id="Events-stopListening">
+      <b class="header">stopListening</b><code>object.stopListening([other], [event], [callback])</code>
+      <br />
+      Указывает объекту <b>object</b> перестать слушать события. Вызов метода
+      <b>stopListening</b> без аргументов удалит все <a href="#Events-listenTo">зарегистрированные</a> обработчики.
+      Также можно указать определнный объект, событие или обработчик.
+    </p>
+
+<pre>
+view.stopListening();
+
+view.stopListening(model);
+</pre>
+
+    <p id="Events-listenToOnce">
+      <b class="header">listenToOnce</b><code>object.listenToOnce(other, event, callback)</code>
+      <br />
+      Похож на <a href="#Events-listenTo">listenTo</a>, за исключением того,
+      что будет удален после первого срабатывания события.
+    </p>
+
+    <p id="Events-catalog">
+      <b class="header">Каталог событий</b>
+      <br />
+      Это список всех встроенных событий, которые может запускать <tt>Backbone.js</tt>.
+      Вы так же вольны запускать свои собственные события на моделях и представлениях,
+      как считаете нужным. В объект <tt>Backbone</tt> тоже подмешан миксин событий <tt>Events</tt>
+      и вы можете использовать этот объект для глобальных событий вашего приложения.
+    </p>
+
+    <ul class="small">
+      <li><b>"add"</b> (model, collection, options) &mdash; когда модель добавляется в коллекцию. </li>
+      <li><b>"remove"</b> (model, collection, options) &mdash; когда модель удаляется из коллекции. </li>
+      <li><b>"reset"</b> (collection, options) &mdash; когда все содержимое коллекции заменяется. </li>
+      <li><b>"sort"</b> (collection, options) &mdash; когда коллекция была отсортирована. </li>
+      <li><b>"change"</b> (model, options) &mdash; когда атрибут модели меняется. </li>
+      <li><b>"change:[attribute]"</b> (model, value, options) &mdash; когда меняется конкретный атрибут модели. </li>
+      <li><b>"destroy"</b> (model, collection, options) &mdash; когда модель <a href="#Model-destroy">уничтожена</a>. </li>
+      <li><b>"request"</b> (model, xhr, options) &mdash; когда модель (или коллекция) отправляет запрос на сервер. </li>
+      <li><b>"sync"</b> (model, resp, options) &mdash; когда модель была успешно синхронизирована с сервером. </li>
+      <li><b>"error"</b> (model, xhr, options) &mdash; когда вызов <a href="#Model-save">save</a> провалился на сервере. </li>
+      <li><b>"invalid"</b> (model, error, options) &mdash; модель не прошла <a href="#Model-validate">валидацию</a> на клиенте. </li>
+      <li><b>"route:[name]"</b> (params) &mdash; когда один конкретный роут находит соответствие.</li>
+      <li><b>"route"</b> (router, route, params) &mdash; когда <i>любой</i> из роутов находит соответствие.</li>
+      <li><b>"all"</b> &mdash; это специальное событие срабатывает каждый раз, когда срабатывает <i>любое</i> событие, передавая имя события первым аргументом. </li>
+    </ul>
+
+    <p>
+      Если при вызове метода, который генерирует событие
+      (<tt>model.set</tt>, <tt>collection.add</tt>, и пр.) вы не хотите,
+      чтобы события были вызваны, вы можете передать <tt>{silent: true}</tt> в хэше <tt>options</tt>.
+      Обратите внимание, что это не является хорошей практикой.
+      Вместо этого хорошей идеей будет передача специального флага через хэш <tt>options</tt>,
+      который скажет обработчику события, что его нужно проигнорировать.
     </p>
 
     <h2 id="Model">Backbone.Model</h2>
