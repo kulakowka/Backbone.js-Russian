@@ -986,8 +986,8 @@ var Library = Backbone.Model.extend({
     </p>
 
     <p>
-      При создании новой модели могут быть переданны следующие опции
-      <tt>{url: "..."}</tt> и/ или <tt>{urlRoot: "..."}</tt> которые определяют
+      При создании новой модели могут быть переданны следующие опции:
+      <tt>{url:&nbsp;"..."}</tt> и/ или <tt>{urlRoot:&nbsp;"..."}</tt> которые определяют
        пользовательские URL эндпоинты.
     </p>
 
@@ -1100,18 +1100,17 @@ alert("id пирожка: " + cake.id);
       <br />
       Свойство <b>attributes</b> — это внутренний хэш, содержащий состояние модели &mdash;
       как правило (но не обязательно) это JSON объект представляющий модель на севере.
-      Лучше использовать метод <a href="#Model-set">set</a> для обновления атрибутов
+      Лучше использовать метод <a href="#Model-set">set</a> для обновления атрибутов вместо прямого изменения этого хэша.
     </p>
 
     <p>
-	  вместо прямого изменения этого хэша.
       Если вы хотите получить и изменять копию атрибутов модели,
       вместо этого используйте <a href="#Model-toJSON">toJSON</a>.
     </p>
 
     <p class="warning">
       Обратите внимание, в отличии от <a href="#Events">событий</a>,
-      которые поддерживают разделенный пробелами список событий, имена аттрибутов не должны содержать пробелов.
+      которые поддерживают разделенный пробелами список событий, имена атрибутов не должны содержать пробелов.
     </p>
 
 
@@ -1120,9 +1119,9 @@ alert("id пирожка: " + cake.id);
       <br />
       Свойство <b>changed</b> — это внутренний хэш, содержащий все атрибуты, которые были изменены
 	  с тех пор, как последний раз срабатывало событие <tt>"change"</tt>.
-      Пожалуйста, не обновляйте <b>changed</b> напрямую, потому что состояние поддерживается внутри
+      Пожалуйста, не обновляйте <b>changed</b> напрямую, потому что его состояние поддерживается внутри
       методами <a href="#Model-set">set</a> и <a href="#Model-change">change</a>.
-      Копию <b>changed</b> можно получить через <a href="#Model-changedAttributes">changedAttributes</a>.
+      Копию <b>changed</b> можно получить при помощи метода <a href="#Model-changedAttributes">changedAttributes</a>.
     </p>
 
     <p id="Model-defaults">
@@ -1185,7 +1184,7 @@ alert(JSON.stringify(artist));
       <br />
       Обновляет состояние модели данными с сервера с помощью
       <a href="#Sync">Backbone.sync</a>. Возвращает
-      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>.
+      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a> объект.
       Полезен, если модель никогда не наполнялась данными, или если вы хотите
       удостовериться, что вы имеете актуальные данные. Событие <tt>"change"</tt>
 	    сработает, если состояние сервера отличается от текущих атрибутов.
@@ -1194,7 +1193,8 @@ alert(JSON.stringify(artist));
     </p>
 
 <pre>
-// Опрашивать каждые 10 секунд, чтобы хранить модель канала в актуальном состоянии.
+// Опрашивать каждые 10 секунд,
+// чтобы хранить модель канала в актуальном состоянии.
 setInterval(function() {
   channel.fetch();
 }, 10000);
@@ -1204,7 +1204,7 @@ setInterval(function() {
       <b class="header">save</b><code>model.save([attributes], [options])</code>
       <br />
       Сохраняет модель в БД (или другой слой персистентности) при помощи <a href="#Sync">Backbone.sync</a>.
-	    Возвращает <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>, если валидация прошла успешно,
+	    Возвращает <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a> объект, если валидация прошла успешно,
 	    и <tt>false</tt> в противном случае. Хэш <b>attributes</b> (также, как в <a href="#Model-set">set</a>),
   	  должен содержать атрибуты, которые вы хотите изменить — ключи, которые не были указаны, не будут изменены.
 	    Однако, на сервер будет послано <i>полное представление</i> ресурса.
@@ -1224,7 +1224,7 @@ setInterval(function() {
 
     <p>
       Вызов <tt>save</tt> с новыми атрибутами немедленно вызовет срабатывание события <tt>"change"</tt>,
-      событие <tt>"request"</tt> будет вызвано перед совершение Ajax запроса на сервер,
+      событие <tt>"request"</tt> будет вызвано перед совершением Ajax запроса на сервер,
       а событие <tt>"sync"</tt> — после того, как сервер известит об успешном изменении.
 	  Передайте <tt>{wait: true}</tt>, если хотите подождать ответа сервера, прежде чем устанавливать
   	  новые значения атрибутов модели.
@@ -1267,13 +1267,13 @@ book.save("author", "У.К. Черненко", {error: function(){ ... }});
       <b class="header">destroy</b><code>model.destroy([options])</code>
       <br />
       Уничтожает модель на сервере с помощью HTTP-запроса <tt>DELETE</tt>
-      через <a href="#Sync">Backbone.sync</a>. Возвращает объект
-      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>, или
+      через <a href="#Sync">Backbone.sync</a>. Возвращает
+      <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a> объект, или
       <tt>false</tt>, если флаг <a href="#Model-isNew">isNew</a> истинен. Принимает коллбэки
       <tt>success</tt> и <tt>error</tt> в хэше <b>options</b> в которые передаются
       <tt>(model, response, options)</tt> и <tt>(model, xhr, options)</tt> в качестве аргументов соответственно.
-      Запускает событие <tt>"destroy"</tt> на модели, которое всплывет на всех коллекциях,
-	  которые содержат её, событие <tt>"request"</tt> перед совершение Ajax запроса на сервер
+      Запускает событие <tt>"destroy"</tt> на модели, которое также всплывет на всех коллекциях,
+	  которые содержат её, событие <tt>"request"</tt> перед совершением Ajax запроса на сервер
       и событие <tt>"sync"</tt> после того, как сервер известит об успешном удалении модели.
 	  Передайте <tt>{wait: true}</tt>, если хотите подождать ответа сервера, прежде чем удалять модель.
     </p>
@@ -1284,24 +1284,51 @@ book.destroy({success: function(model, response) {
 }});
 </pre>
 
+    <p id="Model-Underscore-Methods">
+      <b class="header">Методы Underscore (6)</b>
+      <br />
+      Backbone проксирует 6 методов <b>Underscore.js</b> для операций над моделями.
+      Они не описываются в данной документации, но вы можете обратиться к документации
+      Underscore чтобы найти их полное описание&hellip;
+    </p>
+
+    <ul class="small">
+      <li><a href="http://underscorejs.org/#keys">keys</a></li>
+      <li><a href="http://underscorejs.org/#values">values</a></li>
+      <li><a href="http://underscorejs.org/#pairs">pairs</a></li>
+      <li><a href="http://underscorejs.org/#invert">invert</a></li>
+      <li><a href="http://underscorejs.org/#pick">pick</a></li>
+      <li><a href="http://underscorejs.org/#omit">omit</a></li>
+    </ul>
+
+<pre>
+user.pick('first_name', 'last_name', 'email');
+
+chapters.keys().join(', ');
+</pre>
+
     <p id="Model-validate">
       <b class="header">validate</b><code>model.validate(attributes)</code>
       <br />
-      Этот метод оставлен неопределенным; поощряется переопределять его со своей логикой валидации — если у вас есть такая, которую можно выполнить на стороне клиента. Метод <b>validate</b> вызывается перед <tt>set</tt> и
-      <tt>save</tt>, и ему передаются атрибуты модели, обновленные значениями из <tt>set</tt> или <tt>save</tt>.
+      Этот метод оставлен неопределенным; поощряется переопределять его со своей логикой валидации — если у вас есть такая,
+      которую можно выполнить на стороне клиента.
+      По умолчанию метод <b>validate</b> вызывается только перед <tt>save</tt>,
+      но также может быть вызван при выполнении <tt>set</tt>, если передать {validate:true} в хеше <tt>options</tt>.
+      При вызове <b>validate</b> ему передаются атрибуты модели и хэш <tt>options</tt> с которым вызван <tt>set</tt> или <tt>save</tt> метод.
       Если атрибуты валидны, не возвращайте ничего из <b>validate</b>;
       если нет, возвращайте любую ошибку на ваш выбор — как просто
-	    строку с сообщением, которое надо отобразить, так и сложный объект, программно описывающий ошибку.
-  	  Если <b>validate</b> вернул ошибку, выполнение <tt>set</tt> или <tt>save</tt> прервется,
-  	  и атрибуты модели не будут изменены.
-      Проваленная валидация запустит событие <tt>"error"</tt>.
+	  строку с сообщением, которое надо отобразить, так и сложный объект, программно описывающий ошибку.
+  	  Если <b>validate</b> вернул ошибку, выполнение <tt>save</tt> прервется,
+  	  и атрибуты модели на сервере не будут изменены.
+      Проваленная валидация запустит событие <tt>"invalid"</tt>, а значение полученное методом <b>validate</b>
+      будет уствновлено в свойcтво <tt>validationError</tt> модели.
     </p>
 
 <pre class="runnable">
 var Chapter = Backbone.Model.extend({
-  validate: function(attrs) {
-    if (attrs.end < attrs.start) {
-      return "Невозможно закончить до начала";
+  validate: function(attrs, options) {
+    if (attrs.end &lt; attrs.start) {
+      return "начало не может быть раньше конца";
     }
   }
 });
@@ -1310,46 +1337,63 @@ var one = new Chapter({
   title : "Глава I: Начало"
 });
 
-one.on("error", function(model, error) {
+one.on("invalid", function(model, error) {
   alert(model.get("title") + " " + error);
 });
 
-one.set({
+one.save({
   start: 15,
   end:   10
 });
 </pre>
 
     <p>
-      События <tt>"error"</tt> полезны для грубой обработки ошибок на уровне модели или коллекции,
-	    но если у вас есть специфичное представление, которое может лучше обработать ошибку, вы можете подавить
-	    событие, напрямую передав <tt>error</tt>-коллбэк:
+      События <tt>"invalid"</tt> полезны для грубой обработки ошибок на уровне модели или коллекции.
     </p>
 
-<pre>
-account.set({access: "unlimited"}, {
-  error: function(model, error) {
-    alert(error);
-  }
-});
-</pre>
+    <p id="Model-validationError">
+      <b class="header">validationError</b><code>model.validationError</code>
+      <br />
+      Значение полученное методом <a href="#Model-validate">validate</a> во время последней неудачной валидации.
+    </p>
 
     <p id="Model-isValid">
       <b class="header">isValid</b><code>model.isValid()</code>
       <br />
-      Модели могут войти в невалидное состояние, если делать изменения
-	    с подавлением ошибок… что полезно в случае работы с формами ввода.
-	    Вызовите <tt>model.isValid()</tt> чтобы проверить, находится ли
-	    сейчас модель в валидном состоянии согласно вашему методу <tt>validate</tt>.
+      Запускает <a href="#Model-validate">вылидацию</a>, чтобы проверить состояние модели.
     </p>
+
+<pre class="runnable">
+var Chapter = Backbone.Model.extend({
+  validate: function(attrs, options) {
+    if (attrs.end &lt; attrs.start) {
+      return "начало не может быть раньше конца";
+    }
+  }
+});
+
+var one = new Chapter({
+  title : "Глава I: Начало"
+});
+
+one.set({
+  start: 15,
+  end:   10
+});
+
+if (!one.isValid()) {
+  alert(one.get("title") + " " + one.validationError);
+}
+</pre>
 
     <p id="Model-url">
       <b class="header">url</b><code>model.url()</code>
       <br />
       Возвращает относительный URL, по которому ресурс модели должен располагаться
-	    на сервере. Если ваши модели расположены в другом месте, переопределите этот метод
-	    с правильной логикой. Генерирует URL'ы вида: <tt>"/[collection.url]/[id]"</tt>,
-      с откатом к <tt>"/[urlRoot]/id"</tt>, если модель не является частью коллекции.
+	  на сервере. Если ваши модели расположены в другом месте, переопределите этот метод
+	  с правильной логикой. По умолчанию генерирует URL'ы вида: <tt>"/[collection.url]/[id]"</tt>,
+      но вы можете переопределить это поведение, явно уквазав <tt>urlRoot</tt>, тогда url коллекции не будет принят во внимание.
+      Значение <tt>url</tt> можно передать при создании экземпляра модели.
     </p>
 
     <p>
@@ -1364,9 +1408,10 @@ account.set({access: "unlimited"}, {
     <p id="Model-urlRoot">
       <b class="header">urlRoot</b><code>model.urlRoot или model.urlRoot()</code>
       <br />
-      Укажите <tt>urlRoot</tt>, если вы используете модель вне коллекции,
+      Укажите <tt>urlRoot</tt>, если вы используете модель <i>вне коллекции</i>,
       чтобы дефолтный метод <a href="#Model-url">url</a> генерировал
       URL'ы, исходя из id. <tt>"/[urlRoot]/id"</tt><br />
+      Как правило, вам не нужно будет указывать это значение.
       Обратите внимание, что <tt>urlRoot</tt> так же может быть функцией.
     </p>
 
@@ -1379,7 +1424,7 @@ alert(solaris.url());
 </pre>
 
     <p id="Model-parse">
-      <b class="header">parse</b><code>model.parse(response)</code>
+      <b class="header">parse</b><code>model.parse(response, options)</code>
       <br />
       Метод <b>parse</b> вызывается каждый раз, когда данные модели возвращаются
 	    сервером, в методах <a href="#Model-fetch">fetch</a> и <a href="#Model-save">save</a>.
@@ -1391,7 +1436,7 @@ alert(solaris.url());
     </p>
 
     <p>
-      Если вы работаете с Rails, вы наткнетесь на то, что реализация по умолчанию
+      Если вы работаете с Rails версии 3.1 и ниже, вы наткнетесь на то, что реализация по умолчанию
       <tt>to_json</tt> отдает атрибуты модели в пространстве имен.
 	    Чтобы устранить это поведение для лучшей интеграции с Backbone, установите:
     </p>
@@ -1411,16 +1456,6 @@ ActiveRecord::Base.include_root_in_json = false
       <br />
       Была ли модель уже сохранена на сервер? Модель считается новой, 
       если еще не имеет атрибута <tt>id</tt>.
-    </p>
-
-    <p id="Model-change">
-      <b class="header">change</b><code>model.change()</code>
-      <br />
-      Ручной запуск событий <tt>"change"</tt> и <tt>"change:attribute"</tt>
-      для каждого измененного атрибута. Если вы передавали
-      <tt>{silent: true}</tt> в <a href="#Model-set">set</a>, чтобы собрать 
-      быстро следующие друг за другом изменения модели, в конце нужно вызвать 
-      <tt>model.change()</tt>.
     </p>
 
     <p id="Model-hasChanged">
@@ -1446,7 +1481,7 @@ book.on("change", function() {
     <p id="Model-changedAttributes">
       <b class="header">changedAttributes</b><code>model.changedAttributes([attributes])</code>
       <br />
-      Возвращает хэш только тех атрибутов модели, которые были изменены.
+      Возвращает хэш только тех атрибутов модели, которые были изменены или <tt>false</tt> если все атрибуты остались без изменений.
   	  Опционально может быть передан внешний хэш атрибутов; в этом случае возвращаются
   	  те атрибуты из этого хэша, которые отличаются от таковых в модели.
   	  Может быть полезно для выяснения, какие части представения надо обновить,
