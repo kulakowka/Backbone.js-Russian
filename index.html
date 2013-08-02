@@ -1526,7 +1526,7 @@ bill.set({name : "Иван Иванов"});
     <p>
       Любое событие, которое сработает на модели в коллекции также сработает и напрямую — для удобства — на коллекции.
       Это позволяет напрямую слушать события изменения отдельных атрибутов любой модели в коллекции. Например:
-      <tt>Documents.on("change:selected", ...)</tt>
+      <tt>documents.on("change:selected", ...)</tt>
     </p>
 
     <p id="Collection-extend">
@@ -1552,16 +1552,40 @@ var Library = Backbone.Collection.extend({
 });
 </pre>
 
+    <p>
+      Свойство <b>model</b> также можно определить функцией.
+    </p>
+
+<pre>
+var Library = Backbone.Collection.extend({
+
+  model: function(attrs, options) {
+    if (condition) {
+      return new PublicDocument(attrs, options);
+    } else {
+      return new PrivateDocument(attrs, options);
+    }
+  }
+
+});
+</pre>
+
     <p id="Collection-constructor">
       <b class="header">constructor / initialize</b><code>new Collection([models], [options])</code>
       <br />
       При создании экземпляра коллекции можно передать начальный массив моделей (в параметре <b>models</b>).
       В <b>options</b> может быть передана функция <a href="#Collection-comparator">функция-компаратор</a>.
+      Чтобы отключить сортировку нужно передать <tt>false</tt> как значение функции-компаратора.
       Метод <b>initialize</b> вызывается после создания экземпляра коллекции.
+      Если следующие опции указаны, они автоматически станут свойствами коллекции: <tt>url</tt>, <tt>model</tt> и <tt>comparator</tt>.
     </p>
 
 <pre>
 var tabs = new TabSet([tab1, tab2, tab3]);
+var spaces = new Backbone.Collection([], {
+  model: Space,
+  url: '/spaces'
+});
 </pre>
 
     <p id="Collection-models">
@@ -1591,6 +1615,13 @@ var collection = new Backbone.Collection([
 alert(JSON.stringify(collection));
 </pre>
 
+    <p id="Collection-sync">
+      <b class="header">sync</b><code>collection.sync(method, collection, [options])</code>
+      <br />
+      Использует <a href="#Sync">Backbone.sync</a>для обеспечения персистентности состояния коллекции с сервером.
+      Может быть переопределен для пользовательского поведения.
+    </p>
+
     <p id="Collection-Underscore-Methods">
       <b class="header">Методы Underscore (28)</b>
       <br />
@@ -1600,50 +1631,50 @@ alert(JSON.stringify(collection));
     </p>
 
     <ul class="small">
-      <li><a href="http://documentcloud.github.com/underscore/#each">forEach (each)</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#map">map</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#reduce">reduce (foldl, inject)</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#reduceRight">reduceRight (foldr)</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#detect">find (detect)</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#select">filter (select)</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#reject">reject</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#all">every (all)</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#any">some (any)</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#include">include</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#invoke">invoke</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#max">max</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#min">min</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#sortBy">sortBy</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#groupBy">groupBy</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#sortedIndex">sortedIndex</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#shuffle">shuffle</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#toArray">toArray</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#size">size</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#first">first</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#initial">initial</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#rest">rest</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#last">last</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#without">without</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#indexOf">indexOf</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#lastIndexOf">lastIndexOf</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#isEmpty">isEmpty</a></li>
-      <li><a href="http://documentcloud.github.com/underscore/#chain">chain</a></li>
+      <li><a href="http://underscorejs.org/#each">forEach (each)</a></li>
+      <li><a href="http://underscorejs.org/#map">map (collect)</a></li>
+      <li><a href="http://underscorejs.org/#reduce">reduce (foldl, inject)</a></li>
+      <li><a href="http://underscorejs.org/#reduceRight">reduceRight (foldr)</a></li>
+      <li><a href="http://underscorejs.org/#find">find (detect)</a></li>
+      <li><a href="http://underscorejs.org/#filter">filter (select)</a></li>
+      <li><a href="http://underscorejs.org/#reject">reject</a></li>
+      <li><a href="http://underscorejs.org/#every">every (all)</a></li>
+      <li><a href="http://underscorejs.org/#some">some (any)</a></li>
+      <li><a href="http://underscorejs.org/#contains">contains (include)</a></li>
+      <li><a href="http://underscorejs.org/#invoke">invoke</a></li>
+      <li><a href="http://underscorejs.org/#max">max</a></li>
+      <li><a href="http://underscorejs.org/#min">min</a></li>
+      <li><a href="http://underscorejs.org/#sortBy">sortBy</a></li>
+      <li><a href="http://underscorejs.org/#groupBy">groupBy</a></li>
+      <li><a href="http://underscorejs.org/#sortedIndex">sortedIndex</a></li>
+      <li><a href="http://underscorejs.org/#shuffle">shuffle</a></li>
+      <li><a href="http://underscorejs.org/#toArray">toArray</a></li>
+      <li><a href="http://underscorejs.org/#size">size</a></li>
+      <li><a href="http://underscorejs.org/#first">first (head, take)</a></li>
+      <li><a href="http://underscorejs.org/#initial">initial</a></li>
+      <li><a href="http://underscorejs.org/#rest">rest (tail)</a></li>
+      <li><a href="http://underscorejs.org/#last">last</a></li>
+      <li><a href="http://underscorejs.org/#without">without</a></li>
+      <li><a href="http://underscorejs.org/#indexOf">indexOf</a></li>
+      <li><a href="http://underscorejs.org/#lastIndexOf">lastIndexOf</a></li>
+      <li><a href="http://underscorejs.org/#isEmpty">isEmpty</a></li>
+      <li><a href="http://underscorejs.org/#chain">chain</a></li>
     </ul>
 
 <pre>
-Books.each(function(book) {
+books.each(function(book) {
   book.publish();
 });
 
-var titles = Books.map(function(book) {
+var titles = books.map(function(book) {
   return book.get("title");
 });
 
-var publishedBooks = Books.filter(function(book) {
+var publishedBooks = books.filter(function(book) {
   return book.get("published") === true;
 });
 
-var alphabetical = Books.sortBy(function(book) {
+var alphabetical = books.sortBy(function(book) {
   return book.author.get("name").toLowerCase();
 });
 </pre>
@@ -1651,13 +1682,13 @@ var alphabetical = Books.sortBy(function(book) {
     <p id="Collection-add">
       <b class="header">add</b><code>collection.add(models, [options])</code>
       <br />
-      Добавляет модель (или массив моделей) в коллекцию. Запускает событие <tt>"add"</tt>
-      которое вы можете подавить наличием ключа <tt>silent</tt> в хэше <b>options</b>.
+      Добавляет модель (или массив моделей) в коллекцию, при этом запускает событие <tt>"add"</tt>.
       Если свойство <a href="#Collection-model">model</a> определено, можно передавать «сырые» атрибуты,
       и они будут оживлены в экземпляры моделей.
       Чтобы вставить модель по специфичному индексу, передайте <tt>{at: index}</tt>.
-      Если есть обработчик события <tt>"add"</tt>,
-      в него будет передан индекс, под которым была вставлена модель — в параметре <tt>options.index</tt>.
+      Если вы добавляете в коллекцию модели, которые <i>уже</i> предствлены в коллекции, они будут пропущены,
+      только если не передана опция <tt>{merge: true}</tt>, в этом случае их атрибуты будут совмещены в существующую модель,
+      и запущено событие <tt>"change"</tt> для всех измененых атрибутов.
     </p>
 
 <pre class="runnable">
@@ -1673,6 +1704,11 @@ ships.add([
 ]);
 </pre>
 
+    <p class="warning">
+      Стоит отметить, что добавление одной и той же модели (моделей с одинаковыми <tt>id</tt>)<br /> в
+      коллекцию является бесполезной процедурой.
+    </p>
+
     <p id="Collection-remove">
       <b class="header">remove</b><code>collection.remove(models, [options])</code>
       <br />
@@ -1682,23 +1718,63 @@ ships.add([
       в него будет передан индекс, под которым находилась удаленная модель — в параметре <tt>options.index</tt>.
     </p>
 
-    <p id="Collection-get">
-      <b class="header">get</b><code>collection.get(id)</code>
+    <p id="Collection-reset">
+      <b class="header">reset</b><code>collection.reset(models, [options])</code>
       <br />
-      Возвращает модель из коллекции по ее <b>id</b>.
+      Добавлять и удалять модели по одной — хорошо и правильно, но иногда
+      надо изменить столько моделей, что проще обновить коллекцию целиком.
+      Используйте <b>reset</b>, чтобы заменить коллекцию новым массивом моделей
+      (или хэшей атрибутов). При этом сработает одно событие <tt>"reset"</tt>
+      в конце. Для удобства при использовании <tt>"reset"</tt>, список моделей,
+        находившихся в коллекции, доступны как <tt>options.previousModels</tt>.
+    </p>
+
+    <p>
+      Вот пример использования <b>reset</b> для предзагрузки коллекции в приложении на Rails:
     </p>
 
 <pre>
-var book = Library.get(110);
+&lt;script&gt;
+  var accounts = new Backbone.Collection;
+  accounts.reset(&lt;%= @accounts.to_json %&gt;);
+&lt;/script&gt;
 </pre>
 
-    <p id="Collection-getByCid">
-      <b class="header">getByCid</b><code>collection.getByCid(cid)</code>
-      <br />
-      Возвращает модель из коллекции по указанному cid (свойство <tt>.cid</tt>).
-      Это свойство модели автоматически назначается ей при создании. Находит применение для моделей,
-      которые еще не были сохранены на сервер и еще не имеют настоящего <tt>id</tt>.
+    <p>
+      Вызов <tt>collection.reset()</tt> без передачи каких-либо моделей сделает коллекцию пустой.
     </p>
+
+    <p id="Collection-set">
+      <b class="header">set</b><code>collection.set(models, [options])</code>
+      <br />
+      Метод <b>set</b> выполняет "интеллектуальное" обновление коллекции переданным списком моделей.
+      Если модель из списка не присутствует в коллекции, она будет добавлена; если модель уже присутствует в коллекции,
+      ее атрибуты будут объединены с имеющейся моделью; оставшиеся в коллекции модели, которые
+      <i>не&nbsp;присутствуют</i> в списке будут удалены. При этом все соответствующие события
+      <tt>"add"</tt>, <tt>"remove"</tt>, и <tt>"change"</tt> будут вызываться по мере происходящего.
+      Если вы хотите настроить поведение, вы можете выключить соответствующие операции, передав в опциях:
+      <tt>{add: false}</tt>, <tt>{remove: false}</tt>, или <tt>{merge: false}</tt>.
+    </p>
+
+<pre>
+var vanHalen = new Collection([igor, alex, max, andy]);
+
+vanHalen.set([igor, alex, max, jonny]);
+
+// Будет вызвано событие "remove" для andy, и событие "add" для jonny.
+// Будут обновлены атрибуты для igor, alex, max
+</pre>
+
+    <p id="Collection-get">
+      <b class="header">get</b><code>collection.get(id)</code>
+      <br />
+      Возвращает модель из коллекции по ее <a href="#Model-id">id</a>,
+       <a href="#Model-cid">cid</a>, или по переданной модели.
+    </p>
+
+<pre>
+var book = library.get(110);
+</pre>
 
     <p id="Collection-at">
       <b class="header">at</b><code>collection.at(index)</code>
@@ -1735,6 +1811,13 @@ var book = Library.get(110);
       что и <a href="#Collection-remove">remove</a>.
     </p>
 
+    <p id="Collection-slice">
+      <b class="header">slice</b><code>collection.slice(begin, end)</code>
+      <br />
+      Вернет неполную коллекцию моделей этой коллекции, используя те же параметры что и
+      <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/slice">Array#slice</a>.
+    </p>
+
     <p id="Collection-length">
       <b class="header">length</b><code>collection.length</code>
       <br />
@@ -1746,14 +1829,14 @@ var book = Library.get(110);
       <b class="header">comparator</b><code>collection.comparator</code>
       <br />
       По умолчанию коллекции не определяют функцию-компаратор.
-      Если вы определяет компаратор, он будет использован, чтобы поддерживать
+      Если вы определяете компаратор, он будет использован, чтобы поддерживать
       коллекцию в отсортированном виде. Это означает, что когда модели добавляются,
       они вставляются по корректному индексу в <tt>collection.models</tt>.
-      <tt>comparator</tt> может быть определен либо как функция, подходящяя для
+      <tt>comparator</tt> может быть определен как функция, подходящая для
       <a href="http://underscorejs.org/#sortBy">sortBy из Underscore</a>
-      (функция одного аргумента),  либо как функция, подходящая для
+      (функция одного аргумента), или как функция, подходящая для
       <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort">Array.sort</a>
-      (функция двух аргументов).
+      (функция двух аргументов), а также может быть определен как строка указывающая атрибут для сортировки.
     </p>
 
     <p>
@@ -1794,9 +1877,9 @@ alert(chapters.pluck('title'));
       <b class="header">sort</b><code>collection.sort([options])</code>
       <br />
       Заставляет модель выполнить пересортировку. Обычно нет необходимости вызывать этот метод вручную,
-      так как коллекции с <a href="#Collection-comparator">компаратором</a> всегда сами будут поддерживать себя в
-      отсортированном виде.
-      Вызов <b>sort</b> запускает на коллекции событие <tt>"reset"</tt> если не подавить его с помощью <tt>{silent: true}</tt>
+      так как коллекции с <a href="#Collection-comparator">компаратором</a> всегда сами сортируются при добавлении моделей.
+      Чтобы отключить сортировку при добавлении моделей, передайте <tt>{sort: false}</tt> при вызове метода <tt>add</tt>.
+      При вызове метода <b>sort</b> срабатывает событие коллекции <tt>"sort"</tt>.
     </p>
 
     <p id="Collection-pluck">
@@ -1838,6 +1921,13 @@ var musketeers = friends.where({job: "Мушкетер"});
 alert(musketeers.length);
 </pre>
 
+    <p id="Collection-findWhere">
+      <b class="header">findWhere</b><code>collection.findWhere(attributes)</code>
+      <br />
+      Ведет себя также как <a href="#Collection-where">where</a>, но возвращает только первую модель в коллекции,
+      которая подходит под переданный хэш <b>attributes</b>.
+    </p>
+
     <p id="Collection-url">
       <b class="header">url</b><code>collection.url или collection.url()</code>
       <br />
@@ -1861,7 +1951,7 @@ var Notes = Backbone.Collection.extend({
 </pre>
 
     <p id="Collection-parse">
-      <b class="header">parse</b><code>collection.parse(response)</code>
+      <b class="header">parse</b><code>collection.parse(response, options)</code>
       <br />
       <b>parse</b> вызывается каждый раз, когда модели коллекции
       приходят с сервера, в методе <a href="#Collection-fetch">fetch</a>.
@@ -1871,8 +1961,6 @@ var Notes = Backbone.Collection.extend({
       просто пробрасывает JSON-ответ.
       Переопределите этот метод, если вы работает с уже существующим API,
       или чтобы лучше заворачивать в пространства имен ответы сервера.
-      Следует отметить, что после этого, если у модели тоже есть метод <tt>parse</tt>,
-      он будет вызван на каждой полученной модели.
     </p>
 
 <pre>
@@ -1884,16 +1972,24 @@ var Tweets = Backbone.Collection.extend({
 });
 </pre>
 
+    <p id="Collection-clone">
+      <b class="header">clone</b><code>collection.clone()</code>
+      <br />
+      Вернет новый экземпляр коллекции с идентичным списком моделей.
+    </p>
+
     <p id="Collection-fetch">
       <b class="header">fetch</b><code>collection.fetch([options])</code>
       <br />
-      Получает дефолтный набор моделей для этой коллекции с сервера,
-      вызывая по их прибытии <tt>reset</tt>. В хэш <b>options</b> могут быть коллбэки
-      <tt>success</tt> и <tt>error</tt>, которым передаются коллекция и ответ сервера
-      <tt>(collection, response)</tt> в качестве аргументов.
-      Когда данные моделей придут с сервера, коллекция вызовет метод
-      <a href="#Collection-reset">reset</a>.
-      Внутри <tt>fetch</tt> обращается к <a href="#Sync">Backbone.sync</a>
+      Получает дефолтный набор моделей с сервера
+      и <a href="#Collection-set">применяет</a> его для этой коллекции.
+      В хэш <b>options</b> могут быть переданны коллбэки
+      <tt>success</tt> и <tt>error</tt>, которым передаются коллекция, ответ сервера, и опции
+      <tt>(collection, response, options)</tt> в качестве аргументов.
+      Когда данные моделей придут с сервера, коллекция вызовет метод <a href="#Collection-set">set</a>
+      для "интеллектуального" совмещения полученных моделей, изменить это поведение можно передав <tt>{reset: true}</tt>,
+      тогда будет вызван метод <a href="#Collection-reset">reset</a>.
+      Внутри, <tt>fetch</tt> обращается к <a href="#Sync">Backbone.sync</a>
       чтобы можно было создать свою стратегию персистентности, и возвращает
       <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>-объект.
       Серверный обрабтчик запросов <b>fetch</b> должен возвращать JSON-массив моделей.
@@ -1904,21 +2000,23 @@ Backbone.sync = function(method, model) {
   alert(method + ": " + model.url);
 };
 
-var Accounts = new Backbone.Collection;
-Accounts.url = '/accounts';
+var accounts = new Backbone.Collection;
+accounts.url = '/accounts';
 
-Accounts.fetch();
+accounts.fetch();
 </pre>
-
     <p>
-      Можно не заменять, а добавить пришедшие модели в коллекцию, передав
-      <tt>{add: true}</tt> в хэше <tt>options</tt>.
+      Поведение метода <b>fetch</b> можно изменить, используя опции метода
+      <a href="#Collection-set">set</a>. Например, чтобы при получении данных с сервера,
+      для всех новых моделей срабатывало событие <tt>"add"</tt>, для уже существующих,
+      измененных моделей срабатывало событие <tt>"change"</tt>, но при этом с
+      удаленными моделями ничего не происходило: <tt>collection.fetch({remove: false})</tt>
     </p>
 
     <p>
       Опции <b>jQuery.ajax</b> также могут быть напрямую переданы в <b>fetch</b>,
       чтобы, например, получить определенную страницу пагинированной коллекции:
-      <tt>Documents.fetch({data: {page: 3}})</tt>
+      <tt>documents.fetch({data: {page: 3}})</tt>
     </p>
 
     <p>
@@ -1929,46 +2027,20 @@ Accounts.fetch();
       немедленно: например, документы с коллекциями заметок, которые могут быть открыты или закрыты.
     </p>
 
-    <p id="Collection-reset">
-      <b class="header">reset</b><code>collection.reset(models, [options])</code>
-      <br />
-      Добавлять и удалять модели по одной — хорошо и правильно, но иногда
-      надо изменить столько моделей, что проще обновить коллекцию целиком.
-      Используйте <b>reset</b>, чтобы заменить коллекцию новым массивом моделей
-      (или хэшей атрибутов). При этом сработает одно событие <tt>"reset"</tt>
-      в конце. Передайте <tt>{silent: true}</tt>, чтобы подавить его.
-      Вызов <b>reset</b> без аргументов — удобный способ опустошить коллекцию.
-    </p>
-
-    <p>
-      Вот пример использования <b>reset</b> для предзагрузки коллекции в приложении на Rails:
-    </p>
-
-<pre>
-&lt;script&gt;
-  var Accounts = new Backbone.Collection;
-  Accounts.reset(&lt;%= @accounts.to_json %&gt;);
-&lt;/script&gt;
-</pre>
-
-    <p>
-      Вызов <tt>collection.reset()</tt> без передачи каких-либо моделей сделает коллекцию пустой.
-    </p>
-
     <p id="Collection-create">
       <b class="header">create</b><code>collection.create(attributes, [options])</code>
       <br />
       Удобное создание модели внутри коллекции.
-      Эквивалентно созданию экземпляра модели с хэшом <b>attributes</b>,
+      Эквивалентно созданию экземпляра модели с хэшем <b>attributes</b>,
       сохранению модели на сервер, и добавлению модели в набор после успешного создания.
-      Возвращает модель или <tt>false</tt>, если ошибка валидации не позволила
-      модели создасться.
+      Возвращает новую модель. Если валидация на клиенте не проходит, модель не будет сохранена с ошибкой валидации.
       Для корректной работы у коллекции должно быть свойство <a href="#Collection-model">model</a>.
       Метод <b>create</b> может принимать либо хэш атрибутов, либо существующую несохраненную модель.
     </p>
 
     <p>
       Создание модели немедленно и автоматически запускает событие <tt>"add"</tt>,
+      событие <tt>"request"</tt> будет вызвано как только модель отправлена на сервер
       и событие <tt>"sync"</tt>, как только модель успешно создастся на сервере.
       Передайте <tt>{wait: true}</tt>, если вы хотите подождать ответа сервера перед добавлением.
     </p>
@@ -1978,9 +2050,9 @@ var Library = Backbone.Collection.extend({
   model: Book
 });
 
-var NYPL = new Library;
+var nypl = new Library;
 
-var othello = NYPL.create({
+var othello = nypl.create({
   title: "Отелло",
   author: "Вильям Шекспир"
 });
