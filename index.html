@@ -2233,9 +2233,7 @@ app.navigate("help/troubleshooting", {trigger: true, replace: true});
     <p>
       <b>History</b> служит глобальным роутером (в пределах фрейма), обрабатывая события <tt>hashchange</tt>
       или вызовы <tt>pushState</tt>, находя сопоставление с подходящим роутом, и запуская коллбэки.
-      Вам не надо даже вручную создавать ничего из этого — используйте ссылку на <tt>Backbone.history</tt>,
-      которая будет автоматически создана, если вы воспользуетесь 
-      <a href="#Router">Router</a>'ом с определенными в нем <a href="#Router-routes">routes</a>.
+      Вам не надо даже вручную создавать ничего из этого — просто используйте ссылку на <tt>Backbone.history</tt>.
     </p>
 
     <p>
@@ -2262,6 +2260,9 @@ app.navigate("help/troubleshooting", {trigger: true, replace: true});
     <p>
       Чтобы обозначить, что вы хотите использовать поддержку <tt>pushState</tt> из HTML5 
       в вашем приложении, вызовите <tt>Backbone.history.start({pushState: true})</tt>.
+      Если вы хотите использовать <tt>pushState</tt> для современных браузеров, но чтобы устаревшие браузеры,
+      полностью перезагружали страницу, как при обычных переходах по ссылкам,
+      передайте опцию <tt>{hashChange: false}</tt> в хеше options.
     </p>
 
     <p>
