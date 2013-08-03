@@ -2300,7 +2300,7 @@ $(function(){
     <p>
       <b>Backbone.sync</b> — функция, которую Backbone вызывает каждый раз, 
       когда пытается прочитать/сохранить модель с/на сервер. По умолчанию она использует 
-      <tt>(jQuery/Zepto).ajax</tt>, чтобы делать RESTful JSON-запросы и возвращает
+      <tt>(jQuery).ajax</tt>, чтобы делать RESTful JSON-запросы и возвращает
       <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>. Ее можно переопределить, чтобы 
       использовать другую стратегию персистентности — WebSocket'ы,
       XML транспорт, или localStorage.
@@ -2323,8 +2323,14 @@ $(function(){
       с контент-типом <tt>application/json</tt>. Возвращая JSON-ответ,
       посылайте атрибуты модели, которые были изменены сервером, и должны быть 
       обновлены на клиенте. Отвечая на запрос <tt>"read"</tt> от коллекции
-      (<a href="#Collection#fetch">Collection#fetch</a>), посылайте массив 
+      (<a href="#Collection-fetch">Collection#fetch</a>), посылайте массив
       атрибутов моделей.
+    </p>
+
+    <p>
+      Всякий раз когда модель или коллекция начинает синхронизацию с сервером,
+      генерируется событие <tt>"request"</tt>. Если запрос завершился успешно
+      будет вызвано событие <tt>"sync"</tt>, в противном случае <tt>"error"</tt>.
     </p>
 
     <p>
@@ -2360,8 +2366,16 @@ end
 </pre>
 
     <p>
-      Еще один совет по интеграции с Rails  — отключить заворачивание в пространство имен для 
+      Еще один совет по интеграции с Rails версии 3.1 и ниже  — отключить заворачивание в пространство имен для
       вызовов <tt>to_json</tt> на моделях, установив <tt>ActiveRecord::Base.include_root_in_json = false</tt>
+    </p>
+
+    <p id="Sync-ajax">
+      <b class="header">ajax</b><code>Backbone.ajax = function(request) { ... };</code>
+      <br />
+      Если хотите использовать собственную AJAX функцию, или ваш сервер по какой-то причине не поддерживает
+      взаимодействие при помощи <a href="http://api.jquery.com/jQuery.ajax/">jQuery.ajax</a> API,
+      вы можете определить свою функцию <tt>Backbone.ajax</tt>.
     </p>
 
     <p id="Sync-emulateHTTP">
@@ -2387,7 +2401,7 @@ model.save();  // POST to "/collection/id", with "_method=PUT" + header.
       Если необходимо работать со старым сервером, который не может обрабатывать 
       запросы, закодированные как <tt>application/json</tt>, выставление <tt>Backbone.emulateJSON = true;</tt>
       заставит JSON сериализоваться в параметр <tt>model</tt>, и запрос будет сделан
-      с mime-типом <tt>application/x-www-form-urlencoded</tt>, как если бы это была HTML-форма.
+      с MIME-типом <tt>application/x-www-form-urlencoded</tt>, как если бы это была HTML-форма.
     </p>
 
     <h2 id="View">Backbone.View</h2>
