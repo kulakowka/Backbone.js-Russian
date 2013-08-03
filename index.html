@@ -2438,6 +2438,10 @@ var DocumentRow = Backbone.View.extend({
     "click .button.delete": "destroy"
   },
 
+  initialize: function() {
+    this.listenTo(this.model, "change", this.render);
+  },
+
   render: function() {
     ...
   }
@@ -2445,11 +2449,18 @@ var DocumentRow = Backbone.View.extend({
 });
 </pre>
 
+    <p>
+      Свойства <tt>tagName</tt>, <tt>id</tt>, <tt>className</tt>,
+      <tt>el</tt>, и <tt>events</tt> могут быть переданы как функции, если
+      вы хотите, чтобы они были заданы во время исполнения.
+    </p>
+
     <p id="View-constructor">
       <b class="header">constructor / initialize</b><code>new View([options])</code>
       <br />
-      При создании экземпляра представления, опции которые вы передаете в хэше <b>options</b>
-      будут доступны как <tt>this.options</tt> внутри него. Есть несколько особенных опций,
+      При создании экземпляра представления, опции которые вы передаете в хэше <b>options</b>,
+      объединяются с уже имеющимися опциями представления,
+      и после этого будут доступны как <tt>this.options</tt> внутри него. Есть несколько особенных опций,
       которые, будучи переданы, будут доступны как прямые свойства представления:
       <tt>model</tt>, <tt>collection</tt>,
       <tt>el</tt>, <tt>id</tt>, <tt>className</tt>, <tt>tagName</tt> и <tt>attributes</tt>.
@@ -2460,7 +2471,7 @@ var DocumentRow = Backbone.View.extend({
     </p>
 
 <pre>
-var doc = Documents.first();
+var doc = documents.first();
 
 new DocumentRow({
   model: doc,
@@ -2497,7 +2508,7 @@ alert(item.el + ' ' + body.el);
     <p id="View-$el">
       <b class="header">$el</b><code>view.$el</code>
       <br />
-      Закешированный объект jQuery (или Zepto) c элементом данного представления — то же самое, что <tt>$(this.el)</tt>.
+      Закешированный объект jQuery c элементом данного представления — то же самое, что <tt>$(this.el)</tt>.
       Удобная ссылка — замена постоянному оборачиванию DOM-элемента.
     </p>
 
@@ -2523,9 +2534,9 @@ listView.$el.append(itemView.el);
     </p>
 
     <p id="View-dollar">
-      <b class="header">$ (jQuery or Zepto)</b><code>view.$(selector)</code>
+      <b class="header">$ (jQuery)</b><code>view.$(selector)</code>
       <br />
-      Если jQuery или Zepto подключены на странице, каждое представление имеет
+      Если jQuery подключены на странице, каждое представление имеет
       функцию <b>$</b>, которая выполняет DOM-запросы внутри элемента представления.
       Используя эту функцию, вы не нуждаетесь в использовании id модели как части вашего запроса чтобы
       получить определенные элементы в списке, и можете полагаться на HTML-класс.
@@ -2555,8 +2566,9 @@ ui.Chapter = Backbone.View.extend({
 
 <pre>
 var Bookmark = Backbone.View.extend({
+  template: _.template(…),
   render: function() {
-    $(this.el).html(this.template(this.model.toJSON()));
+    this.$el.html(this.template(this.model.attributes));
     return this;
   }
 });
@@ -2570,9 +2582,9 @@ var Bookmark = Backbone.View.extend({
       <a href="http://github.com/janl/mustache.js">Mustache.js</a>,
       <a href="http://github.com/creationix/haml-js">Haml-js</a>, и
       <a href="http://github.com/sstephenson/eco">Eco</a> являются хорошими альтернативами.
-      Так как на странице уже присутствует <a href="http://documentcloud.github.com/underscore/">Underscore.js</a>,
-      доступна функция <a href="http://documentcloud.github.com/underscore/#template">_.template</a>
-      и является превосходным выбором, если вы уже санитировали свои данные от XSS.
+      Так как на странице уже присутствует <a href="http://underscorejs.org/">Underscore.js</a>,
+      доступна функция <a href="http://underscorejs.org/#template">_.template</a>
+      и является превосходным выбором, если вы предпочитаете шаблоны с простыми включениями JavaScript.
     </p>
 
     <p>
@@ -2586,32 +2598,15 @@ var Bookmark = Backbone.View.extend({
     <p id="View-remove">
       <b class="header">remove</b><code>view.remove()</code>
       <br />
-      Удобная функция для удаления элемента представления из DOM. Эквивалентно вызову
-      <tt>$(view.el).remove();</tt>
+      Удаляет представление из DOM, после этого вызывает
+      <a href="#Events-stopListening">stopListening</a> для удаления событий,
+      которые представление <a href="#Events-listenTo">прослушивает</a>.
     </p>
-
-    <p id="View-make">
-      <b class="header">make</b><code>view.make(tagName, [attributes], [content])</code>
-      <br />
-      Удобная функция для создания DOM-элемента данного типа (<b>tagName</b>),
-      с опциональными атрибутами и HTML-содержимым <b>content</b>. Используется «под капотом»,
-      чтобы создать начальный <tt>view.el</tt>.
-    </p>
-
-<pre class="runnable">
-var view = new Backbone.View;
-
-var el = view.make("b", {"class": "bold"}, "Жырнота! ");
-
-$("#make-demo").append(el);
-</pre>
-
-<div id="make-demo"></div>
 
     <p id="View-delegateEvents">
       <b class="header">delegateEvents</b><code>delegateEvents([events])</code>
       <br />
-      Использует функцию <tt>delegate</tt> из jQuery для декларативного описания обработчиков DOM-событий
+      Использует функцию <tt>on</tt> из jQuery для декларативного описания обработчиков DOM-событий
       внутри представления.
       Если хэш <b>events</b> не передан явно, используется <tt>this.events</tt>.
       События записываются в следующем формате <tt>{"событие селектор": "обработчик"}</tt>.
@@ -2656,7 +2651,7 @@ var DocumentView = Backbone.View.extend({
   },
 
   render: function() {
-    $(this.el).html(this.template(this.model.toJSON()));
+    this.$el.html(this.template(this.model.attributes));
     return this;
   },
 
