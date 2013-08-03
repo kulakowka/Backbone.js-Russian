@@ -2675,10 +2675,10 @@ var DocumentView = Backbone.View.extend({
       удалить представление из DOM.
     </p>
 
-    <h2 id="Utility">Utility Functions</h2>
+    <h2 id="Utility">Utility</h2>
 
-    <p id="Utility-noConflict">
-      <b class="header">noConflict</b><code>var backbone = Backbone.noConflict();</code>
+    <p id="Utility-Backbone-noConflict">
+      <b class="header">Backbone.noConflict</b><code>var backbone = Backbone.noConflict();</code>
       <br />
       Откатывает объект <tt>Backbone</tt> в предыдущее значение. Можно
       использовать возвращенное из <tt>Backbone.noConflict()</tt> значение, чтобы хранить
@@ -2691,8 +2691,8 @@ var localBackbone = Backbone.noConflict();
 var model = localBackbone.Model.extend(...);
 </pre>
 
-    <p id="Utility-setDomLibrary">
-      <b class="header">setDomLibrary</b><code>Backbone.setDomLibrary(jQueryNew);</code>
+    <p id="Utility-Backbone-$">
+      <b class="header">Backbone.$</b><code>Backbone.$ = $;</code>
       <br />
       Если у вас несколько копий <tt>jQuery</tt> на странице, или если вы хотите
       приказать Backbone использовать определенный объект в качестве DOM / Ajax библиотеки,
