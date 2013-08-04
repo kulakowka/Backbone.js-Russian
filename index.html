@@ -290,7 +290,7 @@
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="http://github.com/jashkenas/backbone">Репозиторий GitHub</a></li>
-      <li>&raquo; <a href="docs/backbone.html">Исходный код с аннотациями</a></li>
+      <li>&raquo; <a href="http://backbonejs.org/docs/backbone.html">Исходный код с аннотациями</a></li>
     </ul>
 
     <a class="toc_title" href="#introduction">
@@ -434,7 +434,7 @@
     </ul>
 
     <a class="toc_title" href="#Utility">
-      Утилитные методы (Utility)
+      Утилиты (Utility)
     </a>
     <ul class="toc_section">
       <li>– <a href="#Utility-Backbone-noConflict">Backbone.noConflict</a></li>
@@ -484,11 +484,11 @@
 
     <p>
       Проект <a href="http://github.com/jashkenas/backbone/">размещается на GitHub</a>,
-      с доступным <a href="docs/backbone.html">аннотированным исходным кодом</a>,
-      с онлайновыми <a href="test/test.html">тестами</a>, <!-- TODO update tests -->
+      с доступным <a href="http://backbonejs.org/docs/backbone.html">аннотированным исходным кодом</a>,
+      с онлайновыми <a href="test/index.html">тестами</a>
       с <a href="examples/todos/index.html">примером приложения</a>,
       со <a href="https://github.com/jashkenas/backbone/wiki/Tutorials%2C-blog-posts-and-example-sites">списком туториалов</a>
-      и <a href="#examples">большим списком реальных проектов</a>, которые используют Backbone.
+      и <a href="#examples">списком реальных проектов</a>, которые используют Backbone.
       Backbone доступен под <a href="http://github.com/jashkenas/backbone/blob/master/LICENSE">лицензией MIT</a>.
     </p>
     
@@ -519,7 +519,7 @@
     <table>
       <tr>
         <td><a class="punch" href="backbone.js">Версия для разработки (1.0.0)</a></td>
-        <td class="text"><i>58кб, полный код, много комментариев</i></td>
+        <td class="text" style="line-height: 18px;"><i>58кб, полный код, много комментариев</i></td>
       </tr>
       <tr>
         <td><a class="punch" href="backbone-min.js">Production-версия (1.0.0)</a></td>
@@ -529,9 +529,9 @@
         </td>
       </tr>
       <tr>
-        <td><a class="punch" href="https://raw.github.com/jashkenas/backbone/master/backbone.js">Edge Version (master)</a></td><!-- TODO need help -->
-        <td>
-          <i>Невыпущена, используйте на свой страх и риск</i>
+        <td><a class="punch" href="https://raw.github.com/jashkenas/backbone/master/backbone.js">Edge Version (master)</a></td>
+        <td style="line-height: 18px;">
+          <i>Последняя версия из репозитория, используйте на свой страх и риск</i>
           <a class="travis-badge" href="https://travis-ci.org/documentcloud/backbone">
             <img src="https://travis-ci.org/documentcloud/backbone.png" />
           </a>
@@ -589,8 +589,6 @@
 
     <p>
       Backbone версии <b>0.9</b> должна быть достаточно безболезнено одновлена до версии <b>1.0</b>.
-      Но если вы обновляетесь с более ранней версии,
-      рекомендуем ознакомится со <a href="#changelog">списком изменений</a>.
       Ниже представлены несколько наиболее важных изменений:
     </p>
 
@@ -603,9 +601,9 @@
         является стандартным при вызове метода <a href="#Collection-fetch">fetch</a> коллекции.
         Чтобы получить прежнее поведение передайте <tt>{reset: true}</tt> в хэше <tt>options</tt>.
       </li>
-      <li><!-- TODO need help -->
+      <li>
         Если в ваших URL есть символы, требующие кодирования,
-        Backbone теперь декодирует их для вас и ваши обработчики роутов получат их в качестве аргументов.
+        Backbone декодирует их для вас и ваши обработчики роутов получат их в качестве аргументов.
       </li>
       <li>
         В версии <b>0.9.x</b>, в событиях Backbone появились два метода:
